@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand color palette */
+  --color-void: #010511;
+  --color-obsidian: #050B1A;
+  --color-mesh: rgba(2, 8, 23, 0.85);
+  --color-cyan: #00D9D9;
+  --color-pulse: #0056FF;
+  --color-velocity: #0B2559;
+  --color-starlight: #E2E8F0;
+  --color-nebula: #64748B;
+
+  /* Typography */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* ── Global resets & base ─────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: #010511;
+  color: #E2E8F0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+#root {
+  position: relative;
+  min-height: 100dvh;
+}
+
+/* ── Scrollbar styling ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #010511;
+}
+::-webkit-scrollbar-thumb {
+  background: #0B2559;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0056FF;
+}
+
+/* ── Selection highlight ─────────────────────────────── */
+::selection {
+  background: rgba(0, 217, 217, 0.2);
+  color: #FFFFFF;
+}
+
+/* ── Focus ring (keyboard a11y) ──────────────────────── */
+:focus-visible {
+  outline: 2px solid #00D9D9;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
