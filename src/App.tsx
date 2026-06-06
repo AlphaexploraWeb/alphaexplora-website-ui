@@ -1,37 +1,19 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import GlobalBackground from './shared/components/GlobalBackground'
-import Navbar from './shared/components/Navbar'
 
-/* ── Lazy-loaded page views (MVVM: features/<name>/views) ── */
+// Shared Components
+// Make sure to create a placeholder for this in src/shared/components/navbar/Navbar.tsx
+import { Navbar } from './shared/components/navbar/Navbar'
+
+// Lazy loaded feature pages
 const Home = lazy(() => import('./features/home/views/Home'))
-const Solutions = lazy(() => import('./features/solutions/views/Solutions'))
-const Ecosystem = lazy(() => import('./features/ecosystem/views/Ecosystem'))
-const Connect = lazy(() => import('./features/connect/views/Connect'))
 
 /* ── Loading fallback ─────────────────────────────────────── */
 function PageSkeleton() {
   return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '50%',
-          border: '2px solid rgba(0,217,217,0.15)',
-          borderTop: '2px solid #00D9D9',
-          animation: 'spin 0.8s linear infinite',
-        }}
-      />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    <div className="flex min-h-[100dvh] items-center justify-center bg-[#010511]">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#00D9D9]/15 border-t-[#00D9D9]" />
     </div>
   )
 }
@@ -45,9 +27,9 @@ function AnimatedRoutes() {
       <Suspense fallback={<PageSkeleton />}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/ecosystem" element={<Ecosystem />} />
-          <Route path="/connect" element={<Connect />} />
+          {/* Future Routes */}
+          {/* <Route path="/solutions" element={<Solutions />} /> */}
+          {/* <Route path="/ecosystem" element={<Ecosystem />} /> */}
         </Routes>
       </Suspense>
     </AnimatePresence>
@@ -58,14 +40,16 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      {/* Layer 0: animated background — fixed, pointer-events-none */}
-      <GlobalBackground />
+      {/* Layer 0: Global Base - Prevents white flashes during page routing */}
+      <div className="fixed inset-0 z-0 bg-[#010511] pointer-events-none" />
 
-      {/* Layer 60: floating nav pill */}
-      <Navbar />
+      {/* Layer 60: Shared Floating Nav Pill */}
+      <div className="relative z-[60]">
+        <Navbar />
+      </div>
 
-      {/* Layer 10: scrollable page content */}
-      <main style={{ position: 'relative', zIndex: 10 }}>
+      {/* Layer 10: Scrollable page content */}
+      <main className="relative z-10">
         <AnimatedRoutes />
       </main>
     </BrowserRouter>
