@@ -1,73 +1,65 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import GlobalBackground from './shared/components/GlobalBackground'
-import Navbar from './shared/components/Navbar'
+import { lazy, Suspense, useEffect } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import GlobalBackground from "./shared/components/GlobalBackground";
+import Navbar from "./shared/components/Navbar";
+import { SmoothScrollProvider } from "./shared/components/SmoothScrollProvider";
+import { ScrollProgressLine } from "./shared/components/motion/Parallax";
 
-/* ── Lazy-loaded page views (MVVM: features/<name>/views) ── */
-const Home = lazy(() => import('./features/home/views/Home'))
-const Solutions = lazy(() => import('./features/solutions/views/Solutions'))
-const Ecosystem = lazy(() => import('./features/ecosystem/views/Ecosystem'))
-const Connect = lazy(() => import('./features/connect/views/Connect'))
+const Home = lazy(() => import("./features/home/views/Home"));
+const Clients = lazy(() => import("./features/clients/views/Clients"));
+const Services = lazy(() => import("./features/services/views/Services"));
+const Insights = lazy(() => import("./features/insights/views/Insights"));
+const Contact = lazy(() => import("./features/contact/views/Contact"));
 
-/* ── Loading fallback ─────────────────────────────────────── */
 function PageSkeleton() {
   return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '50%',
-          border: '2px solid rgba(0,217,217,0.15)',
-          borderTop: '2px solid #00D9D9',
-          animation: 'spin 0.8s linear infinite',
-        }}
-      />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    <div className="flex min-h-[100dvh] items-center justify-center bg-void">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-cyan/15 border-t-cyan" />
     </div>
-  )
+  );
 }
 
-/* ── Animated routes — needs useLocation inside BrowserRouter ── */
 function AnimatedRoutes() {
-  const location = useLocation()
+  const location = useLocation();
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+  }, [location.pathname]);
 
   return (
     <AnimatePresence mode="wait">
       <Suspense fallback={<PageSkeleton />}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/ecosystem" element={<Ecosystem />} />
-          <Route path="/connect" element={<Connect />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/insights" element={<Insights />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </AnimatePresence>
-  )
+  );
 }
 
-/* ── App root ─────────────────────────────────────────────── */
 export default function App() {
   return (
     <BrowserRouter>
-      {/* Layer 0: animated background — fixed, pointer-events-none */}
-      <GlobalBackground />
-
-      {/* Layer 60: floating nav pill */}
-      <Navbar />
-
-      {/* Layer 10: scrollable page content */}
-      <main style={{ position: 'relative', zIndex: 10 }}>
-        <AnimatedRoutes />
-      </main>
+      <SmoothScrollProvider>
+        <GlobalBackground />
+        <ScrollProgressLine />
+        <Navbar />
+        <main className="relative z-10">
+          <AnimatedRoutes />
+        </main>
+      </SmoothScrollProvider>
     </BrowserRouter>
-  )
+  );
 }
