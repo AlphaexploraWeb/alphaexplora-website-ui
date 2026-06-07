@@ -1,73 +1,38 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import GlobalBackground from './shared/components/GlobalBackground'
-import Navbar from './shared/components/Navbar'
+import { Routes, Route, useLocation } from "react-router-dom"
+import { AnimatePresence } from "framer-motion"
+import { SmoothScroll } from "./components/layout/SmoothScroll"
+import { Header } from "./components/layout/Header"
+import { Footer } from "./components/layout/Footer"
+import { Home } from "./pages/Home"
+import { About } from "./pages/About"
+import { Services } from "./pages/Services"
+import { Insights } from "./pages/Insights"
+import { Contact } from "./pages/Contact"
 
-/* ── Lazy-loaded page views (MVVM: features/<name>/views) ── */
-const Home = lazy(() => import('./features/home/views/Home'))
-const Solutions = lazy(() => import('./features/solutions/views/Solutions'))
-const Ecosystem = lazy(() => import('./features/ecosystem/views/Ecosystem'))
-const Connect = lazy(() => import('./features/connect/views/Connect'))
+function App() {
+  const location = useLocation()
 
-/* ── Loading fallback ─────────────────────────────────────── */
-function PageSkeleton() {
   return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '50%',
-          border: '2px solid rgba(0,217,217,0.15)',
-          borderTop: '2px solid #00D9D9',
-          animation: 'spin 0.8s linear infinite',
-        }}
-      />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    <div className="flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/20 selection:text-white relative">
+      <Header />
+      
+      <main className="flex-grow relative z-10">
+        <SmoothScroll>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/insights" element={<Insights />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </AnimatePresence>
+        </SmoothScroll>
+      </main>
+
+      <Footer />
     </div>
   )
 }
 
-/* ── Animated routes — needs useLocation inside BrowserRouter ── */
-function AnimatedRoutes() {
-  const location = useLocation()
-
-  return (
-    <AnimatePresence mode="wait">
-      <Suspense fallback={<PageSkeleton />}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/ecosystem" element={<Ecosystem />} />
-          <Route path="/connect" element={<Connect />} />
-        </Routes>
-      </Suspense>
-    </AnimatePresence>
-  )
-}
-
-/* ── App root ─────────────────────────────────────────────── */
-export default function App() {
-  return (
-    <BrowserRouter>
-      {/* Layer 0: animated background — fixed, pointer-events-none */}
-      <GlobalBackground />
-
-      {/* Layer 60: floating nav pill */}
-      <Navbar />
-
-      {/* Layer 10: scrollable page content */}
-      <main style={{ position: 'relative', zIndex: 10 }}>
-        <AnimatedRoutes />
-      </main>
-    </BrowserRouter>
-  )
-}
+export default App
