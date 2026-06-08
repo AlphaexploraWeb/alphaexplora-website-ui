@@ -1,6 +1,8 @@
 import estrukturaThumbnail from "../../assets/projects/estruktura.png"
+import espasyoThumbnail from "../../assets/projects/espasyo.png"
 import globalBimThumbnail from "../../assets/projects/globalbim-logo.png"
 import tmgnThumbnail from "../../assets/projects/tmgn.png"
+import wlcmThumbnail from "../../assets/projects/wlcm.png"
 
 export interface NavLink {
   label: string
@@ -468,6 +470,28 @@ export const currentProjects: CurrentProject[] = [
     thumbnail: globalBimThumbnail,
     thumbnailAlt: "GlobalBIM Engineering Services logo",
     thumbnailFit: "contain",
+  },
+  {
+    title: "Words of Life Christian Ministries Inc.",
+    category: "Ministry Platform",
+    status: "Live website",
+    outcome:
+      "A polished ministry website with a calm visual system, clear navigation, giving flows, and event-oriented calls to action.",
+    tags: ["Website", "Ministry", "Events"],
+    href: "https://wlcmph.vercel.app/",
+    thumbnail: wlcmThumbnail,
+    thumbnailAlt: "Homepage screenshot of Words of Life Christian Ministries Inc. website",
+  },
+  {
+    title: "Espasyo Community",
+    category: "Business Community",
+    status: "Live website",
+    outcome:
+      "A community-driven workspace website for entrepreneurs, connecting service discovery, business solutions, and inquiry paths.",
+    tags: ["Workspace", "Community", "Business"],
+    href: "https://espasyo.ph/",
+    thumbnail: espasyoThumbnail,
+    thumbnailAlt: "Homepage screenshot of Espasyo Community website",
   },
   {
     title: "Estruktura Manila",

@@ -7,6 +7,7 @@ import { HeroSection } from "./HeroSection"
 import { InsightsSection } from "./InsightsSection"
 import { PhilosophySection } from "./PhilosophySection"
 import { ProjectsSection } from "./ProjectsSection"
+import { SectionTimeline } from "./SectionTimeline"
 import { ServicesSection } from "./ServicesSection"
 import { WhyChooseSection } from "./WhyChooseSection"
 
@@ -26,6 +27,7 @@ export default function Home() {
   return (
     <div className="ae-shell">
       <SiteHeader groups={navGroups} />
+      <SectionTimeline />
       <main>
         <HeroSection
           highlights={heroHighlights}
