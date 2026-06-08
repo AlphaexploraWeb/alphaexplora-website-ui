@@ -1,4 +1,5 @@
 import type { PartnerLogo } from "../../../shared/models/homepage"
+import { Reveal } from "./ScrollReveal"
 
 interface ClientsSectionProps {
   clients: PartnerLogo[]
@@ -37,33 +38,37 @@ export function ClientsSection({ clients }: ClientsSectionProps) {
       aria-labelledby="clients-heading"
     >
       <div className="ae-container">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase text-accent">
-            Client Ecosystem
-          </p>
-          <h2
-            id="clients-heading"
-            className="ae-balanced mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl"
-          >
-            Trusted across modern technology programs.
-          </h2>
-          <p className="ae-pretty mt-4 text-sm leading-7 text-muted sm:text-base">
-            Representative client and partner domains Alphaexplora supports
-            across cloud, security, data, AI, growth, and managed operations.
-          </p>
-        </div>
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <div>
+            <p className="text-sm font-semibold uppercase text-accent">
+              Client Ecosystem
+            </p>
+            <h2
+              id="clients-heading"
+              className="ae-balanced mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl"
+            >
+              Trusted across modern technology programs.
+            </h2>
+            <p className="ae-pretty mt-4 text-sm leading-7 text-muted sm:text-base">
+              Representative client and partner domains Alphaexplora supports
+              across cloud, security, data, AI, growth, and managed operations.
+            </p>
+          </div>
+        </Reveal>
 
-        <div
-          className="ae-partner-marquee mt-10 rounded-lg"
-          aria-label="Client and technology ecosystem areas"
-        >
-          <div className="ae-marquee-window" tabIndex={0}>
-            <div className="ae-marquee-track">
-              <ClientLogoTrack clients={clients} />
-              <ClientLogoTrack clients={clients} hidden />
+        <Reveal delay={0.08} y={18}>
+          <div
+            className="ae-partner-marquee mt-10 rounded-lg"
+            aria-label="Client and technology ecosystem areas"
+          >
+            <div className="ae-marquee-window" tabIndex={0}>
+              <div className="ae-marquee-track">
+                <ClientLogoTrack clients={clients} />
+                <ClientLogoTrack clients={clients} hidden />
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

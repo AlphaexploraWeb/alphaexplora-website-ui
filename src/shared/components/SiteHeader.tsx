@@ -15,7 +15,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [activeGroupIndex, setActiveGroupIndex] = useState(0)
   const [activeLinkIndex, setActiveLinkIndex] = useState(0)
-  const [isHeaderRevealed, setIsHeaderRevealed] = useState(false)
+  const [isHeaderRevealed, setIsHeaderRevealed] = useState(true)
   const [isHeaderHidden, setIsHeaderHidden] = useState(false)
   const closeTimerRef = useRef<number | null>(null)
   const revealTimerRef = useRef<number | null>(null)
@@ -63,16 +63,21 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
       window.clearTimeout(revealTimerRef.current)
       revealTimerRef.current = null
     }
+    setIsHeaderHidden(false)
     setIsHeaderRevealed(true)
   }, [])
 
   const handleHeaderLeave = useCallback(() => {
     if (isMegaOpen) return
+    if (window.scrollY < 24) return
     if (revealTimerRef.current !== null) {
       window.clearTimeout(revealTimerRef.current)
     }
     revealTimerRef.current = window.setTimeout(() => {
       setIsHeaderRevealed(false)
+      if (window.scrollY >= 24) {
+        setIsHeaderHidden(true)
+      }
       revealTimerRef.current = null
     }, 200)
   }, [isMegaOpen])
@@ -120,10 +125,16 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
     }
   }, [clearMegaClose])
 
-  // When mega menu closes, schedule header collapse if cursor is outside
+  // When mega menu closes, collapse only after the user has left the top area.
   useEffect(() => {
-    if (!isMegaOpen && isHeaderRevealed && !isHoveringHeaderRef.current) {
+    if (
+      !isMegaOpen &&
+      isHeaderRevealed &&
+      !isHoveringHeaderRef.current &&
+      window.scrollY > 24
+    ) {
       setIsHeaderRevealed(false)
+      setIsHeaderHidden(true)
     }
   }, [isMegaOpen, isHeaderRevealed])
 
@@ -135,6 +146,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
     const handleScroll = () => {
       const currentY = window.scrollY
       const delta = currentY - lastScrollYRef.current
+      const isNearTop = currentY < 24
 
       // Don't hide if mega menu or mobile menu is open
       if (isMegaOpen || isMobileOpen) {
@@ -142,14 +154,19 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
         return
       }
 
-      if (delta > SCROLL_THRESHOLD) {
-        // Scrolling down past threshold — hide
+      if (isNearTop) {
+        setIsHeaderHidden(false)
+        setIsHeaderRevealed(true)
+        lastScrollYRef.current = currentY
+      } else if (delta > SCROLL_THRESHOLD) {
+        // Scrolling down past threshold — keep the header compact until hover.
         setIsHeaderHidden(true)
         setIsHeaderRevealed(false)
         lastScrollYRef.current = currentY
       } else if (delta < -10) {
-        // Scrolling up — show (in resting state)
-        setIsHeaderHidden(false)
+        // Scrolling up keeps the navbar available in its compact resting state.
+        setIsHeaderHidden(true)
+        setIsHeaderRevealed(false)
         lastScrollYRef.current = currentY
       }
     }

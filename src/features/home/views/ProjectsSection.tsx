@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Icon } from "../../../shared/components/Icon"
 import type { CurrentProject } from "../../../shared/models/homepage"
+import { Reveal } from "./ScrollReveal"
 
 interface ProjectsSectionProps {
   projects: CurrentProject[]
@@ -69,154 +70,162 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
     <section id="projects" className="ae-section border-b border-white/10 py-14 sm:py-16">
       <div className="ae-container">
-        <div className="ae-project-header mb-11">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase text-accent">
-              Selected Projects
-            </p>
-            <h2 className="ae-balanced mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
-              Public digital work already launched with Alphaexplora.
-            </h2>
-            <p className="ae-pretty mt-4 max-w-xl text-base leading-7 text-muted">
-              Explore live websites across community, ministry, engineering,
-              workspace, and product showcase experiences built with secure,
-              modern web foundations.
-            </p>
-          </div>
-
-          <div className="ae-project-header-aside">
-            <div className="ae-project-stats" aria-label="Project statistics">
-              <div className="ae-project-stat">
-                <Icon name="cloud" className="size-5 text-muted" />
-                <span className="font-display text-2xl font-semibold tabular-nums text-foreground">
-                  {projects.length}
-                </span>
-                <span>Live Projects</span>
-              </div>
-              <div className="ae-project-stat">
-                <Icon name="spark" className="size-5 text-muted" />
-                <span className="font-display text-2xl font-semibold tabular-nums text-foreground">
-                  {categoryCount}
-                </span>
-                <span>Categories</span>
-              </div>
-              <div className="ae-project-stat">
-                <Icon name="target" className="size-5 text-muted" />
-                <span className="font-display text-2xl font-semibold tabular-nums text-foreground">
-                  100%
-                </span>
-                <span>Delivered</span>
-              </div>
+        <Reveal>
+          <div className="ae-project-header mb-11">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase text-accent">
+                Selected Projects
+              </p>
+              <h2 className="ae-balanced mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+                Public digital work already launched with Alphaexplora.
+              </h2>
+              <p className="ae-pretty mt-4 max-w-xl text-base leading-7 text-muted">
+                Explore live websites across community, ministry, engineering,
+                workspace, and product showcase experiences built with secure,
+                modern web foundations.
+              </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex gap-2.5">
-                <button
-                  type="button"
-                  onClick={() => scroll("left")}
-                  disabled={!canScrollLeft}
-                  className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 transition-all active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
-                  aria-label="Scroll left"
-                >
-                  <Icon name="arrow" className="size-5 rotate-180" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => scroll("right")}
-                  disabled={!canScrollRight}
-                  className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 transition-all active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
-                  aria-label="Scroll right"
-                >
-                  <Icon name="arrow" className="size-5" />
-                </button>
+            <div className="ae-project-header-aside">
+              <div className="ae-project-stats" aria-label="Project statistics">
+                <div className="ae-project-stat">
+                  <Icon name="cloud" className="size-5 text-muted" />
+                  <span className="font-display text-2xl font-semibold tabular-nums text-foreground">
+                    {projects.length}
+                  </span>
+                  <span>Live Projects</span>
+                </div>
+                <div className="ae-project-stat">
+                  <Icon name="spark" className="size-5 text-muted" />
+                  <span className="font-display text-2xl font-semibold tabular-nums text-foreground">
+                    {categoryCount}
+                  </span>
+                  <span>Categories</span>
+                </div>
+                <div className="ae-project-stat">
+                  <Icon name="target" className="size-5 text-muted" />
+                  <span className="font-display text-2xl font-semibold tabular-nums text-foreground">
+                    100%
+                  </span>
+                  <span>Delivered</span>
+                </div>
               </div>
 
-              <a
-                href="#contact"
-                className="ae-button-secondary inline-flex min-h-11 items-center justify-center rounded-md px-5 py-3 text-sm font-semibold active:scale-[0.96]"
-              >
-                Discuss a Project
-              </a>
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => scroll("left")}
+                    disabled={!canScrollLeft}
+                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 transition-all active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
+                    aria-label="Scroll left"
+                  >
+                    <Icon name="arrow" className="size-5 rotate-180" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scroll("right")}
+                    disabled={!canScrollRight}
+                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 transition-all active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
+                    aria-label="Scroll right"
+                  >
+                    <Icon name="arrow" className="size-5" />
+                  </button>
+                </div>
+
+                <a
+                  href="#contact"
+                  className="ae-button-secondary inline-flex min-h-11 items-center justify-center rounded-md px-5 py-3 text-sm font-semibold active:scale-[0.96]"
+                >
+                  Discuss a Project
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <div className="ae-project-carousel-wrapper">
           <div ref={carouselRef} className="ae-project-carousel">
             {projects.map((project, index) => (
-              <article
+              <Reveal
                 key={project.title}
-                role="button"
-                tabIndex={0}
-                className="ae-project-card ae-glass group rounded-lg p-6"
-                onClick={() => setSelectedProject(project)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault()
-                    setSelectedProject(project)
-                  }
-                }}
+                className="ae-project-reveal-item"
+                delay={index * 0.05}
+                y={18}
               >
-                <div className="ae-project-media">
-                  <img
-                    src={project.thumbnail}
-                    alt={project.thumbnailAlt}
-                    className={
-                      project.thumbnailFit === "contain"
-                        ? "ae-project-image ae-project-image-contain"
-                        : "ae-project-image"
+                <article
+                  role="button"
+                  tabIndex={0}
+                  className="ae-project-card ae-glass group rounded-lg p-6"
+                  onClick={() => setSelectedProject(project)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault()
+                      setSelectedProject(project)
                     }
-                    loading="lazy"
-                  />
-                </div>
+                  }}
+                >
+                  <div className="ae-project-media">
+                    <img
+                      src={project.thumbnail}
+                      alt={project.thumbnailAlt}
+                      className={
+                        project.thumbnailFit === "contain"
+                          ? "ae-project-image ae-project-image-contain"
+                          : "ae-project-image"
+                      }
+                      loading="lazy"
+                    />
+                  </div>
 
-                <div className="ae-project-body">
-                  <div className="flex items-start justify-between gap-5 w-full">
-                    <div>
-                      <span className="text-xs font-semibold uppercase text-accent">
-                        {project.category}
+                  <div className="ae-project-body">
+                    <div className="flex items-start justify-between gap-5 w-full">
+                      <div>
+                        <span className="text-xs font-semibold uppercase text-accent">
+                          {project.category}
+                        </span>
+                        <h3 className="ae-balanced mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
+                          {project.title}
+                        </h3>
+                      </div>
+                      <span className="ae-project-number tabular-nums">
+                        {String(index + 1).padStart(2, "0")}
                       </span>
-                      <h3 className="ae-balanced mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                        {project.title}
-                      </h3>
                     </div>
-                    <span className="ae-project-number tabular-nums">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+
+                    <div className="mt-5 inline-flex min-h-9 items-center gap-2 rounded-md border border-accent/20 bg-accent/10 px-3 py-2 text-xs font-semibold text-accent">
+                      <Icon name="target" className="size-4" />
+                      {project.status}
+                    </div>
+
+                    <p className="ae-pretty mt-5 text-sm leading-7 text-muted">
+                      {project.outcome}
+                    </p>
+
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-md border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-foreground/78"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      View Project
+                      <Icon name="arrow" className="size-4" />
+                    </a>
                   </div>
-
-                  <div className="mt-5 inline-flex min-h-9 items-center gap-2 rounded-md border border-accent/20 bg-accent/10 px-3 py-2 text-xs font-semibold text-accent">
-                    <Icon name="target" className="size-4" />
-                    {project.status}
-                  </div>
-
-                  <p className="ae-pretty mt-5 text-sm leading-7 text-muted">
-                    {project.outcome}
-                  </p>
-
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-md border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-foreground/78"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
-                    onClick={(event) => event.stopPropagation()}
-                  >
-                    View Project
-                    <Icon name="arrow" className="size-4" />
-                  </a>
-                </div>
-              </article>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>

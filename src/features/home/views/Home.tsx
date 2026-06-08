@@ -3,6 +3,7 @@ import { SiteHeader } from "../../../shared/components/SiteHeader"
 import { useHomeViewModel } from "../viewModels/useHomeViewModel"
 import { ClientsSection } from "./ClientsSection"
 import { ContactSection } from "./ContactSection"
+import { FlowLineLayer } from "./FlowLineLayer"
 import { HeroSection } from "./HeroSection"
 import { InsightsSection } from "./InsightsSection"
 import { PhilosophySection } from "./PhilosophySection"
@@ -26,6 +27,7 @@ export default function Home() {
 
   return (
     <div className="ae-shell">
+      <FlowLineLayer />
       <SiteHeader groups={navGroups} />
       <SectionTimeline />
       <main>
