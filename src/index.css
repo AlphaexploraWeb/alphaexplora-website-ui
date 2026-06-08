@@ -807,7 +807,7 @@ a {
 }
 
 .ae-hero-section {
-  min-height: calc(100svh - 76px);
+  min-height: 100svh;
   display: flex;
   align-items: center;
 }
