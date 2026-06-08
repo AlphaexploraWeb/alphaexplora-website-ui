@@ -20,6 +20,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
   const closeTimerRef = useRef<number | null>(null)
   const revealTimerRef = useRef<number | null>(null)
   const lastScrollYRef = useRef(0)
+  const isHoveringHeaderRef = useRef(false)
   const menuId = useId()
   const activeGroup = groups[activeGroupIndex] ?? groups[0]
   const activeLink = activeGroup?.links[activeLinkIndex] ?? activeGroup?.links[0]
@@ -39,6 +40,14 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
     clearMegaClose()
     activateGroup(index)
     setIsMegaOpen(true)
+  }
+
+  const handleLinkClick = (index: number) => {
+    if (isMegaOpen && activeGroupIndex === index) {
+      closeMenus()
+    } else {
+      openMega(index)
+    }
   }
 
   const scheduleMegaClose = () => {
@@ -113,9 +122,8 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
 
   // When mega menu closes, schedule header collapse if cursor is outside
   useEffect(() => {
-    if (!isMegaOpen && isHeaderRevealed) {
-      // Don't immediately collapse — user might still be in header zone.
-      // The onMouseLeave on <header> will handle it.
+    if (!isMegaOpen && isHeaderRevealed && !isHoveringHeaderRef.current) {
+      setIsHeaderRevealed(false)
     }
   }, [isMegaOpen, isHeaderRevealed])
 
@@ -390,11 +398,13 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
     .join(" ")
 
   const handleHeaderMouseEnter = () => {
+    isHoveringHeaderRef.current = true
     clearMegaClose()
     handleHeaderEnter()
   }
 
   const handleHeaderMouseLeave = () => {
+    isHoveringHeaderRef.current = false
     scheduleMegaClose()
     handleHeaderLeave()
   }
@@ -446,29 +456,32 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
         </div>
       </div>
 
-      <nav
-        className="ae-container ae-header-nav-row"
-        aria-label="Primary navigation"
-      >
-        {groups.map((group, index) => {
-          const isActive = isMegaOpen && index === activeGroupIndex
-          return (
-            <button
-              key={group.title}
-              type="button"
-              className="ae-top-nav-link"
-              aria-expanded={isActive}
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={() => openMega(index)}
-              onFocus={() => openMega(index)}
-              onMouseEnter={() => openMega(index)}
-            >
-              {getTopLevelLabel(group)}
-            </button>
-          )
-        })}
-      </nav>
+      <div className="ae-header-nav-wrapper">
+        <div className="ae-header-nav-inner">
+          <nav
+            className="ae-container ae-header-nav-row"
+            aria-label="Primary navigation"
+          >
+            {groups.map((group, index) => {
+              const isActive = isMegaOpen && index === activeGroupIndex
+              return (
+                <button
+                  key={group.title}
+                  type="button"
+                  className="ae-top-nav-link"
+                  style={{ "--nav-index": index } as React.CSSProperties}
+                  aria-expanded={isActive}
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={() => handleLinkClick(index)}
+                >
+                  {getTopLevelLabel(group)}
+                </button>
+              )
+            })}
+          </nav>
+        </div>
+      </div>
 
       {/* Mobile: Unchanged layout */}
       <div className="ae-container flex min-h-[76px] items-center justify-between gap-3 py-3 lg:hidden">

@@ -12,14 +12,14 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
         <div className="mb-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase text-accent">
-              Current Projects
+              Selected Projects
             </p>
             <h2 className="ae-balanced mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
-              Active transformation tracks, shaped around measurable outcomes.
+              Public digital work already launched with Alphaexplora.
             </h2>
             <p className="ae-pretty mt-4 max-w-xl text-base leading-7 text-muted">
-              Representative programs show how Alphaexplora turns strategy into
-              modern systems, data readiness, and reliable operations.
+              Explore live websites across community, engineering, and product
+              showcase experiences built with secure, modern web foundations.
             </p>
           </div>
           <a
@@ -36,6 +36,25 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               key={project.title}
               className="ae-project-card ae-glass group rounded-lg p-6"
             >
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                className="ae-project-media"
+                aria-label={`Open ${project.title}`}
+              >
+                <img
+                  src={project.thumbnail}
+                  alt={project.thumbnailAlt}
+                  className={
+                    project.thumbnailFit === "contain"
+                      ? "ae-project-image ae-project-image-contain"
+                      : "ae-project-image"
+                  }
+                  loading="lazy"
+                />
+              </a>
+
               <div className="flex items-start justify-between gap-5">
                 <div>
                   <span className="text-xs font-semibold uppercase text-accent">
@@ -69,6 +88,16 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </span>
                 ))}
               </div>
+
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
+              >
+                View Project
+                <Icon name="arrow" className="size-4" />
+              </a>
             </article>
           ))}
         </div>

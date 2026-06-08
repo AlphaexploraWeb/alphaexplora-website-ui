@@ -1,3 +1,7 @@
+import estrukturaThumbnail from "../../assets/projects/estruktura.png"
+import globalBimThumbnail from "../../assets/projects/globalbim-logo.png"
+import tmgnThumbnail from "../../assets/projects/tmgn.png"
+
 export interface NavLink {
   label: string
   href: string
@@ -59,6 +63,10 @@ export interface CurrentProject {
   status: string
   outcome: string
   tags: string[]
+  href: string
+  thumbnail: string
+  thumbnailAlt: string
+  thumbnailFit?: "cover" | "contain"
 }
 
 export type IconName =
@@ -439,28 +447,38 @@ export const partnerLogos: PartnerLogo[] = [
 
 export const currentProjects: CurrentProject[] = [
   {
-    title: "Secure Platform Modernization",
-    category: "Systems Modernization",
-    status: "Discovery to build",
+    title: "The Mighty God of All Nations Inc.",
+    category: "Community Platform",
+    status: "Live website",
     outcome:
-      "Representative program for replacing fragile workflows with scalable, secure platform foundations.",
-    tags: ["Architecture", "Cloud", "Security"],
+      "A public-facing digital home for a faith community, built around clear navigation, event discovery, and member engagement.",
+    tags: ["Website", "Community", "React"],
+    href: "https://www.tmgn.ph/",
+    thumbnail: tmgnThumbnail,
+    thumbnailAlt: "Homepage screenshot of The Mighty God of All Nations Inc. website",
   },
   {
-    title: "Data Readiness Accelerator",
-    category: "AI & Data",
-    status: "Active enablement",
+    title: "GlobalBIM Engineering Services",
+    category: "Engineering Services",
+    status: "Live website",
     outcome:
-      "Representative initiative for organizing operational data into dashboards, insights, and AI-ready pipelines.",
-    tags: ["Data", "Analytics", "AI-ready"],
+      "A professional web presence for BIM engineering, AutoCAD, Tekla detailing, and structural project service offerings.",
+    tags: ["BIM", "Engineering", "Web"],
+    href: "https://www.globalbim.ph/",
+    thumbnail: globalBimThumbnail,
+    thumbnailAlt: "GlobalBIM Engineering Services logo",
+    thumbnailFit: "contain",
   },
   {
-    title: "Managed Operations Command",
-    category: "Managed Services",
-    status: "Continuous support",
+    title: "Estruktura Manila",
+    category: "Product Showcase",
+    status: "Live website",
     outcome:
-      "Representative service track for monitoring, support, optimization, and reliable day-to-day technology operations.",
-    tags: ["Monitoring", "Support", "Optimization"],
+      "A refined product and brand showcase for carpet and interior solutions, emphasizing elegant visuals and clear inquiry paths.",
+    tags: ["Showcase", "Interiors", "Commerce"],
+    href: "https://www.estruktura.ph/",
+    thumbnail: estrukturaThumbnail,
+    thumbnailAlt: "Homepage screenshot of Estruktura Manila website",
   },
 ]
 
