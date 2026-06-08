@@ -15,7 +15,11 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [activeGroupIndex, setActiveGroupIndex] = useState(0)
   const [activeLinkIndex, setActiveLinkIndex] = useState(0)
+  const [isHeaderRevealed, setIsHeaderRevealed] = useState(false)
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false)
   const closeTimerRef = useRef<number | null>(null)
+  const revealTimerRef = useRef<number | null>(null)
+  const lastScrollYRef = useRef(0)
   const menuId = useId()
   const activeGroup = groups[activeGroupIndex] ?? groups[0]
   const activeLink = activeGroup?.links[activeLinkIndex] ?? activeGroup?.links[0]
@@ -44,6 +48,25 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
       closeTimerRef.current = null
     }, 140)
   }
+
+  const handleHeaderEnter = useCallback(() => {
+    if (revealTimerRef.current !== null) {
+      window.clearTimeout(revealTimerRef.current)
+      revealTimerRef.current = null
+    }
+    setIsHeaderRevealed(true)
+  }, [])
+
+  const handleHeaderLeave = useCallback(() => {
+    if (isMegaOpen) return
+    if (revealTimerRef.current !== null) {
+      window.clearTimeout(revealTimerRef.current)
+    }
+    revealTimerRef.current = window.setTimeout(() => {
+      setIsHeaderRevealed(false)
+      revealTimerRef.current = null
+    }, 200)
+  }, [isMegaOpen])
 
   const closeMenus = useCallback(() => {
     clearMegaClose()
@@ -80,8 +103,52 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
   }, [isMobileOpen])
 
   useEffect(() => {
-    return () => clearMegaClose()
+    return () => {
+      clearMegaClose()
+      if (revealTimerRef.current !== null) {
+        window.clearTimeout(revealTimerRef.current)
+      }
+    }
   }, [clearMegaClose])
+
+  // When mega menu closes, schedule header collapse if cursor is outside
+  useEffect(() => {
+    if (!isMegaOpen && isHeaderRevealed) {
+      // Don't immediately collapse — user might still be in header zone.
+      // The onMouseLeave on <header> will handle it.
+    }
+  }, [isMegaOpen, isHeaderRevealed])
+
+  // Scroll-direction detection
+  useEffect(() => {
+    const SCROLL_THRESHOLD = 50
+    lastScrollYRef.current = window.scrollY
+
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      const delta = currentY - lastScrollYRef.current
+
+      // Don't hide if mega menu or mobile menu is open
+      if (isMegaOpen || isMobileOpen) {
+        lastScrollYRef.current = currentY
+        return
+      }
+
+      if (delta > SCROLL_THRESHOLD) {
+        // Scrolling down past threshold — hide
+        setIsHeaderHidden(true)
+        setIsHeaderRevealed(false)
+        lastScrollYRef.current = currentY
+      } else if (delta < -10) {
+        // Scrolling up — show (in resting state)
+        setIsHeaderHidden(false)
+        lastScrollYRef.current = currentY
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [isMegaOpen, isMobileOpen])
 
   if (!activeGroup || !activeLink) {
     return null
@@ -91,16 +158,16 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
   const supportingLinks = activeGroup.links.slice(2)
 
   const megaMenu =
-    isMegaOpen && typeof document !== "undefined"
+    typeof document !== "undefined"
       ? createPortal(
           <div
             id={menuId}
-            className="ae-mega-layer hidden lg:block"
+            className={`ae-mega-layer hidden lg:block ${isMegaOpen ? "ae-mega-layer-open" : ""}`}
             onMouseEnter={clearMegaClose}
             onMouseLeave={scheduleMegaClose}
           >
             <div className="ae-mega-panel">
-              <div className="ae-container ae-mega-grid">
+              <div className="ae-container ae-mega-grid" key={activeGroupIndex}>
                 <section className="ae-mega-overview">
                   <p className="text-xs font-semibold uppercase text-accent">
                     {activeGroup.eyebrow}
@@ -314,13 +381,42 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
         )
       : null
 
+  const headerClasses = [
+    "ae-premium-header fixed inset-x-0 top-0 z-50",
+    isHeaderRevealed || isMegaOpen ? "ae-header-revealed" : "",
+    isHeaderHidden ? "ae-header-hidden" : "",
+  ]
+    .filter(Boolean)
+    .join(" ")
+
+  const handleHeaderMouseEnter = () => {
+    clearMegaClose()
+    handleHeaderEnter()
+  }
+
+  const handleHeaderMouseLeave = () => {
+    scheduleMegaClose()
+    handleHeaderLeave()
+  }
+
   return (
     <header
-      className="ae-premium-header fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-background/85 shadow-[0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl"
-      onMouseEnter={clearMegaClose}
-      onMouseLeave={scheduleMegaClose}
+      className={headerClasses}
+      onMouseEnter={handleHeaderMouseEnter}
+      onMouseLeave={handleHeaderMouseLeave}
     >
-      <div className="ae-container hidden min-h-[76px] items-center gap-5 py-3 lg:grid lg:grid-cols-[auto_1fr_auto]">
+      {/* Desktop: Two-row Mercedes-style layout */}
+      <div className="ae-container ae-header-logo-row">
+        <div className="ae-header-utils ae-header-utils-left">
+          <a
+            href="#contact"
+            className="ae-nav-link inline-flex min-h-10 items-center rounded-md px-3 py-2 text-sm font-medium text-foreground/78"
+            onClick={closeMenus}
+          >
+            Contact
+          </a>
+        </div>
+
         <a
           href="#top"
           className="ae-nav-brand group flex min-w-0 items-center gap-3 text-foreground"
@@ -335,38 +431,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
           </span>
         </a>
 
-        <nav
-          className="ae-top-nav flex min-w-0 items-center justify-center gap-1"
-          aria-label="Primary navigation"
-        >
-          {groups.map((group, index) => {
-            const isActive = isMegaOpen && index === activeGroupIndex
-            return (
-              <button
-                key={group.title}
-                type="button"
-                className="ae-top-nav-link"
-                aria-expanded={isActive}
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={() => openMega(index)}
-                onFocus={() => openMega(index)}
-                onMouseEnter={() => openMega(index)}
-              >
-                {getTopLevelLabel(group)}
-              </button>
-            )
-          })}
-        </nav>
-
-        <div className="flex min-w-0 items-center justify-end gap-2">
-          <a
-            href="#contact"
-            className="ae-nav-link inline-flex min-h-10 items-center rounded-md px-3 py-2 text-sm font-medium text-foreground/78"
-            onClick={closeMenus}
-          >
-            Contact
-          </a>
+        <div className="ae-header-utils ae-header-utils-right">
           <a
             href="#contact"
             className="ae-button-primary group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold active:scale-[0.96]"
@@ -381,6 +446,31 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
         </div>
       </div>
 
+      <nav
+        className="ae-container ae-header-nav-row"
+        aria-label="Primary navigation"
+      >
+        {groups.map((group, index) => {
+          const isActive = isMegaOpen && index === activeGroupIndex
+          return (
+            <button
+              key={group.title}
+              type="button"
+              className="ae-top-nav-link"
+              aria-expanded={isActive}
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={() => openMega(index)}
+              onFocus={() => openMega(index)}
+              onMouseEnter={() => openMega(index)}
+            >
+              {getTopLevelLabel(group)}
+            </button>
+          )
+        })}
+      </nav>
+
+      {/* Mobile: Unchanged layout */}
       <div className="ae-container flex min-h-[76px] items-center justify-between gap-3 py-3 lg:hidden">
         <a
           href="#top"

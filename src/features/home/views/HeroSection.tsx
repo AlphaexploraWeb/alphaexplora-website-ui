@@ -10,16 +10,16 @@ export function HeroSection({ highlights }: HeroSectionProps) {
   return (
     <section
       id="top"
-      className="ae-section ae-hero-wave overflow-hidden border-b border-white/10 pt-40 pb-10 sm:pt-32 lg:pb-14"
+      className="ae-section ae-hero-wave ae-hero-section overflow-hidden border-b border-white/10 pt-40 pb-10 sm:pt-32 lg:pb-14"
     >
-      <div className="ae-container">
+      <div className="ae-container ae-hero-inner">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,500px)] xl:grid-cols-[minmax(0,690px)_minmax(460px,520px)] xl:justify-between">
           <div className="max-w-3xl">
             <p className="mb-7 inline-flex items-center gap-3 rounded-full border border-primary/60 bg-primary/10 px-5 py-2 text-sm font-semibold text-accent shadow-[0_0_28px_rgba(11,92,255,0.22)]">
               <Icon name="shield" className="size-4" />
             Secure enterprise technology with purpose
             </p>
-            <h1 className="ae-balanced font-display text-4xl font-semibold leading-[1.06] text-foreground sm:text-6xl lg:text-[56px] xl:text-[68px]">
+            <h1 className="ae-balanced font-display text-4xl font-semibold leading-[1.06] text-foreground sm:text-6xl lg:text-[54px] xl:text-[62px]">
               Modern IT Solutions, Built with{" "}
               <span className="text-primary">Purpose</span>
             </h1>
