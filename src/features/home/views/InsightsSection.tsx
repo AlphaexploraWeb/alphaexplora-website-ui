@@ -22,7 +22,7 @@ export function InsightsSection({ insights }: InsightsSectionProps) {
               </h2>
             </div>
             <a
-              href="#contact"
+              href="/insights"
               className="ae-button-secondary inline-flex min-h-11 items-center justify-center rounded-md px-5 py-3 text-sm font-semibold active:scale-[0.96]"
             >
               View All Insights
@@ -33,7 +33,10 @@ export function InsightsSection({ insights }: InsightsSectionProps) {
         <RevealGroup className="grid gap-5 lg:grid-cols-3">
           {insights.map((insight) => (
             <RevealItem key={insight.title}>
-              <article className="ae-glass ae-card-hover group flex min-h-[336px] flex-col overflow-hidden rounded-lg p-0">
+              <a
+                href={`/insights/${insight.slug}`}
+                className="ae-glass ae-card-hover group flex min-h-[336px] flex-col overflow-hidden rounded-lg p-0"
+              >
                 <div className={`ae-insight-visual ae-insight-${insight.visual}`} />
                 <div className="flex flex-1 flex-col p-5">
                   <span className="mb-3 text-xs font-semibold uppercase text-accent">
@@ -53,7 +56,7 @@ export function InsightsSection({ insights }: InsightsSectionProps) {
                     />
                   </div>
                 </div>
-              </article>
+              </a>
             </RevealItem>
           ))}
         </RevealGroup>

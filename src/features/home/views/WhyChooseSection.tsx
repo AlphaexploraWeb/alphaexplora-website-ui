@@ -20,7 +20,7 @@ export function WhyChooseSection({ benefits }: WhyChooseSectionProps) {
               growth.
             </h2>
             <a
-              href="#contact"
+              href="/about"
               className="mt-4 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-accent transition-colors duration-200 hover:text-foreground"
             >
               Learn More

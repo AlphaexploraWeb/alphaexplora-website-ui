@@ -1,4 +1,4 @@
-import type { ContactDetail, NavLink, Service } from "../models/homepage"
+import type { ContactDetail, NavLink, Service } from "../models/site"
 import { Icon } from "./Icon"
 
 interface SiteFooterProps {
@@ -22,7 +22,7 @@ export function SiteFooter({
     <footer className="ae-footer bg-background-deep/95 py-10">
       <div className="ae-container grid gap-9 md:grid-cols-2 lg:grid-cols-[1.25fr_0.72fr_0.86fr_0.72fr_1.18fr]">
         <div>
-          <a href="#top" className="flex items-center gap-3 text-foreground">
+          <a href="/" className="flex items-center gap-3 text-foreground">
             <span className="flex size-10 items-center justify-center rounded-md border border-primary/70 bg-primary/10 font-semibold text-accent">
               A
             </span>
@@ -38,7 +38,7 @@ export function SiteFooter({
             {(["target", "cloud", "code", "shield"] as const).map((icon) => (
               <a
                 key={icon}
-                href="#contact"
+                href="/#contact"
                 className="flex size-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted transition-colors duration-200 hover:border-accent/40 hover:text-accent"
                 aria-label="Contact Alphaexplora"
               >
@@ -52,7 +52,7 @@ export function SiteFooter({
           <h2 className="text-sm font-semibold text-foreground">Company</h2>
           <ul className="mt-4 space-y-2">
             {links.map((link) => (
-              <li key={link.href}>
+              <li key={link.label}>
                 <a
                   href={link.href}
                   className="text-sm text-muted transition-colors duration-200 hover:text-accent"
@@ -70,7 +70,7 @@ export function SiteFooter({
             {services.map((service) => (
               <li key={service.title}>
                 <a
-                  href="#services"
+                  href={`/services/${service.slug}`}
                   className="text-sm text-muted transition-colors duration-200 hover:text-accent"
                 >
                   {service.title}
@@ -86,7 +86,7 @@ export function SiteFooter({
             {resources.map((resource) => (
               <li key={resource}>
                 <a
-                  href={resource === "Insights" ? "#insights" : "#contact"}
+                  href={resource === "Insights" ? "/insights" : "/#contact"}
                   className="text-sm text-muted transition-colors duration-200 hover:text-accent"
                 >
                   {resource}

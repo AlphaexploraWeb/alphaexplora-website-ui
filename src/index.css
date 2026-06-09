@@ -587,7 +587,7 @@ main,
   .ae-header-nav-wrapper {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: grid-template-rows 420ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .ae-header-revealed .ae-header-nav-wrapper {
     grid-template-rows: 1fr;
@@ -628,9 +628,9 @@ main,
   visibility: hidden;
   transform: translateX(-12px);
   transition:
-    opacity 250ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
-    visibility 250ms;
+    opacity 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 340ms;
 }
 
 .ae-header-utils-right {
@@ -639,9 +639,9 @@ main,
   visibility: hidden;
   transform: translateX(12px);
   transition:
-    opacity 250ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
-    visibility 250ms;
+    opacity 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 340ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 340ms;
 }
 
 .ae-header-revealed .ae-header-utils-left,
@@ -665,10 +665,10 @@ main,
   border: 1px solid transparent;
   border-radius: 8px;
   transition:
-    border-color 260ms var(--ae-ease-smooth),
-    background-color 260ms var(--ae-ease-smooth),
-    box-shadow 260ms var(--ae-ease-smooth),
-    padding 260ms var(--ae-ease-smooth);
+    border-color 340ms var(--ae-ease-smooth),
+    background-color 340ms var(--ae-ease-smooth),
+    box-shadow 340ms var(--ae-ease-smooth),
+    padding 340ms var(--ae-ease-smooth);
 }
 
 .ae-header-hidden .ae-nav-brand {
@@ -687,11 +687,11 @@ main,
 .ae-mobile-group,
 .ae-mobile-link {
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease,
-    color 180ms ease,
-    box-shadow 180ms ease;
+    transform 280ms ease,
+    border-color 280ms ease,
+    background-color 280ms ease,
+    color 280ms ease,
+    box-shadow 280ms ease;
 }
 
 .ae-nav-control {
@@ -722,16 +722,16 @@ main,
   opacity: 0;
   transform: translateY(8px);
   transition:
-    opacity 200ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ae-header-revealed .ae-top-nav-link {
   opacity: 1;
   transform: translateY(0);
   transition:
-    opacity 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: calc(80ms + var(--nav-index) * 35ms);
 }
 
@@ -746,8 +746,8 @@ main,
   transform: scaleX(0);
   transform-origin: center;
   transition:
-    transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 200ms ease;
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 300ms ease;
 }
 
 .ae-top-nav-link:hover::after,
@@ -2486,8 +2486,25 @@ main,
     display: none;
   }
 
+  .ae-balanced,
+  .ae-pretty {
+    text-wrap: initial !important;
+  }
+
   .ae-container {
-    width: min(calc(100% - 24px), 1180px);
+    width: min(calc(100% - 48px), 1180px);
+  }
+
+  .ae-route-page h1,
+  .ae-route-page h2,
+  .ae-route-page p {
+    max-width: 19rem;
+  }
+
+  .ae-route-page .ae-glass p,
+  .ae-route-page .ae-button-primary,
+  .ae-route-page .ae-button-secondary {
+    max-width: 100%;
   }
 
   .ae-section {

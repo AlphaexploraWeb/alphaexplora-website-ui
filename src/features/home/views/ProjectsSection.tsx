@@ -134,10 +134,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 </div>
 
                 <a
-                  href="#contact"
+                  href="/projects"
                   className="ae-button-secondary inline-flex min-h-11 items-center justify-center rounded-md px-5 py-3 text-sm font-semibold active:scale-[0.96]"
                 >
-                  Discuss a Project
+                  View All Projects
                 </a>
               </div>
             </div>
@@ -215,12 +215,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
                     <a
                       href={project.href}
-                      target="_blank"
-                      rel="noreferrer"
                       className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
                       onClick={(event) => event.stopPropagation()}
                     >
-                      View Project
+                      View Case Study
                       <Icon name="arrow" className="size-4" />
                     </a>
                   </div>
@@ -295,11 +293,9 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               </div>
               <a
                 href={selectedProject.href}
-                target="_blank"
-                rel="noreferrer"
                 className="ae-project-link mt-7 inline-flex min-h-11 items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
               >
-                View Project
+                View Case Study
                 <Icon name="arrow" className="size-4" />
               </a>
             </div>

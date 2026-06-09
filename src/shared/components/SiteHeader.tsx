@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react"
 import { createPortal } from "react-dom"
-import type { NavGroup } from "../models/homepage"
+import type { NavGroup } from "../models/site"
 import { Icon } from "./Icon"
 
 interface SiteHeaderProps {
@@ -323,7 +323,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
           >
             <div className="ae-mobile-mega-top ae-container">
               <a
-                href="#top"
+                href="/"
                 className="flex min-w-0 items-center gap-3 text-foreground"
                 aria-label="Alphaexplora home"
                 onClick={closeMenus}
@@ -389,7 +389,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
                   ))}
                 </div>
                 <a
-                  href="#contact"
+                  href="/#contact"
                   className="ae-button-primary group mt-6 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-md px-5 py-3 text-sm font-semibold active:scale-[0.96]"
                   onClick={closeMenus}
                 >
@@ -436,7 +436,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
       <div className="ae-container ae-header-logo-row">
         <div className="ae-header-utils ae-header-utils-left">
           <a
-            href="#contact"
+            href="/#contact"
             className="ae-nav-link inline-flex min-h-10 items-center rounded-md px-3 py-2 text-sm font-medium text-foreground/78"
             onClick={closeMenus}
           >
@@ -445,7 +445,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
         </div>
 
         <a
-          href="#top"
+          href="/"
           className="ae-nav-brand group flex min-w-0 items-center gap-3 text-foreground"
           aria-label="Alphaexplora home"
           onClick={closeMenus}
@@ -460,7 +460,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
 
         <div className="ae-header-utils ae-header-utils-right">
           <a
-            href="#contact"
+            href="/#contact"
             className="ae-button-primary group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold active:scale-[0.96]"
             onClick={closeMenus}
           >
@@ -503,7 +503,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
       {/* Mobile: Unchanged layout */}
       <div className="ae-container flex min-h-[76px] items-center justify-between gap-3 py-3 lg:hidden">
         <a
-          href="#top"
+          href="/"
           className="group flex min-w-0 items-center gap-3 text-foreground"
           aria-label="Alphaexplora home"
           onClick={closeMenus}
@@ -518,7 +518,7 @@ export function SiteHeader({ groups }: SiteHeaderProps) {
 
         <div className="flex items-center gap-2">
           <a
-            href="#contact"
+            href="/#contact"
             className="ae-button-primary group hidden min-h-10 shrink-0 items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold active:scale-[0.96] sm:inline-flex"
             onClick={closeMenus}
           >

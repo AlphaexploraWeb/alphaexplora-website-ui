@@ -27,7 +27,7 @@ export function HeroSection({ highlights }: HeroSectionProps) {
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#contact"
+                href="/#contact"
                 className="ae-button-primary group inline-flex min-h-12 items-center justify-center gap-3 rounded-md px-6 py-3 text-center text-sm font-semibold active:scale-[0.96]"
               >
                 Get Started
@@ -37,7 +37,7 @@ export function HeroSection({ highlights }: HeroSectionProps) {
                 />
               </a>
               <a
-                href="#services"
+                href="/services"
                 className="ae-button-secondary inline-flex min-h-12 items-center justify-center rounded-md px-6 py-3 text-center text-sm font-semibold active:scale-[0.96]"
               >
                 Explore Services

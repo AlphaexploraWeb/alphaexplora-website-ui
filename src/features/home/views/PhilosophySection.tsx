@@ -20,7 +20,7 @@ export function PhilosophySection() {
                 accessible to every business.
               </p>
               <a
-                href="#services"
+                href="/about"
                 className="mt-6 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-accent transition-colors duration-200 hover:text-foreground"
               >
                 Learn more about us

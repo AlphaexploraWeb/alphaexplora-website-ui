@@ -25,7 +25,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
               </p>
             </div>
             <a
-              href="#contact"
+              href="/services"
               className="ae-button-secondary group mt-9 inline-flex min-h-14 w-fit items-center justify-center gap-7 rounded-md px-7 py-4 text-sm font-semibold active:scale-[0.96]"
             >
               View All Services
@@ -41,7 +41,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
           {services.map((service, index) => (
             <RevealItem key={service.title} y={18}>
               <a
-                href="#contact"
+                href={`/services/${service.slug}`}
                 className={`ae-service-row group ${
                   index === 2 ? "ae-service-row-active" : ""
                 }`}
