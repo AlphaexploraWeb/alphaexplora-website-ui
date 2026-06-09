@@ -8,9 +8,7 @@ interface ProjectsSectionProps {
 }
 
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
-  const [selectedProject, setSelectedProject] = useState<CurrentProject | null>(
-    null,
-  )
+  const [activeProjectSlug, setActiveProjectSlug] = useState<string | null>(null)
   const categoryCount = new Set(projects.map((project) => project.category)).size
   
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -49,28 +47,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
     }
   }
 
-  useEffect(() => {
-    if (!selectedProject) {
-      return
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelectedProject(null)
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [selectedProject])
-
   return (
     <section id="projects" className="ae-section border-b border-white/10 py-14 sm:py-16">
       <div className="ae-container">
-        <Reveal>
+        <Reveal variant="fade-up">
           <div className="ae-project-header mb-11">
             <div className="max-w-2xl">
               <p className="text-sm font-semibold uppercase text-accent">
@@ -117,7 +97,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                     type="button"
                     onClick={() => scroll("left")}
                     disabled={!canScrollLeft}
-                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 transition-all active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
+                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
                     aria-label="Scroll left"
                   >
                     <Icon name="arrow" className="size-5 rotate-180" />
@@ -126,7 +106,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                     type="button"
                     onClick={() => scroll("right")}
                     disabled={!canScrollRight}
-                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 transition-all active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
+                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
                     aria-label="Scroll right"
                   >
                     <Icon name="arrow" className="size-5" />
@@ -146,162 +126,139 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
         <div className="ae-project-carousel-wrapper">
           <div ref={carouselRef} className="ae-project-carousel">
-            {projects.map((project, index) => (
-              <Reveal
-                key={project.title}
-                className="ae-project-reveal-item"
-                delay={index * 0.05}
-                y={18}
-              >
-                <article
-                  role="button"
-                  tabIndex={0}
-                  className="ae-project-card ae-glass group rounded-lg p-6"
-                  onClick={() => setSelectedProject(project)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault()
-                      setSelectedProject(project)
-                    }
-                  }}
+            {projects.map((project, index) => {
+              const isActive = activeProjectSlug === project.slug
+              const hasActiveProject = Boolean(activeProjectSlug)
+              const projectNumber = String(index + 1).padStart(2, "0")
+
+              return (
+                <Reveal
+                  key={project.title}
+                  className={[
+                    "ae-project-reveal-item",
+                    isActive ? "ae-project-reveal-item--active" : "",
+                    hasActiveProject && !isActive
+                      ? "ae-project-reveal-item--inactive"
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  delay={index * 0.05}
+                  variant="scale-in"
                 >
-                  <div className="ae-project-media">
-                    <img
-                      src={project.thumbnail}
-                      alt={project.thumbnailAlt}
-                      className={
-                        project.thumbnailFit === "contain"
-                          ? "ae-project-image ae-project-image-contain"
-                          : "ae-project-image"
+                  <article
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={isActive}
+                    className="ae-project-card ae-glass group rounded-lg p-4 sm:p-5"
+                    onPointerEnter={(event) => {
+                      if (event.pointerType !== "touch") {
+                        setActiveProjectSlug(project.slug)
                       }
-                      loading="lazy"
-                    />
-                  </div>
-
-                  <div className="ae-project-body">
-                    <div className="flex items-start justify-between gap-5 w-full">
-                      <div>
-                        <span className="text-xs font-semibold uppercase text-accent">
-                          {project.category}
-                        </span>
-                        <h3 className="ae-balanced mt-3 font-display text-2xl font-semibold leading-tight text-foreground">
-                          {project.title}
-                        </h3>
-                      </div>
-                      <span className="ae-project-number tabular-nums">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-
-                    <div className="mt-5 inline-flex min-h-9 items-center gap-2 rounded-md border border-accent/20 bg-accent/10 px-3 py-2 text-xs font-semibold text-accent">
-                      <Icon name="target" className="size-4" />
-                      {project.status}
-                    </div>
-
-                    <p className="ae-pretty mt-5 text-sm leading-7 text-muted">
-                      {project.outcome}
-                    </p>
-
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-md border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-foreground/78"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <a
-                      href={project.href}
-                      className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      View Case Study
-                      <Icon name="arrow" className="size-4" />
-                    </a>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-
-      </div>
-
-      {selectedProject && (
-        <div
-          className="ae-project-preview-layer"
-          role="presentation"
-          onMouseDown={() => setSelectedProject(null)}
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="project-preview-title"
-            className="ae-project-preview ae-glass"
-            onMouseDown={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              className="ae-project-preview-close"
-              aria-label="Close project preview"
-              onClick={() => setSelectedProject(null)}
-            >
-              <Icon name="close" className="size-5" />
-            </button>
-
-            <div className="ae-project-preview-media">
-              <img
-                src={selectedProject.thumbnail}
-                alt={selectedProject.thumbnailAlt}
-                className={
-                  selectedProject.thumbnailFit === "contain"
-                    ? "ae-project-image ae-project-image-contain"
-                    : "ae-project-image"
-                }
-              />
-            </div>
-
-            <div className="ae-project-preview-content">
-              <span className="text-xs font-semibold uppercase text-accent">
-                {selectedProject.category}
-              </span>
-              <h3
-                id="project-preview-title"
-                className="ae-balanced mt-3 font-display text-3xl font-semibold leading-tight text-foreground"
-              >
-                {selectedProject.title}
-              </h3>
-              <div className="mt-5 inline-flex min-h-9 items-center gap-2 rounded-md border border-accent/20 bg-accent/10 px-3 py-2 text-xs font-semibold text-accent">
-                <Icon name="target" className="size-4" />
-                {selectedProject.status}
-              </div>
-              <p className="ae-pretty mt-5 text-base leading-8 text-muted">
-                {selectedProject.outcome}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {selectedProject.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-md border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-foreground/78"
+                    }}
+                    onPointerDown={(event) => {
+                      if (event.pointerType === "touch") {
+                        setActiveProjectSlug(project.slug)
+                      }
+                    }}
+                    onTouchStart={() => setActiveProjectSlug(project.slug)}
+                    onPointerLeave={(event) => {
+                      if (
+                        event.pointerType !== "touch" &&
+                        activeProjectSlug === project.slug
+                      ) {
+                        setActiveProjectSlug(null)
+                      }
+                    }}
+                    onFocus={() => setActiveProjectSlug(project.slug)}
+                    onBlur={(event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget)) {
+                        setActiveProjectSlug(null)
+                      }
+                    }}
+                    onClick={() => setActiveProjectSlug(project.slug)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault()
+                        setActiveProjectSlug(project.slug)
+                      }
+                    }}
                   >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <a
-                href={selectedProject.href}
-                className="ae-project-link mt-7 inline-flex min-h-11 items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
-              >
-                View Case Study
-                <Icon name="arrow" className="size-4" />
-              </a>
-            </div>
+                    <div className="ae-project-showcase">
+                      <div className="ae-project-browser" aria-hidden="true">
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+                      <div className="ae-project-media">
+                        <img
+                          src={project.thumbnail}
+                          alt={project.thumbnailAlt}
+                          className={
+                            project.thumbnailFit === "contain"
+                              ? "ae-project-image ae-project-image-contain"
+                              : "ae-project-image"
+                          }
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="ae-project-body">
+                      <div className="ae-project-heading">
+                        <div>
+                          <span className="text-xs font-semibold uppercase text-accent">
+                            {project.category}
+                          </span>
+                          <h3 className="ae-balanced mt-2 font-display text-xl font-semibold leading-tight text-foreground">
+                            {project.title}
+                          </h3>
+                        </div>
+                        <span className="ae-project-number tabular-nums">
+                          {projectNumber}
+                        </span>
+                      </div>
+
+                      <div className="ae-project-status mt-4 inline-flex min-h-8 items-center gap-2 rounded-md border border-accent/20 bg-accent/10 px-3 py-2 text-xs font-semibold text-accent">
+                        <Icon name="target" className="size-4" />
+                        {project.status}
+                      </div>
+
+                      <div className="ae-project-expanded">
+                        <p className="ae-pretty mt-4 text-sm leading-7 text-muted">
+                          {project.outcome}
+                        </p>
+
+                        <div className="mt-5 flex flex-wrap gap-2">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-md border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-foreground/78"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
+                          onClick={(event) => event.stopPropagation()}
+                        >
+                          Open Live Website
+                          <Icon name="arrow" className="size-4" />
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                </Reveal>
+              )
+            })}
           </div>
         </div>
-      )}
+      </div>
     </section>
   )
 }

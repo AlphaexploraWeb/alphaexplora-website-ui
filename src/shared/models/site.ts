@@ -104,12 +104,30 @@ export interface HeroHighlight {
   icon: IconName
 }
 
+export interface DeliveryStep {
+  step: string
+  title: string
+  description: string
+}
+
+export interface TrustSignal {
+  title: string
+  description: string
+  icon: IconName
+}
+
+export interface FeaturedCapability {
+  title: string
+  description: string
+  href: string
+  icon: IconName
+}
+
 export const navLinks: NavLink[] = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Projects", href: "/projects" },
   { label: "Insights", href: "/insights" },
-  { label: "Case Studies", href: "/projects" },
   { label: "Contact", href: "/#contact" },
 ]
 
@@ -348,11 +366,11 @@ export const navGroups: NavGroup[] = [
         tags: ["Active", "Outcomes", "Delivery"],
       },
       {
-        label: "Case Studies",
+        label: "Delivered Work",
         href: "/projects",
         description:
-          "Explore transformation narratives and reusable patterns from Alphaexplora's service areas.",
-        tags: ["Proof", "Patterns", "Results"],
+          "Explore websites and platforms Alphaexplora has launched across service areas.",
+        tags: ["Proof", "Live", "Projects"],
       },
       {
         label: "Insights",
@@ -520,6 +538,63 @@ export const heroHighlights: HeroHighlight[] = [
   { label: "Results driven", icon: "target" },
 ]
 
+export const deliveryJourney: DeliveryStep[] = [
+  {
+    step: "01",
+    title: "Consult",
+    description:
+      "Clarify business goals, system constraints, and the right modernization sequence.",
+  },
+  {
+    step: "02",
+    title: "Build",
+    description:
+      "Design and ship secure software, data flows, automations, and digital platforms.",
+  },
+  {
+    step: "03",
+    title: "Operate",
+    description:
+      "Support performance, continuity, and technical reliability after launch.",
+  },
+  {
+    step: "04",
+    title: "Scale",
+    description:
+      "Extend platforms with data readiness, AI enablement, and measurable growth systems.",
+  },
+]
+
+export const trustSignals: TrustSignal[] = [
+  {
+    title: "Secure foundations",
+    description: "Security-first thinking across systems, software, data, and operations.",
+    icon: "shield",
+  },
+  {
+    title: "Data governance",
+    description: "Decision-ready structures for reporting, analytics, and responsible AI.",
+    icon: "analytics",
+  },
+  {
+    title: "Business continuity",
+    description: "Maintainable systems and support paths for critical digital workflows.",
+    icon: "support",
+  },
+  {
+    title: "Outcome alignment",
+    description: "Delivery choices mapped to business priorities, adoption, and scale.",
+    icon: "target",
+  },
+]
+
+export const featuredCapabilities: FeaturedCapability[] = services.slice(0, 4).map((service) => ({
+  title: service.compactTitle ?? service.title,
+  description: service.compactDescription,
+  href: `/services/${service.slug}`,
+  icon: service.icon,
+}))
+
 export const trustedCompanies: TrustedCompany[] = [
   { name: "Cloudix", mark: "C" },
   { name: "Nexora", mark: "N" },
@@ -681,6 +756,9 @@ export const homepageContent = {
   benefits,
   contactDetails,
   heroHighlights,
+  deliveryJourney,
+  trustSignals,
+  featuredCapabilities,
   trustedCompanies,
   partnerLogos,
   currentProjects,

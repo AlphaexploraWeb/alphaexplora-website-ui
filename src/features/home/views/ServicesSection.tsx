@@ -1,16 +1,28 @@
+import { motion } from "framer-motion"
 import { Icon } from "../../../shared/components/Icon"
 import type { Service } from "../../../shared/models/homepage"
 import { Reveal, RevealGroup, RevealItem } from "./ScrollReveal"
+import { premiumEase } from "./motionTokens"
 
 interface ServicesSectionProps {
   services: Service[]
 }
 
 export function ServicesSection({ services }: ServicesSectionProps) {
+  const servicePart = {
+    hidden: { opacity: 0, y: 14, filter: "blur(5px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.42, ease: premiumEase },
+    },
+  }
+
   return (
     <section id="services" className="ae-section ae-services-split-section border-b border-white/10 py-14 sm:py-16">
       <div className="ae-container ae-services-split">
-        <Reveal className="ae-services-intro">
+        <Reveal className="ae-services-intro" variant="fade-left">
           <div>
             <div>
               <p className="text-sm font-semibold uppercase text-accent">
@@ -37,28 +49,42 @@ export function ServicesSection({ services }: ServicesSectionProps) {
           </div>
         </Reveal>
 
-        <RevealGroup className="ae-services-list" delayChildren={0.12}>
+        <RevealGroup className="ae-services-list" delayChildren={0.12} staggerChildren={0.07}>
           {services.map((service, index) => (
-            <RevealItem key={service.title} y={18}>
-              <a
+            <RevealItem key={service.title} variant="scale-in">
+              <motion.a
                 href={`/services/${service.slug}`}
                 className={`ae-service-row group ${
                   index === 2 ? "ae-service-row-active" : ""
                 }`}
                 aria-label={`${service.number} ${service.title}`}
+                variants={{
+                  hidden: {},
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.055,
+                      delayChildren: 0.04,
+                    },
+                  },
+                }}
               >
-                <span className="ae-service-row-number tabular-nums">
+                <motion.span
+                  className="ae-service-row-number tabular-nums"
+                  variants={servicePart}
+                >
                   {service.number}
-                </span>
-                <span className="ae-service-row-copy">
+                </motion.span>
+                <motion.span className="ae-service-row-copy" variants={servicePart}>
                   <strong>{service.compactTitle ?? service.title}</strong>
                   {service.compactTitle ? (
                     <span className="sr-only">{service.title}</span>
                   ) : null}
                   <span>{service.compactDescription}</span>
-                </span>
-                <Icon name="arrow" className="ae-service-row-arrow" />
-              </a>
+                </motion.span>
+                <motion.span variants={servicePart} aria-hidden="true">
+                  <Icon name="arrow" className="ae-service-row-arrow" />
+                </motion.span>
+              </motion.a>
             </RevealItem>
           ))}
         </RevealGroup>

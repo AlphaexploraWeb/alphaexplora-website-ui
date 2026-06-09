@@ -10,7 +10,7 @@ export function WhyChooseSection({ benefits }: WhyChooseSectionProps) {
   return (
     <section id="why-partner" className="ae-section border-b border-white/10 py-12 sm:py-14">
       <div className="ae-container grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-        <Reveal>
+        <Reveal variant="fade-left">
           <div>
             <p className="text-sm font-semibold uppercase text-accent">
               Why Partner With Us
@@ -29,9 +29,9 @@ export function WhyChooseSection({ benefits }: WhyChooseSectionProps) {
           </div>
         </Reveal>
 
-        <RevealGroup className="ae-glass grid gap-0 overflow-hidden rounded-lg sm:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup className="ae-glass grid gap-0 overflow-hidden rounded-lg sm:grid-cols-2 lg:grid-cols-4" delayChildren={0.1}>
           {benefits.map((benefit) => (
-            <RevealItem key={benefit.title} y={18}>
+            <RevealItem key={benefit.title} variant="scale-in">
               <article className="ae-value-item group h-full border-white/10 px-5 py-8 text-center sm:border-l">
                 <div className="mx-auto flex size-14 items-center justify-center rounded-lg text-accent transition-transform duration-200 group-hover:-translate-y-1">
                   <Icon name={benefit.icon} className="size-10" />

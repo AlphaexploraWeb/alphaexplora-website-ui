@@ -56,7 +56,7 @@ export function ClientsSection({ clients }: ClientsSectionProps) {
           </div>
         </Reveal>
 
-        <Reveal delay={0.08} y={18}>
+        <Reveal delay={0.08} variant="line-sweep">
           <div
             className="ae-partner-marquee mt-10 rounded-lg"
             aria-label="Client and technology ecosystem areas"

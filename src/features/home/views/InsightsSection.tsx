@@ -11,7 +11,7 @@ export function InsightsSection({ insights }: InsightsSectionProps) {
     <section id="insights" className="ae-section border-b border-white/10 py-14 sm:py-16">
       <span id="case-studies" className="absolute -top-28" aria-hidden="true" />
       <div className="ae-container">
-        <Reveal>
+        <Reveal variant="fade-up">
           <div className="mb-9 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div className="max-w-2xl">
               <p className="text-sm font-semibold uppercase text-accent">
@@ -30,9 +30,9 @@ export function InsightsSection({ insights }: InsightsSectionProps) {
           </div>
         </Reveal>
 
-        <RevealGroup className="grid gap-5 lg:grid-cols-3">
+        <RevealGroup className="grid gap-5 lg:grid-cols-3" delayChildren={0.1}>
           {insights.map((insight) => (
-            <RevealItem key={insight.title}>
+            <RevealItem key={insight.title} variant="scale-in">
               <a
                 href={`/insights/${insight.slug}`}
                 className="ae-glass ae-card-hover group flex min-h-[336px] flex-col overflow-hidden rounded-lg p-0"

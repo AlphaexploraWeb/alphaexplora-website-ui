@@ -15,7 +15,7 @@ export default function ProjectsPage() {
               Projects
             </p>
             <h1 className="ae-balanced mt-5 max-w-4xl font-display text-3xl font-semibold leading-tight text-foreground sm:text-6xl">
-              Case studies from launched digital work.
+              Launched digital work built with Alphaexplora.
             </h1>
             <p className="ae-pretty mt-6 max-w-2xl text-base leading-8 text-muted sm:text-lg">
               Explore representative websites and platform work across
@@ -87,7 +87,7 @@ export default function ProjectsPage() {
                   ))}
                 </div>
                 <span className="mt-auto inline-flex min-h-10 items-center gap-2 pt-6 text-sm font-semibold text-foreground">
-                  View Case Study
+                  View Project
                   <Icon
                     name="arrow"
                     className="size-4 text-accent transition-transform duration-200 group-hover:translate-x-1"

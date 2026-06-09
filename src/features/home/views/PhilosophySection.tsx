@@ -5,7 +5,7 @@ export function PhilosophySection() {
   return (
     <section id="about" className="ae-section border-b border-white/10 py-7 sm:py-9">
       <div className="ae-container">
-        <Reveal>
+        <Reveal variant="scale-in">
           <div className="ae-glass ae-philosophy-card grid gap-10 rounded-lg p-7 sm:p-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold uppercase text-accent">

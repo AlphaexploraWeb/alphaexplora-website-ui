@@ -1,17 +1,12 @@
 import { useRef } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { useReducedMotion } from "framer-motion"
 import type { Group } from "three"
 
-interface RotatingMarkProps {
-  reduceMotion: boolean
-}
-
-function RotatingMark({ reduceMotion }: RotatingMarkProps) {
+function RotatingMark() {
   const groupRef = useRef<Group>(null)
 
   useFrame((_, delta) => {
-    if (!groupRef.current || reduceMotion) return
+    if (!groupRef.current) return
     groupRef.current.rotation.y += delta * 0.42
     groupRef.current.rotation.x = -0.14
   })
@@ -77,8 +72,6 @@ function RotatingMark({ reduceMotion }: RotatingMarkProps) {
 }
 
 export function RotatingLogoHero() {
-  const reduceMotion = Boolean(useReducedMotion())
-
   return (
     <div
       aria-hidden="true"
@@ -110,7 +103,7 @@ export function RotatingLogoHero() {
         <directionalLight color="#F4F7FB" intensity={1.35} position={[2, 4, 5]} />
         <pointLight color="#00C2FF" intensity={22} position={[0, 0, 3]} />
         <pointLight color="#0B5CFF" intensity={18} position={[-3, -2, 2]} />
-        <RotatingMark reduceMotion={reduceMotion} />
+        <RotatingMark />
       </Canvas>
 
       <div className="absolute inset-x-6 bottom-6 z-20 grid gap-3 sm:grid-cols-3">

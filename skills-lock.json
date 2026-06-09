@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "css-animations": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/css-animations/SKILL.md",
+      "computedHash": "df468749b06a8ec7369cfea69bf71bf65e46cfc376e837e439e26f4230852c6b"
+    },
+    "gsap-framer-scroll-animation": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/gsap-framer-scroll-animation/SKILL.md",
+      "computedHash": "e6a4caf23b818ffc5185d51339e941ca783944b6693da877fc1206693b2dff66"
+    },
+    "high-end-visual-design": {
+      "source": "leonxlnx/taste-skill",
+      "sourceType": "github",
+      "skillPath": "skills/soft-skill/SKILL.md",
+      "computedHash": "f730e4132775f13eea19e3dc39afc6bb453cfc0498872b127ad8f0d47cfd802d"
+    }
+  }
+}
