@@ -62,7 +62,7 @@ export function EnterpriseProofSection({
     <section
       ref={sectionRef}
       id="enterprise-proof"
-      className="ae-section ae-proof-section border-b border-white/10 py-12 sm:py-14"
+      className="ae-section ae-proof-section border-b border-white/10 py-24 sm:py-28 lg:py-32"
       aria-labelledby="enterprise-proof-heading"
     >
       <div className="ae-container">
@@ -93,7 +93,7 @@ export function EnterpriseProofSection({
             {trustSignals.map((signal) => (
               <RevealItem key={signal.title} variant="scale-in">
                 <motion.article
-                  className="ae-proof-card ae-card-hover h-full rounded-lg p-5"
+                  className="ae-proof-card ae-card-hover h-full p-5"
                   variants={proofCard}
                   style={{ y: signalY }}
                 >

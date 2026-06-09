@@ -20,7 +20,7 @@ export function ServicesSection({ services }: ServicesSectionProps) {
   }
 
   return (
-    <section id="services" className="ae-section ae-services-split-section border-b border-white/10 py-14 sm:py-16">
+    <section id="services" className="ae-section ae-services-split-section border-b border-white/10 py-24 sm:py-28 lg:py-32">
       <div className="ae-container ae-services-split">
         <Reveal className="ae-services-intro" variant="fade-left">
           <div>
@@ -38,13 +38,12 @@ export function ServicesSection({ services }: ServicesSectionProps) {
             </div>
             <a
               href="/services"
-              className="ae-button-secondary group mt-9 inline-flex min-h-14 w-fit items-center justify-center gap-7 rounded-md px-7 py-4 text-sm font-semibold active:scale-[0.96]"
+              className="ae-button-secondary group mt-9 inline-flex min-h-14 w-fit items-center justify-center gap-5 px-7 py-4 text-sm font-semibold active:scale-[0.98]"
             >
               View All Services
-              <Icon
-                name="arrow"
-                className="size-5 text-accent transition-transform duration-200 group-hover:translate-x-1"
-              />
+              <span className="ae-button-icon">
+                <Icon name="arrow" />
+              </span>
             </a>
           </div>
         </Reveal>

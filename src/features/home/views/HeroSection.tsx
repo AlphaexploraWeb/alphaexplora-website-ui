@@ -98,17 +98,16 @@ export function HeroSection({ highlights, journey }: HeroSectionProps) {
             <motion.div className="mt-9 flex flex-col gap-3 sm:flex-row" variants={heroItem}>
               <a
                 href="/#contact"
-                className="ae-button-primary group inline-flex min-h-12 items-center justify-center gap-3 rounded-md px-6 py-3 text-center text-sm font-semibold active:scale-[0.96]"
+                className="ae-button-primary group inline-flex min-h-12 items-center justify-center gap-3 px-6 py-3 text-center text-sm font-semibold active:scale-[0.98]"
               >
                 Get Started
-                <Icon
-                  name="arrow"
-                  className="size-4 transition-transform duration-200 group-hover:translate-x-1"
-                />
+                <span className="ae-button-icon">
+                  <Icon name="arrow" />
+                </span>
               </a>
               <a
                 href="/services"
-                className="ae-button-secondary inline-flex min-h-12 items-center justify-center rounded-md px-6 py-3 text-center text-sm font-semibold active:scale-[0.96]"
+                className="ae-button-secondary inline-flex min-h-12 items-center justify-center px-6 py-3 text-center text-sm font-semibold active:scale-[0.98]"
               >
                 Explore Services
               </a>

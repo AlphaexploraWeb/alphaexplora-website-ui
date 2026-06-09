@@ -4,7 +4,7 @@
 
 @theme {
   --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   --color-background: #050B1F;
   --color-background-deep: #07111F;
   --color-surface: #0B1733;
@@ -281,11 +281,15 @@ main,
 
 .ae-glass {
   border: 1px solid rgba(255, 255, 255, 0.095);
+  border-radius: 24px;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.030), rgba(255, 255, 255, 0.010)),
     rgba(8, 16, 34, 0.88);
-  box-shadow: 0 24px 88px rgba(0, 0, 0, 0.50);
-  backdrop-filter: blur(18px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    inset 0 -1px 0 rgba(0, 194, 255, 0.045),
+    0 26px 92px rgba(0, 0, 0, 0.48),
+    0 0 0 1px rgba(0, 194, 255, 0.026);
 }
 
 .ae-card-hover {
@@ -311,16 +315,17 @@ main,
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(0, 194, 255, 0.34);
+  border-radius: 999px;
   background: linear-gradient(135deg, #0B5CFF, #005DFF);
   box-shadow:
     0 14px 34px rgba(11, 92, 255, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
   color: #F4F7FB;
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    box-shadow 180ms ease,
-    background 180ms ease;
+    transform 260ms var(--ae-ease-soft),
+    border-color 260ms var(--ae-ease-soft),
+    box-shadow 260ms var(--ae-ease-soft),
+    background 260ms var(--ae-ease-soft);
 }
 
 .ae-button-primary::before {
@@ -359,18 +364,23 @@ main,
 
 .ae-button-primary:active,
 .ae-button-secondary:active {
-  transform: scale(0.96);
+  transform: scale(0.98);
 }
 
 .ae-button-secondary {
   border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.045);
   color: #F4F7FB;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 32px rgba(0, 0, 0, 0.18);
   transition:
-    transform 180ms ease,
-    border-color 180ms ease,
-    background-color 180ms ease,
-    color 180ms ease;
+    transform 260ms var(--ae-ease-soft),
+    border-color 260ms var(--ae-ease-soft),
+    background-color 260ms var(--ae-ease-soft),
+    color 260ms var(--ae-ease-soft),
+    box-shadow 260ms var(--ae-ease-soft);
 }
 
 .ae-button-secondary:hover,
@@ -379,6 +389,43 @@ main,
   border-color: rgba(0, 194, 255, 0.52);
   background: rgba(0, 194, 255, 0.09);
   color: #FFFFFF;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 18px 44px rgba(11, 92, 255, 0.17);
+}
+
+.ae-button-icon {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 22%, rgba(255, 255, 255, 0.22), transparent 36%),
+    rgba(255, 255, 255, 0.11);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 8px 20px rgba(0, 0, 0, 0.16);
+  transition:
+    transform 360ms var(--ae-ease-soft),
+    background-color 260ms var(--ae-ease-soft),
+    border-color 260ms var(--ae-ease-soft);
+}
+
+.ae-button-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ae-button-primary:hover .ae-button-icon,
+.ae-button-primary:focus-visible .ae-button-icon,
+.ae-button-secondary:hover .ae-button-icon,
+.ae-button-secondary:focus-visible .ae-button-icon {
+  border-color: rgba(0, 194, 255, 0.48);
+  background-color: rgba(255, 255, 255, 0.16);
+  transform: translate(4px, -1px) scale(1.05);
 }
 
 .ae-premium-header {
@@ -446,6 +493,18 @@ main,
 
 .ae-header-hidden::after {
   opacity: 0.34;
+}
+
+.ae-premium-header .ae-button-primary,
+.ae-premium-header .ae-button-secondary,
+.ae-premium-header .ae-nav-control,
+.ae-premium-header .ae-nav-link {
+  border-radius: 8px;
+}
+
+.ae-mobile-mega .ae-button-primary,
+.ae-mobile-mega .ae-nav-control {
+  border-radius: 8px;
 }
 
 .ae-header-logo-row {
@@ -951,7 +1010,15 @@ main,
 .ae-field-shell {
   position: relative;
   overflow: hidden;
-  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 18px;
+  padding: 4px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.014)),
+    rgba(255, 255, 255, 0.025);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    0 14px 36px rgba(0, 0, 0, 0.16);
 }
 
 .ae-field-shell::after {
@@ -978,18 +1045,19 @@ main,
 .ae-field {
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.040), rgba(255, 255, 255, 0.010)),
-    rgba(5, 11, 31, 0.70);
+    rgba(3, 8, 21, 0.84);
   color: #F4F7FB;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.055),
     0 10px 24px rgba(0, 0, 0, 0.12);
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    background-color 160ms ease,
-    transform 160ms ease;
+    border-color 260ms var(--ae-ease-soft),
+    box-shadow 260ms var(--ae-ease-soft),
+    background-color 260ms var(--ae-ease-soft),
+    transform 260ms var(--ae-ease-soft);
 }
 
 .ae-field::placeholder {
@@ -998,10 +1066,11 @@ main,
 
 .ae-field:focus {
   border-color: rgba(0, 194, 255, 0.56);
-  background: rgba(5, 11, 31, 0.78);
+  background: rgba(5, 11, 31, 0.92);
   box-shadow:
     0 0 0 3px rgba(0, 194, 255, 0.12),
-    0 14px 34px rgba(0, 0, 0, 0.20);
+    0 18px 46px rgba(11, 92, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
   outline: none;
   transform: translateY(-1px);
 }
@@ -1135,7 +1204,6 @@ main,
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
     0 22px 70px rgba(0, 0, 0, 0.26);
-  backdrop-filter: blur(16px);
 }
 
 .ae-journey-band::before {
@@ -1243,6 +1311,7 @@ main,
 .ae-proof-card,
 .ae-capability-band {
   position: relative;
+  border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.09);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.036), rgba(255, 255, 255, 0.010)),
@@ -1250,7 +1319,6 @@ main,
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 18px 54px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(16px);
 }
 
 .ae-proof-card {
@@ -1285,7 +1353,7 @@ main,
   aspect-ratio: 1;
   place-items: center;
   border: 1px solid rgba(0, 194, 255, 0.26);
-  border-radius: 8px;
+  border-radius: 14px;
   background:
     linear-gradient(135deg, rgba(11, 92, 255, 0.18), rgba(0, 194, 255, 0.055)),
     rgba(3, 8, 21, 0.52);
@@ -1651,7 +1719,7 @@ main,
   width: min(100%, 470px);
   min-height: 360px;
   border: 1px solid rgba(0, 194, 255, 0.24);
-  border-radius: 8px;
+  border-radius: 28px;
   padding: 24px;
   background:
     linear-gradient(135deg, rgba(10, 25, 56, 0.92), rgba(3, 8, 21, 0.96)),
@@ -1760,6 +1828,7 @@ main,
 .ae-command-tile {
   position: relative;
   overflow: hidden;
+  border-radius: 18px;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.07),
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
@@ -1842,7 +1911,7 @@ main,
   align-items: center;
   justify-content: space-between;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 16px;
   background:
     linear-gradient(90deg, rgba(244, 247, 251, 0.06), rgba(0, 194, 255, 0.045)),
     rgba(244, 247, 251, 0.045);
@@ -2222,6 +2291,15 @@ main,
 .ae-services-list {
   display: grid;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 26px;
+  padding: 6px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.012)),
+    rgba(255, 255, 255, 0.026);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    0 30px 96px rgba(0, 0, 0, 0.34);
 }
 
 .ae-service-row {
@@ -2231,8 +2309,12 @@ main,
   align-items: center;
   gap: 28px;
   min-height: 124px;
-  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid transparent;
+  border-top-color: rgba(255, 255, 255, 0.10);
   padding: 26px 28px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0.006)),
+    rgba(3, 8, 21, 0.62);
   color: inherit;
   text-decoration: none;
   transition:
@@ -2243,7 +2325,7 @@ main,
 }
 
 .ae-service-row:last-child {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
 }
 
 .ae-service-row::before {
@@ -2286,9 +2368,13 @@ main,
 .ae-service-row:hover,
 .ae-service-row:focus-visible {
   border-color: rgba(0, 194, 255, 0.28);
-  background: rgba(11, 92, 255, 0.09);
+  background:
+    radial-gradient(circle at 16% 50%, rgba(0, 194, 255, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(11, 92, 255, 0.17), rgba(255, 255, 255, 0.024)),
+    rgba(11, 92, 255, 0.09);
   box-shadow:
     inset 1px 0 0 rgba(0, 194, 255, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
     0 24px 80px rgba(0, 0, 0, 0.26);
 }
 
@@ -2423,8 +2509,11 @@ main,
   gap: 1px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
+  border-radius: 20px;
   background: rgba(255, 255, 255, 0.045);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 48px rgba(0, 0, 0, 0.22);
 }
 
 .ae-project-stat {
@@ -2456,6 +2545,7 @@ main,
   flex-direction: column;
   justify-content: space-between;
   scroll-snap-align: start;
+  border-radius: 26px;
   transition:
     transform 280ms var(--ae-ease-smooth),
     border-color 280ms var(--ae-ease-smooth),
@@ -2494,7 +2584,7 @@ main,
     radial-gradient(circle at 18% 18%, rgba(0, 194, 255, 0.044), transparent 26%),
     radial-gradient(circle at 86% 14%, rgba(11, 92, 255, 0.050), transparent 28%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.016), transparent 52%);
-  opacity: 0.48;
+  opacity: 0.56;
 }
 
 .ae-project-card > * {
@@ -2553,13 +2643,14 @@ main,
   margin-bottom: 18px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 7px;
+  border-radius: 18px;
   background:
     radial-gradient(circle at 24% 18%, rgba(0, 194, 255, 0.030), transparent 30%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
     #030815;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    inset 0 0 0 6px rgba(255, 255, 255, 0.018),
     0 18px 44px rgba(0, 0, 0, 0.24);
   transition:
     aspect-ratio 520ms var(--ae-ease-soft),
@@ -2596,6 +2687,7 @@ main,
 }
 
 .ae-project-status {
+  border-radius: 999px;
   transition:
     border-color 240ms var(--ae-ease-smooth),
     background-color 240ms var(--ae-ease-smooth),
@@ -2689,7 +2781,11 @@ main,
 
 .ae-project-link {
   border: 1px solid rgba(0, 194, 255, 0.22);
+  border-radius: 999px;
   background: rgba(0, 194, 255, 0.075);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 28px rgba(0, 0, 0, 0.18);
   transition:
     background-color 220ms var(--ae-ease-smooth),
     border-color 220ms var(--ae-ease-smooth),
@@ -2731,7 +2827,98 @@ main,
   overflow: hidden;
 }
 
+.ae-contact-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 24%, rgba(0, 194, 255, 0.035), transparent 34%),
+    radial-gradient(circle at 86% 12%, rgba(11, 92, 255, 0.060), transparent 32%),
+    linear-gradient(180deg, rgba(3, 8, 21, 0.12), rgba(3, 8, 21, 0.34));
+}
+
+.ae-contact-intel {
+  position: relative;
+  max-width: 560px;
+}
+
+.ae-contact-details {
+  max-width: 540px;
+}
+
+.ae-contact-detail {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  padding: 15px 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.040), rgba(255, 255, 255, 0.010)),
+    rgba(3, 8, 21, 0.64);
+  color: inherit;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 16px 42px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 260ms var(--ae-ease-soft),
+    border-color 260ms var(--ae-ease-soft),
+    background-color 260ms var(--ae-ease-soft),
+    box-shadow 260ms var(--ae-ease-soft);
+}
+
+.ae-contact-detail::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0, 194, 255, 0.09), transparent 46%),
+    radial-gradient(circle at 92% 26%, rgba(11, 92, 255, 0.13), transparent 28%);
+  opacity: 0;
+  transition: opacity 260ms var(--ae-ease-soft);
+}
+
+.ae-contact-detail > * {
+  position: relative;
+  z-index: 1;
+}
+
+.ae-contact-detail span {
+  color: rgba(0, 194, 255, 0.78);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ae-contact-detail strong {
+  color: rgba(244, 247, 251, 0.94);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+a.ae-contact-detail:hover,
+a.ae-contact-detail:focus-visible {
+  border-color: rgba(0, 194, 255, 0.36);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    0 20px 56px rgba(11, 92, 255, 0.13);
+  transform: translateY(-2px);
+}
+
+a.ae-contact-detail:hover::before,
+a.ae-contact-detail:focus-visible::before {
+  opacity: 1;
+}
+
 .ae-contact-form {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  padding: clamp(22px, 3vw, 30px);
   background:
     radial-gradient(circle at 18% 16%, rgba(0, 194, 255, 0.020), transparent 34%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.030), rgba(255, 255, 255, 0.009)),
@@ -2739,6 +2926,35 @@ main,
   box-shadow:
     0 30px 96px rgba(0, 0, 0, 0.52),
     inset 0 1px 0 rgba(255, 255, 255, 0.11);
+}
+
+.ae-contact-console-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 14px 16px;
+  background:
+    linear-gradient(135deg, rgba(0, 194, 255, 0.060), rgba(255, 255, 255, 0.012)),
+    rgba(3, 8, 21, 0.68);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 14px 38px rgba(0, 0, 0, 0.18);
+}
+
+.ae-contact-console-header span {
+  color: rgba(0, 194, 255, 0.82);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.ae-contact-console-header strong {
+  color: rgba(244, 247, 251, 0.88);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .ae-footer::after {

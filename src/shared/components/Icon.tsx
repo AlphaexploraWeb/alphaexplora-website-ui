@@ -70,7 +70,7 @@ export function Icon({ name, className }: IconProps) {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="1.8"
+      strokeWidth="1.45"
       viewBox="0 0 24 24"
     >
       {paths[name].map((path) => (

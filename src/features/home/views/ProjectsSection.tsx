@@ -48,7 +48,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
   }
 
   return (
-    <section id="projects" className="ae-section border-b border-white/10 py-14 sm:py-16">
+    <section id="projects" className="ae-section border-b border-white/10 py-24 sm:py-28 lg:py-32">
       <div className="ae-container">
         <Reveal variant="fade-up">
           <div className="ae-project-header mb-11">
@@ -97,7 +97,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                     type="button"
                     onClick={() => scroll("left")}
                     disabled={!canScrollLeft}
-                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
+                    className="ae-button-secondary inline-flex size-11 items-center justify-center p-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-30"
                     aria-label="Scroll left"
                   >
                     <Icon name="arrow" className="size-5 rotate-180" />
@@ -106,7 +106,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                     type="button"
                     onClick={() => scroll("right")}
                     disabled={!canScrollRight}
-                    className="ae-button-secondary inline-flex size-11 items-center justify-center rounded-full p-0 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30"
+                    className="ae-button-secondary inline-flex size-11 items-center justify-center p-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-30"
                     aria-label="Scroll right"
                   >
                     <Icon name="arrow" className="size-5" />
@@ -115,7 +115,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
 
                 <a
                   href="/projects"
-                  className="ae-button-secondary inline-flex min-h-11 items-center justify-center rounded-md px-5 py-3 text-sm font-semibold active:scale-[0.96]"
+                  className="ae-button-secondary inline-flex min-h-11 items-center justify-center px-5 py-3 text-sm font-semibold active:scale-[0.98]"
                 >
                   View All Projects
                 </a>
@@ -150,7 +150,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                     role="button"
                     tabIndex={0}
                     aria-expanded={isActive}
-                    className="ae-project-card ae-glass group rounded-lg p-4 sm:p-5"
+                    className="ae-project-card ae-glass group p-4 sm:p-5"
                     onPointerEnter={(event) => {
                       if (event.pointerType !== "touch") {
                         setActiveProjectSlug(project.slug)
@@ -244,7 +244,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.96]"
+                          className="ae-project-link mt-6 inline-flex min-h-10 items-center gap-2 px-3 py-2 text-sm font-semibold text-foreground active:scale-[0.98]"
                           onClick={(event) => event.stopPropagation()}
                         >
                           Open Live Website

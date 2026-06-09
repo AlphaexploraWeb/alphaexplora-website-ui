@@ -8,7 +8,7 @@ interface InsightsSectionProps {
 
 export function InsightsSection({ insights }: InsightsSectionProps) {
   return (
-    <section id="insights" className="ae-section border-b border-white/10 py-14 sm:py-16">
+    <section id="insights" className="ae-section border-b border-white/10 py-24 sm:py-28 lg:py-32">
       <span id="case-studies" className="absolute -top-28" aria-hidden="true" />
       <div className="ae-container">
         <Reveal variant="fade-up">
@@ -23,7 +23,7 @@ export function InsightsSection({ insights }: InsightsSectionProps) {
             </div>
             <a
               href="/insights"
-              className="ae-button-secondary inline-flex min-h-11 items-center justify-center rounded-md px-5 py-3 text-sm font-semibold active:scale-[0.96]"
+              className="ae-button-secondary inline-flex min-h-11 items-center justify-center px-5 py-3 text-sm font-semibold active:scale-[0.98]"
             >
               View All Insights
             </a>
@@ -35,7 +35,7 @@ export function InsightsSection({ insights }: InsightsSectionProps) {
             <RevealItem key={insight.title} variant="scale-in">
               <a
                 href={`/insights/${insight.slug}`}
-                className="ae-glass ae-card-hover group flex min-h-[336px] flex-col overflow-hidden rounded-lg p-0"
+                className="ae-glass ae-card-hover group flex min-h-[336px] flex-col overflow-hidden p-0"
               >
                 <div className={`ae-insight-visual ae-insight-${insight.visual}`} />
                 <div className="flex flex-1 flex-col p-5">
