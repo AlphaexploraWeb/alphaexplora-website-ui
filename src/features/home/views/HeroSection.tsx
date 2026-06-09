@@ -1,16 +1,21 @@
 import { useRef } from "react"
 import { motion, useScroll, useSpring, useTransform } from "framer-motion"
 import { Icon } from "../../../shared/components/Icon"
-import type { DeliveryStep, HeroHighlight } from "../../../shared/models/homepage"
+import type { HeroHighlight, IconName } from "../../../shared/models/homepage"
 import { CommandCenterHero } from "./CommandCenterHero"
 import { premiumEase } from "./motionTokens"
 
 interface HeroSectionProps {
   highlights: HeroHighlight[]
-  journey: DeliveryStep[]
+  projectCount: number
+  projectCategoryCount: number
 }
 
-export function HeroSection({ highlights, journey }: HeroSectionProps) {
+export function HeroSection({
+  highlights,
+  projectCount,
+  projectCategoryCount,
+}: HeroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -46,13 +51,68 @@ export function HeroSection({ highlights, journey }: HeroSectionProps) {
       transition: { duration: 0.72, ease: premiumEase },
     },
   }
+  const proofStats: Array<{
+    icon: IconName
+    value: string
+    label: string
+    detail: string
+  }> = [
+    {
+      icon: "cloud",
+      value: `${projectCount}`,
+      label: "Live Projects",
+      detail: "Launched digital work",
+    },
+    {
+      icon: "spark",
+      value: `${projectCategoryCount}`,
+      label: "Project Categories",
+      detail: "Across real sectors",
+    },
+    {
+      icon: "support",
+      value: "24/7",
+      label: "Support Ready",
+      detail: "Managed reliability",
+    },
+    {
+      icon: "shield",
+      value: "100%",
+      label: "Delivered",
+      detail: "Built with trust",
+    },
+  ]
 
   return (
     <section
       ref={sectionRef}
       id="top"
-      className="ae-section ae-hero-wave ae-hero-section overflow-hidden border-b border-white/10 pt-40 pb-10 sm:pt-32 lg:pb-12"
+      className="ae-section ae-hero-wave ae-hero-section overflow-hidden border-b border-white/10 pt-40 pb-12 sm:pt-32 lg:pb-14"
     >
+      <div className="ae-hero-topology" aria-hidden="true">
+        <svg viewBox="0 0 640 520" role="img">
+          <path d="M82 174 205 88 312 136 462 68 548 172" />
+          <path d="M205 88 238 272 382 228 462 68" />
+          <path d="M82 174 238 272 148 394 332 430 548 172" />
+          <path d="M312 136 382 228 332 430 506 370" />
+          <g>
+            <circle cx="82" cy="174" r="4" />
+            <circle cx="205" cy="88" r="5" />
+            <circle cx="312" cy="136" r="3.5" />
+            <circle cx="462" cy="68" r="4" />
+            <circle cx="548" cy="172" r="4" />
+            <circle cx="238" cy="272" r="5" />
+            <circle cx="382" cy="228" r="4" />
+            <circle cx="148" cy="394" r="3.5" />
+            <circle cx="332" cy="430" r="4" />
+            <circle cx="506" cy="370" r="4" />
+          </g>
+          <text x="246" y="112">AI</text>
+          <text x="470" y="112">CLOUD</text>
+          <text x="390" y="278">DATA</text>
+          <text x="428" y="414">SECURITY</text>
+        </svg>
+      </div>
       <div className="ae-hero-coordinate ae-hero-coordinate-left" aria-hidden="true">
         AE / CORE-01
       </div>
@@ -143,21 +203,18 @@ export function HeroSection({ highlights, journey }: HeroSectionProps) {
         </motion.div>
 
         <motion.div
-          className="ae-journey-band mt-9 grid gap-1 overflow-hidden rounded-lg lg:grid-cols-[auto_repeat(4,minmax(0,1fr))]"
+          className="ae-hero-proof-band mt-10 grid overflow-hidden rounded-lg sm:grid-cols-2 lg:grid-cols-4"
           initial={{ opacity: 0, y: 18, clipPath: "inset(0 16% 0 0)" }}
           animate={{ opacity: 1, y: 0, clipPath: "inset(0 0% 0 0)" }}
           transition={{ duration: 0.66, delay: 0.74, ease: premiumEase }}
         >
-          <div className="ae-journey-label">
-            <span>Delivery Path</span>
-            <strong>Consult to Scale</strong>
-          </div>
-          {journey.map((item) => (
-            <article key={item.title} className="ae-journey-step">
-              <span className="tabular-nums">{item.step}</span>
+          {proofStats.map((stat) => (
+            <article key={stat.label} className="ae-hero-proof-stat">
+              <Icon name={stat.icon} className="size-8" />
               <div>
-                <h2>{item.title}</h2>
-                <p>{item.description}</p>
+                <strong className="tabular-nums">{stat.value}</strong>
+                <span>{stat.label}</span>
+                <p>{stat.detail}</p>
               </div>
             </article>
           ))}

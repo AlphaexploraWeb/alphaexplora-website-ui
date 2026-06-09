@@ -1,42 +1,67 @@
 import { Icon } from "../../../shared/components/Icon"
 import { Reveal } from "./ScrollReveal"
 
+const systemNodes = [
+  { label: "Strategy", icon: "target" as const, className: "ae-system-node-strategy" },
+  { label: "Applications", icon: "code" as const, className: "ae-system-node-apps" },
+  { label: "Data", icon: "analytics" as const, className: "ae-system-node-data" },
+  { label: "Security", icon: "shield" as const, className: "ae-system-node-security" },
+  { label: "Cloud", icon: "cloud" as const, className: "ae-system-node-cloud" },
+  { label: "AI", icon: "ai" as const, className: "ae-system-node-ai" },
+]
+
 export function PhilosophySection() {
   return (
-    <section id="about" className="ae-section border-b border-white/10 py-7 sm:py-9">
+    <section
+      id="about"
+      className="ae-section ae-build-section border-b border-white/10 py-20 sm:py-24 lg:py-28"
+    >
       <div className="ae-container">
         <Reveal variant="scale-in">
-          <div className="ae-glass ae-philosophy-card grid gap-10 rounded-lg p-7 sm:p-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div>
+          <div className="ae-build-band">
+            <span className="ae-build-word" aria-hidden="true">
+              BUILD
+            </span>
+
+            <div className="ae-build-copy">
               <p className="text-sm font-semibold uppercase text-accent">
                 Our Philosophy
               </p>
-              <blockquote className="ae-balanced mt-5 max-w-2xl font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
-                Technology should empower, not exclude. Because IT is a Right!
+              <h2 className="ae-balanced mt-5 max-w-md font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+                We build systems that drive real business outcomes.
+              </h2>
+              <blockquote className="ae-pretty mt-6 max-w-lg text-lg leading-8 text-foreground/88">
+                "Technology should empower, not exclude. Because IT is a Right!"
               </blockquote>
-              <p className="ae-pretty mt-6 max-w-xl text-base leading-8 text-muted">
-                We believe technology should drive impact, not complexity. Our
-                mission is to make modern, secure, and scalable technology
-                accessible to every business.
+            </div>
+
+            <div className="ae-build-note">
+              <p className="ae-pretty text-sm leading-7 text-muted">
+                From modern applications to intelligent platforms, we connect
+                strategy, software, data, security, cloud, AI, and operations
+                into systems that are secure, scalable, and built to last.
               </p>
               <a
                 href="/about"
-                className="mt-6 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-accent transition-colors duration-200 hover:text-foreground"
+                className="ae-inline-arrow mt-6"
               >
-                Learn more about us
+                See our approach
                 <Icon name="arrow" className="size-4" />
               </a>
             </div>
 
-            <div className="ae-iso-stage relative min-h-[300px] overflow-hidden rounded-lg">
-              <div className="ae-iso-grid" />
-              <div className="ae-iso-orbit ae-iso-orbit-one" />
-              <div className="ae-iso-orbit ae-iso-orbit-two" />
-              {["main", "left", "right", "front"].map((cube) => (
-                <div key={cube} className={`ae-cube ae-cube-${cube}`}>
-                  <span className="ae-cube-face ae-cube-face-top" />
-                  <span className="ae-cube-face ae-cube-face-left" />
-                  <span className="ae-cube-face ae-cube-face-right" />
+            <div className="ae-system-map" aria-hidden="true">
+              <svg viewBox="0 0 760 330">
+                <path d="M86 168 H250 L382 72 H558" />
+                <path d="M250 168 H404 L558 262" />
+                <path d="M250 168 L392 168 L520 168" />
+                <path d="M392 168 L382 72" />
+                <path d="M392 168 L558 262" />
+              </svg>
+              {systemNodes.map((node) => (
+                <div key={node.label} className={`ae-system-node ${node.className}`}>
+                  <Icon name={node.icon} className="size-5" />
+                  <span>{node.label}</span>
                 </div>
               ))}
             </div>

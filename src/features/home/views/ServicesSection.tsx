@@ -9,80 +9,62 @@ interface ServicesSectionProps {
 }
 
 export function ServicesSection({ services }: ServicesSectionProps) {
-  const servicePart = {
-    hidden: { opacity: 0, y: 14, filter: "blur(5px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { duration: 0.42, ease: premiumEase },
-    },
-  }
-
   return (
-    <section id="services" className="ae-section ae-services-split-section border-b border-white/10 py-24 sm:py-28 lg:py-32">
-      <div className="ae-container ae-services-split">
-        <Reveal className="ae-services-intro" variant="fade-left">
-          <div>
+    <section
+      id="services"
+      className="ae-section ae-services-reference-section border-b border-white/10 py-20 sm:py-24 lg:py-28"
+    >
+      <div className="ae-container">
+        <Reveal variant="fade-up">
+          <div className="ae-section-heading-row">
             <div>
               <p className="text-sm font-semibold uppercase text-accent">
                 What We Do
               </p>
-              <h2 className="ae-balanced mt-5 font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl">
-                Enterprise technology services, structured for transformation.
+              <h2 className="ae-balanced mt-4 max-w-2xl font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl lg:text-5xl">
+                End-to-end technology services for every stage of{" "}
+                <span className="text-primary">transformation.</span>
               </h2>
-              <p className="ae-pretty mt-6 max-w-xl text-base leading-8 text-muted sm:text-lg">
-                From strategy to execution, we deliver measurable outcomes
-                across your technology journey.
-              </p>
             </div>
             <a
               href="/services"
-              className="ae-button-secondary group mt-9 inline-flex min-h-14 w-fit items-center justify-center gap-5 px-7 py-4 text-sm font-semibold active:scale-[0.98]"
+              className="ae-inline-arrow group"
             >
-              View All Services
-              <span className="ae-button-icon">
-                <Icon name="arrow" />
-              </span>
+              View all services
+              <Icon name="arrow" className="size-4" />
             </a>
           </div>
         </Reveal>
 
-        <RevealGroup className="ae-services-list" delayChildren={0.12} staggerChildren={0.07}>
+        <RevealGroup
+          className="ae-services-column-grid mt-12 grid gap-y-9 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6"
+          delayChildren={0.12}
+          staggerChildren={0.06}
+        >
           {services.map((service, index) => (
             <RevealItem key={service.title} variant="scale-in">
               <motion.a
                 href={`/services/${service.slug}`}
-                className={`ae-service-row group ${
-                  index === 2 ? "ae-service-row-active" : ""
-                }`}
+                className="ae-service-column group"
                 aria-label={`${service.number} ${service.title}`}
-                variants={{
-                  hidden: {},
-                  visible: {
-                    transition: {
-                      staggerChildren: 0.055,
-                      delayChildren: 0.04,
-                    },
-                  },
+                transition={{
+                  duration: 0.42,
+                  delay: index * 0.045,
+                  ease: premiumEase,
                 }}
               >
-                <motion.span
-                  className="ae-service-row-number tabular-nums"
-                  variants={servicePart}
-                >
-                  {service.number}
-                </motion.span>
-                <motion.span className="ae-service-row-copy" variants={servicePart}>
-                  <strong>{service.compactTitle ?? service.title}</strong>
-                  {service.compactTitle ? (
-                    <span className="sr-only">{service.title}</span>
-                  ) : null}
-                  <span>{service.compactDescription}</span>
-                </motion.span>
-                <motion.span variants={servicePart} aria-hidden="true">
-                  <Icon name="arrow" className="ae-service-row-arrow" />
-                </motion.span>
+                <span className="ae-service-column-icon">
+                  <Icon name={service.icon} className="size-7" />
+                </span>
+                <span className="ae-service-column-number tabular-nums">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <strong>{service.compactTitle ?? service.title}</strong>
+                {service.compactTitle ? (
+                  <span className="sr-only">{service.title}</span>
+                ) : null}
+                <small>{service.compactDescription}</small>
+                <Icon name="arrow" className="ae-service-column-arrow size-4" />
               </motion.a>
             </RevealItem>
           ))}

@@ -20,47 +20,48 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="ae-section ae-contact-section border-b border-white/10 py-24 sm:py-28 lg:py-32">
-      <div className="ae-container grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-        <Reveal variant="fade-left">
-          <div className="ae-contact-intel">
-            <p className="text-sm font-semibold uppercase text-accent">
-              Secure Contact Channel
-            </p>
-            <h2 className="ae-balanced mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
-              Let's build what's next, together.
-            </h2>
-            <p className="ae-pretty mt-5 max-w-md text-base leading-7 text-muted">
-              Connect with our experts and take the first step toward meaningful
-              transformation.
-            </p>
-            <div className="ae-contact-details mt-9 grid gap-3">
-              {contactDetails.map((detail) => {
-                const content = (
-                  <>
-                    <span>{detail.label}</span>
-                    <strong>{detail.value}</strong>
-                  </>
-                )
+    <section id="contact" className="ae-section ae-contact-section border-b border-white/10 py-20 sm:py-24 lg:py-28">
+      <div className="ae-container">
+        <div className="ae-contact-panel ae-glass grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+          <Reveal variant="fade-left">
+            <div className="ae-contact-intel">
+              <p className="text-sm font-semibold uppercase text-accent">
+                Let's Build Together
+              </p>
+              <h2 className="ae-balanced mt-4 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl lg:text-5xl">
+                Ready to build what's next, together?
+              </h2>
+              <p className="ae-pretty mt-5 max-w-md text-base leading-7 text-muted">
+                Tell us about the systems, software, data, AI, or digital growth
+                outcomes you need. We'll help shape the next step with clarity.
+              </p>
+              <div className="ae-contact-details mt-8">
+                {contactDetails.map((detail) => {
+                  const content = (
+                    <>
+                      <span>{detail.label}</span>
+                      <strong>{detail.value}</strong>
+                    </>
+                  )
 
-                return detail.href ? (
-                  <a key={detail.label} href={detail.href} className="ae-contact-detail">
-                    {content}
-                  </a>
-                ) : (
-                  <div key={detail.label} className="ae-contact-detail">
-                    {content}
-                  </div>
-                )
-              })}
+                  return detail.href ? (
+                    <a key={detail.label} href={detail.href} className="ae-contact-detail">
+                      {content}
+                    </a>
+                  ) : (
+                    <div key={detail.label} className="ae-contact-detail">
+                      {content}
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
 
-        <Reveal delay={0.08} variant="fade-right">
+          <Reveal delay={0.08} variant="fade-right">
           <form
             onSubmit={handleSubmit}
-            className="ae-glass ae-contact-form p-5 sm:p-6"
+            className="ae-contact-form p-5 sm:p-6"
             aria-label="Contact Alphaexplora"
           >
             <div className="ae-contact-console-header mb-5">
@@ -128,14 +129,15 @@ export function ContactSection() {
                 className="ae-button-primary group mt-5 inline-flex min-h-12 w-full items-center justify-center gap-3 px-6 py-3 text-sm font-semibold active:scale-[0.98] sm:w-auto"
                 type="submit"
               >
-                Send Message
+                Start a Conversation
                 <span className="ae-button-icon">
                   <Icon name="arrow" />
                 </span>
               </button>
             </motion.div>
           </form>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
     </section>
   )
