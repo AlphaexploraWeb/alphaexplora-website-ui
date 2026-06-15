@@ -123,9 +123,9 @@ graph LR
 
 The **data layer**. Defines _what the data looks like_ and _how to get it_.
 
-| File            | Role                                                                     |
-| --------------- | ------------------------------------------------------------------------ |
-| `types.ts`      | TypeScript interfaces (`Ministry`, etc.)                                 |
+| File | Role |
+|---|---|
+| `types.ts` | TypeScript interfaces (`Ministry`, etc.) |
 | `apiService.ts` | Async functions that fetch data (currently mock, swappable for real API) |
 
 ```typescript
@@ -140,16 +140,12 @@ export interface Ministry {
 
 ```typescript
 // shared/models/apiService.ts
-import type { Ministry } from "./types";
+import type { Ministry } from './types';
 
-const mockMinistries: Ministry[] = [
-  /* ... */
-];
+const mockMinistries: Ministry[] = [ /* ... */ ];
 
 export const fetchMinistries = async (): Promise<Ministry[]> => {
-  return new Promise((resolve) =>
-    setTimeout(() => resolve(mockMinistries), 800),
-  );
+  return new Promise((resolve) => setTimeout(() => resolve(mockMinistries), 800));
 };
 ```
 
@@ -161,16 +157,15 @@ export const fetchMinistries = async (): Promise<Ministry[]> => {
 ### 2. ViewModel — `features/<name>/viewModels/`
 
 The **logic bridge**. Custom React hooks (`use___ViewModel`) that:
-
 - Call the Model's API functions
 - Manage React state (`useState`, `useEffect`)
 - Expose a **clean return object** of state + actions to Views
 
 ```typescript
 // features/home/viewModels/useHomeViewModel.ts
-import { useState, useEffect } from "react";
-import type { Ministry } from "../../../shared/models/types";
-import { fetchMinistries } from "../../../shared/models/apiService";
+import { useState, useEffect } from 'react';
+import type { Ministry } from '../../../shared/models/types';
+import { fetchMinistries } from '../../../shared/models/apiService';
 
 export const useHomeViewModel = () => {
   const [ministries, setMinistries] = useState<Ministry[]>([]);
@@ -184,7 +179,7 @@ export const useHomeViewModel = () => {
         const data = await fetchMinistries();
         setMinistries(data);
       } catch (err) {
-        setError("Failed to load ministries data.");
+        setError('Failed to load ministries data.');
       } finally {
         setIsLoading(false);
       }
@@ -205,7 +200,6 @@ export const useHomeViewModel = () => {
 ### 3. View — `features/<name>/views/`
 
 The **UI layer**. Pure presentation + layout. Views:
-
 - Call their feature's ViewModel hook
 - Render JSX using the returned state
 - Handle **only** UI-local state (hover, expanded, etc.)
@@ -270,26 +264,26 @@ User visits /ministries
 
 Cross-cutting code that **any** feature can import:
 
-| Folder               | Purpose                    | Examples                                            |
-| -------------------- | -------------------------- | --------------------------------------------------- |
-| `shared/models/`     | Types + API service        | `types.ts`, `apiService.ts`                         |
-| `shared/hooks/`      | Reusable React hooks       | `useMediaQuery`, `useMousePosition`                 |
-| `shared/utils/`      | Pure functions / constants | `animations.ts` (Framer Motion presets)             |
-| `shared/components/` | Global UI components       | `Navbar`, `Footer`, `PlanVisitModal`, `PremiumCard` |
+| Folder | Purpose | Examples |
+|---|---|---|
+| `shared/models/` | Types + API service | `types.ts`, `apiService.ts` |
+| `shared/hooks/` | Reusable React hooks | `useMediaQuery`, `useMousePosition` |
+| `shared/utils/` | Pure functions / constants | `animations.ts` (Framer Motion presets) |
+| `shared/components/` | Global UI components | `Navbar`, `Footer`, `PlanVisitModal`, `PremiumCard` |
 
 ---
 
 ## Key Conventions
 
-| Convention                                 | Detail                                                                         |
-| ------------------------------------------ | ------------------------------------------------------------------------------ |
-| **ViewModel = custom hook**                | Named `use<Feature>ViewModel.ts`, returns `{ state, actions }`                 |
-| **Views never call APIs directly**         | Always go through a ViewModel hook                                             |
-| **Feature isolation**                      | Each feature folder is self-contained with its own `views/` and `viewModels/`  |
-| **Lazy loading**                           | All page-level views are `lazy()` loaded in `App.tsx`                          |
-| **Shared = global**                        | Anything used by 2+ features lives in `shared/`                                |
-| **UI-only state stays in View**            | Hover states, expanded IDs, active indexes — local `useState` in the component |
-| **Business/data state lives in ViewModel** | Loading, error, fetched data — all in the `useXxxViewModel` hook               |
+| Convention | Detail |
+|---|---|
+| **ViewModel = custom hook** | Named `use<Feature>ViewModel.ts`, returns `{ state, actions }` |
+| **Views never call APIs directly** | Always go through a ViewModel hook |
+| **Feature isolation** | Each feature folder is self-contained with its own `views/` and `viewModels/` |
+| **Lazy loading** | All page-level views are `lazy()` loaded in `App.tsx` |
+| **Shared = global** | Anything used by 2+ features lives in `shared/` |
+| **UI-only state stays in View** | Hover states, expanded IDs, active indexes — local `useState` in the component |
+| **Business/data state lives in ViewModel** | Loading, error, fetched data — all in the `useXxxViewModel` hook |
 
 ---
 
@@ -297,8 +291,8 @@ Cross-cutting code that **any** feature can import:
 
 Copy-paste this into a new Antigravity conversation to bootstrap a project with the same architecture:
 
-```
-Create a Vite + React + TypeScript project using the MVVM architecture with this folder structure:
+````
+make this project using the MVVM architecture with this folder structure:
 
 src/
 ├── main.tsx
@@ -321,9 +315,9 @@ src/
 
 Rules:
 1. MODEL (shared/models/): Types + API functions. No React code here.
-2. VIEWMODEL (features/<name>/viewModels/): Custom React hooks named use<Feature>ViewModel.
+2. VIEWMODEL (features/<name>/viewModels/): Custom React hooks named use<Feature>ViewModel. 
    Calls Model layer, manages useState/useEffect, returns { data, isLoading, error }.
-3. VIEW (features/<name>/views/): React components. Calls ViewModel hooks for data.
+3. VIEW (features/<name>/views/): React components. Calls ViewModel hooks for data. 
    Only manages UI-local state (hover, expanded, etc.) directly.
 4. Views NEVER call API functions directly — always go through a ViewModel.
 5. Shared code used by 2+ features goes in shared/.
@@ -331,8 +325,7 @@ Rules:
 7. Use Framer Motion for animations, React Router for routing.
 8. Use TailwindCSS for styling.
 
-The features I need are: [LIST YOUR FEATURES HERE]
-```
+````
 
 > [!TIP]
 > Replace `[LIST YOUR FEATURES HERE]` with your pages, e.g. `home, about, products, contact`. Antigravity will scaffold the full tree with proper imports.

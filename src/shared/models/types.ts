@@ -1,2 +1,7 @@
-// Global TypeScript interfaces shared across all features.
-// Add domain types here as features are built out.
+export interface SystemService {
+  id: string;
+  title: string;
+  description: string;
+  fullDescription: string;
+  keyFeatures: string[];
+}
