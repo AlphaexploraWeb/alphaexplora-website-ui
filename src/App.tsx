@@ -1,73 +1,49 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { AnimatePresence } from 'framer-motion'
-import GlobalBackground from './shared/components/GlobalBackground'
-import Navbar from './shared/components/Navbar'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useLenis } from 'lenis/react';
+import { SmoothScroller } from './shared/components/SmoothScroller';
+import { Navbar } from './shared/components/Navbar';
+import { Footer } from './shared/components/Footer';
+import Home from './features/home/views/Home';
+import AboutUs from './features/about/views/aboutus';
+import { Services } from './features/services/views/Services';
+import { OurWork } from './features/our-work/views/OurWork';
 
-/* ── Lazy-loaded page views (MVVM: features/<name>/views) ── */
-const Home = lazy(() => import('./features/home/views/Home'))
-const Solutions = lazy(() => import('./features/solutions/views/Solutions'))
-const Ecosystem = lazy(() => import('./features/ecosystem/views/Ecosystem'))
-const Connect = lazy(() => import('./features/connect/views/Connect'))
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  const lenis = useLenis();
 
-/* ── Loading fallback ─────────────────────────────────────── */
-function PageSkeleton() {
-  return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: '32px',
-          height: '32px',
-          borderRadius: '50%',
-          border: '2px solid rgba(0,217,217,0.15)',
-          borderTop: '2px solid #00D9D9',
-          animation: 'spin 0.8s linear infinite',
-        }}
-      />
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  )
+  useEffect(() => {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenis]);
+
+  return null;
 }
 
-/* ── Animated routes — needs useLocation inside BrowserRouter ── */
-function AnimatedRoutes() {
-  const location = useLocation()
-
+function App() {
   return (
-    <AnimatePresence mode="wait">
-      <Suspense fallback={<PageSkeleton />}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/ecosystem" element={<Ecosystem />} />
-          <Route path="/connect" element={<Connect />} />
-        </Routes>
-      </Suspense>
-    </AnimatePresence>
-  )
+    <SmoothScroller>
+      <Router>
+        <ScrollToTop />
+        <div className="bg-[#02040a] min-h-screen text-white font-sans selection:bg-cyan-500 selection:text-black">
+          <Navbar />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/our-work" element={<OurWork />} />
+              <Route path="/about" element={<AboutUs />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </SmoothScroller>
+  );
 }
 
-/* ── App root ─────────────────────────────────────────────── */
-export default function App() {
-  return (
-    <BrowserRouter>
-      {/* Layer 0: animated background — fixed, pointer-events-none */}
-      <GlobalBackground />
-
-      {/* Layer 60: floating nav pill */}
-      <Navbar />
-
-      {/* Layer 10: scrollable page content */}
-      <main style={{ position: 'relative', zIndex: 10 }}>
-        <AnimatedRoutes />
-      </main>
-    </BrowserRouter>
-  )
-}
+export default App;
