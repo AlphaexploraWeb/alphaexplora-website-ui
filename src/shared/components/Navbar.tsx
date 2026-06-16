@@ -18,7 +18,7 @@ export const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Our Work', path: '/our-work' }
+    { name: 'Our Work', path: '/our-work', disabled: true }
   ];
 
   return (
@@ -46,6 +46,18 @@ export const Navbar = () => {
           {/* DESKTOP LINKS */}
           <div className="hidden md:flex items-center gap-8 font-mono text-[9px] md:text-[11px] tracking-[0.2em] uppercase">
             {navLinks.map((link) => {
+              if (link.disabled) {
+                return (
+                  <span 
+                    key={link.name}
+                    className="relative px-2 py-1 text-white/20 cursor-not-allowed select-none flex items-center gap-1"
+                    title="In Development"
+                  >
+                    {link.name}
+                    <span className="text-[7px] text-cyan-500/50 uppercase tracking-widest bg-cyan-900/20 px-1 rounded border border-cyan-500/20 mb-1">DEV</span>
+                  </span>
+                );
+              }
               const isActive = location.pathname === link.path;
               return (
                 <Link 
