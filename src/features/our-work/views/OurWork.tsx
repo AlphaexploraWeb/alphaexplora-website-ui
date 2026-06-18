@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { OurWorkBackground } from './OurWorkBackground';
 import { ProjectPanels } from './ProjectPanels';
 import { ProjectPanelsMobile } from './ProjectPanelsMobile';
 
 export const OurWork = () => {
+  // Ensure the page always starts exactly at the top when navigating to this tab
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       {/* ── HIDE NATIVE SCROLLBAR ── */}
@@ -39,12 +45,12 @@ export const OurWork = () => {
       <main className="relative w-full min-h-screen pointer-events-auto">
         <div className="relative z-10 flex flex-col pointer-events-auto">
           {/* Desktop View */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <ProjectPanels />
           </div>
           
-          {/* Mobile View */}
-          <div className="block md:hidden">
+          {/* Mobile & Tablet View */}
+          <div className="block lg:hidden">
             <ProjectPanelsMobile />
           </div>
         </div>

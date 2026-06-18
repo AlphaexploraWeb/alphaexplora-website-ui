@@ -71,7 +71,7 @@ export const TechMatrixSection = () => {
         </div>
 
         {/* ── EXPANDING PILLARS LAYOUT ── */}
-        <div className="flex flex-col md:flex-row h-[800px] md:h-[550px] w-full gap-4 mt-8 perspective-[2000px]">
+        <div className="flex flex-col md:flex-row h-[900px] md:h-[600px] w-full gap-4 mt-8 perspective-[2000px]">
           {techPillars.map((pillar, index) => {
             const isExpanded = hoveredIndex === index;
 
@@ -174,7 +174,7 @@ export const TechMatrixSection = () => {
                         visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
                         exit: { opacity: 0, transition: { duration: 0.1 } }
                       }}
-                      className="relative z-20 w-full md:min-w-[320px] flex flex-col justify-end h-full"
+                      className="relative z-20 w-full flex flex-col justify-end h-full"
                     >
                       <div className="mt-auto pl-2 pb-2">
                         <motion.h4 
@@ -187,7 +187,7 @@ export const TechMatrixSection = () => {
                         
                         <motion.h3 
                           variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0 } }}
-                          className="text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4 drop-shadow-lg whitespace-nowrap"
+                          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight mb-4 drop-shadow-lg leading-tight"
                         >
                           {pillar.title}
                         </motion.h3>

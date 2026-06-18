@@ -1,13 +1,11 @@
 import { motion } from 'framer-motion';
 
 const clients = [
-  { name: "Coca-Cola", logo: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg" },
-  { name: "Pepsi", logo: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg" },
-  { name: "Cheetos", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Cheetos_logo.svg/1280px-Cheetos_logo.svg.png" },
-  { name: "Lay's", logo: "https://upload.wikimedia.org/wikipedia/commons/6/67/Lays-Logo.png" },
-  { name: "McDonalds", logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" },
-  { name: "Jollibee", logo: "https://download.logo.wine/logo/Jollibee/Jollibee-Logo.wine.png" },
-  { name: "Shakey's", logo: "https://upload.wikimedia.org/wikipedia/en/6/6d/Shakey%27s_US_logo.svg" }
+  { name: "GLOBALBIM ENGINEERING SERVICES", logo: "https://res.cloudinary.com/dlk93aehl/image/upload/f_auto,q_auto/GBIM.png" },
+  { name: "ESPASYO", logo: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg" },
+  { name: "ESTRUKTURA", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Cheetos_logo.svg/1280px-Cheetos_logo.svg.png" },
+  { name: "ST. PETER", logo: "https://images.seeklogo.com/logo-png/55/2/st-peter-chapel-logo-png_seeklogo-550185.png" },
+  { name: "THE MIGHTY GOD OF ALL NATIONS", logo: "https://upload.wikimedia.org/wikipedia/commons/6/67/Lays-Logo.png" },
 ];
 
 export const ClientMarqueeSection = () => {

@@ -108,7 +108,7 @@ export function ServicesEcosystem() {
 
       {/* ── DESKTOP LAYOUT ──────────────────────────────────────────────── */}
       {/* Used Tailwind hidden/block classes to completely fix the mobile click overlap bug */}
-      <div ref={containerRef} className="hidden md:block relative w-full h-[600vh]">
+      <div ref={containerRef} className="hidden lg:block relative w-full h-[600vh]">
         <div className="sticky top-0 w-full h-screen flex flex-col overflow-hidden">
           <AnimatePresence>
             {showUI && (
@@ -252,8 +252,8 @@ export function ServicesEcosystem() {
         </div>
       </div>
 
-      {/* ── MOBILE LAYOUT ───────────────────────────────────────────────── */}
-      <div className="block md:hidden w-full px-4 pt-[calc(max(5rem,10vh)+8px)] pb-24 gap-6 pointer-events-auto relative z-50">
+      {/* ── MOBILE & TABLET LAYOUT ───────────────────────────────────────────────── */}
+      <div className="block lg:hidden w-full px-4 pt-[calc(max(5rem,10vh)+8px)] pb-24 gap-6 pointer-events-auto relative z-50">
         <div className="w-full flex flex-col items-center justify-center text-center">
           <h1 className="text-6xl font-black uppercase tracking-tighter leading-[0.85] mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-cyan-50 to-cyan-200 drop-shadow-[0_0_15px_rgba(103,232,249,0.3)]">Core</span>{' '}

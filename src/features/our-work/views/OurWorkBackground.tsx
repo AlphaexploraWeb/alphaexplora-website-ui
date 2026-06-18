@@ -135,14 +135,17 @@ const MorphingSwarm = ({ activeIndex }: { activeIndex: number }) => {
 // ── MAIN BACKGROUND COMPONENT ──
 export const OurWorkBackground = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  // Initialize perfectly matching Tailwind's lg breakpoint (1024px)
+  const [isMobile, setIsMobile] = useState(() => 
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 1023px)').matches : true
+  );
 
   useEffect(() => {
     const handleSync = (e: any) => setActiveIndex(e.detail);
     window.addEventListener('sync-project-index', handleSync);
     
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
+    const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 1023px)').matches);
+    checkMobile(); // Run once to be sure
     window.addEventListener('resize', checkMobile);
     
     return () => {
@@ -153,7 +156,7 @@ export const OurWorkBackground = () => {
 
   return (
     <div className="fixed inset-0 z-0 bg-[#010314] pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 45], fov: 60 }}>
+      <Canvas camera={{ position: [0, 0, 45], fov: 60 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
         <ambientLight intensity={0.4} />
         <pointLight position={[20, 20, 20]} intensity={1.5} />
         

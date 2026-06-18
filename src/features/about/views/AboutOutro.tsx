@@ -21,14 +21,14 @@ export const AboutOutro = () => {
           className="flex flex-col items-center"
         >
           {/* Brand Name */}
-          <h2 className="flex items-center text-2xl md:text-4xl lg:text-5xl font-light uppercase tracking-[0.5em] text-white/90 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ml-[0.5em]">
-  <img 
-    src={alphaLogo} 
-    alt="A" 
-    className="h-[clamp(80px,4.5vw,36px)] object-contain inline-block mr-[20px] opacity-90 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all" 
-  />
-  lphaexplora
-</h2>
+          <h2 className="flex flex-row items-center justify-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light uppercase tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.5em] text-white/90 drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            <img 
+              src={alphaLogo} 
+              alt="A" 
+              className="h-9 sm:h-11 md:h-12 lg:h-16 w-auto object-contain inline-block mr-1.5 sm:mr-2 md:mr-4 opacity-90 transition-all shrink-0" 
+            />
+            <span style={{ marginRight: '-0.2em' }}>lphaexplora</span>
+          </h2>
           
           {/* Divider Line */}
           <motion.div 

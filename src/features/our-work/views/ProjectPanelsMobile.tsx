@@ -101,12 +101,7 @@ const ProjectCard = ({ project, index }: { project: typeof allProjects[0], index
 export const ProjectPanelsMobile = () => {
   return (
     <section className="relative w-full py-16 px-4 bg-transparent overflow-hidden">
-      {/* Simple blue galaxy background */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[30vh] bg-gradient-to-b from-[#010314] to-transparent z-10" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[120vw] h-[120vw] bg-cyan-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[120vw] h-[120vw] bg-blue-600/10 rounded-full blur-[120px]" />
-      </div>
+      {/* Background completely removed for cleaner mobile view */}
 
       <div className="relative z-10 w-full max-w-lg mx-auto flex flex-col pt-4">
         {/* Section Header */}
