@@ -59,23 +59,6 @@ export const HeroSection = () => {
         <motion.p variants={itemVariants} className="mt-[clamp(1.5rem,4vw,2.5rem)] text-[clamp(0.875rem,2vw,1.125rem)] xl:text-xl text-blue-100/70 max-w-[clamp(280px,80vw,48rem)] font-light tracking-wide leading-relaxed mix-blend-screen px-2 sm:px-0">
           Showcasing next-generation technical capabilities. We architect autonomous workflows and intelligent systems that put your enterprise at the absolute forefront.
         </motion.p>
-
-        <motion.div variants={itemVariants} className="mt-[clamp(2rem,6vw,3.5rem)] flex flex-col sm:flex-row justify-center gap-[clamp(1rem,3vw,2rem)] pointer-events-auto w-full sm:w-auto px-4 sm:px-0">
-          <motion.button 
-            whileHover={{ scale: 1.05, textShadow: "0px 0px 8px rgb(255,255,255)" }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full sm:w-auto px-[clamp(2rem,5vw,3rem)] py-[clamp(0.875rem,2vw,1.25rem)] bg-white text-black font-bold rounded-full tracking-widest text-[clamp(0.7rem,1.5vw,0.875rem)] uppercase shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-shadow duration-300"
-          >
-            Deploy Systems
-          </motion.button>
-          <motion.button 
-            whileHover={{ scale: 1.05, backgroundColor: "rgba(59, 130, 246, 0.15)" }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full sm:w-auto px-[clamp(2rem,5vw,3rem)] py-[clamp(0.875rem,2vw,1.25rem)] border border-white/20 backdrop-blur-xl text-white font-bold rounded-full tracking-widest text-[clamp(0.7rem,1.5vw,0.875rem)] uppercase hover:border-blue-400 transition-colors duration-300"
-          >
-            Explore Tech
-          </motion.button>
-        </motion.div>
       </motion.div>
     </section>
   );
