@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { ExternalLink, Activity, Hammer } from 'lucide-react';
 
 // ── IMPORT SCREENSHOTS ──
@@ -19,7 +20,7 @@ const allProjects = [
 ];
 
 // ── ANIMATION VARIANTS ──
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0, filter: 'blur(30px)', scale: 0.9 },
   visible: { 
     opacity: 1, filter: 'blur(0px)', scale: 1,
@@ -31,17 +32,17 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
   visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
 };
 
-const titleVariants = {
+const titleVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.04 } }
 };
 
-const letterVariants = {
+const letterVariants: Variants = {
   hidden: { opacity: 0, y: 50, rotateX: -90, filter: 'blur(10px)' },
   visible: { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)', transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
 };

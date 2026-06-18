@@ -26,7 +26,7 @@ export const Navbar = () => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isModalOpen, isMobileMenuOpen]);
 
-  const navLinks = [
+  const navLinks: { name: string; path: string; disabled?: boolean }[] = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
