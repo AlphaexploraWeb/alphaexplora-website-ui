@@ -1,10 +1,22 @@
 import { motion } from 'framer-motion';
 import { OurWorkBackground } from './OurWorkBackground';
 import { ProjectPanels } from './ProjectPanels';
+import { ProjectPanelsMobile } from './ProjectPanelsMobile';
 
 export const OurWork = () => {
   return (
     <>
+      {/* ── HIDE NATIVE SCROLLBAR ── */}
+      <style>{`
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        html, body {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+      `}</style>
+
       {/* ── CINEMATIC PITCH-BLACK REVEAL (Matches Home.tsx) ── */}
       <motion.div 
         initial={{ opacity: 1 }}
@@ -24,10 +36,17 @@ export const OurWork = () => {
       </motion.div>
 
       {/* ── THE PAGE CONTENT (Overlays the background) ── */}
-      <main className="relative w-full min-h-screen pointer-events-none">
-        <div className="relative z-10 pointer-events-none flex flex-col">
+      <main className="relative w-full min-h-screen pointer-events-auto">
+        <div className="relative z-10 flex flex-col pointer-events-auto">
+          {/* Desktop View */}
+          <div className="hidden md:block">
+            <ProjectPanels />
+          </div>
           
-          <ProjectPanels />
+          {/* Mobile View */}
+          <div className="block md:hidden">
+            <ProjectPanelsMobile />
+          </div>
         </div>
       </main>
     </>
