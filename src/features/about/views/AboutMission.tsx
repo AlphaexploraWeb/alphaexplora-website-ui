@@ -165,7 +165,7 @@ export const AboutMission = () => {
                           </div>
                           <div>
                             <h4 className="text-white font-bold text-[clamp(1rem,2vw,1.125rem)]">System Optimization</h4>
-                            <p className="text-[clamp(0.75rem,1.5vw,0.875rem)] text-blue-100/60 mt-[clamp(0.125rem,0.5vw,0.25rem)] leading-snug">Systematic optimization of existing logic.</p>
+                            <p className="text-[clamp(0.75rem,1.5vw,0.875rem)] text-blue-100/60 mt-[clamp(0.125rem,0.5vw,0.25rem)] leading-snug">Systematic optimization of existing process.</p>
                           </div>
                         </div>
                         <div className="flex gap-[clamp(0.75rem,2vw,1rem)]">
