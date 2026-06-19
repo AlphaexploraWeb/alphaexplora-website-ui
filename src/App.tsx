@@ -59,11 +59,11 @@ function AppContent() {
   );
 }
 
+import { Maintenance } from './features/maintenance/Maintenance';
+
 function App() {
   return (
-    <LoadingProvider>
-      <AppContent />
-    </LoadingProvider>
+    <Maintenance />
   );
 }
 
