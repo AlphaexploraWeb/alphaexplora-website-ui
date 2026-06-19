@@ -29,12 +29,23 @@ export const usePreloader = () => {
   const [threeJsFinished, setThreeJsFinished] = useState(false);
 
   // 1. Enforce a minimum load time (2.5 seconds) for the cinematic boot feel
+  // Also enforce a fail-safe maximum load time (6 seconds) to prevent infinite loading
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const minTimer = setTimeout(() => {
       setMinTimeElapsed(true);
     }, 2500);
-    return () => clearTimeout(timer);
-  }, []);
+
+    const maxTimer = setTimeout(() => {
+      setThreeJsFinished(true);
+      setLoadingProgress(100);
+      setIsAppReady(true);
+    }, 6000);
+
+    return () => {
+      clearTimeout(minTimer);
+      clearTimeout(maxTimer);
+    };
+  }, [setIsAppReady, setLoadingProgress]);
 
   // 2. Preload Heavy Images
   useEffect(() => {
