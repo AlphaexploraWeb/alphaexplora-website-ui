@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { DeploymentCTASection } from './DeploymentCTASection';
 import { X, Menu } from 'lucide-react'; // Added Menu icon
-import alphaLogo from '../../assets/alpha-logo-white.png';
+import alphaLogo from '../../assets/alpha-logo-full.png';
 
 export const Navbar = () => {
   const location = useLocation();
@@ -45,14 +45,11 @@ export const Navbar = () => {
           
           {/* LOGO */}
           <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center group">
-            <span className="flex items-center text-[clamp(12px,2vw,18px)] font-light tracking-[0.25em] uppercase text-white group-hover:text-cyan-400 transition-colors drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
               <img 
                 src={alphaLogo} 
                 alt="A" 
-                className="h-[clamp(18px,2.5vw,24px)] object-contain inline-block mr-[5px] opacity-90 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all translate-y-[1px]" 
+                className="h-[clamp(45px,4vw,30px)] object-contain inline-block mr-[5px] opacity-90 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all translate-y-[1px]" 
               />
-              lphaexplora
-            </span>
           </Link>
 
           {/* DESKTOP LINKS */}

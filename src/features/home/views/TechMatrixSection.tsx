@@ -37,7 +37,7 @@ const techPillars = [
     id: "04",
     title: "The Network",
     tech: "Edge Deployment",
-    description: "Military-grade encryption integrated at the core. Deployed on distributed edge nodes ensuring global millisecond response times.",
+    description: "Advanced encryption integrated at the core. Deployed on distributed edge nodes ensuring global millisecond response times.",
     icon: <Globe2 className="w-8 h-8 md:w-10 md:h-10 text-sky-400" />,
     bgGlow: "bg-sky-500/20",
     accent: "from-sky-500 to-transparent",
@@ -148,7 +148,7 @@ export const TechMatrixSection = () => {
                   {pillar.icon}
                 </motion.div>
 
-                {/* Collapsed Vertical Title */}
+                {/* Collapsed Vertical Title (Desktop) */}
                 <motion.div
                   animate={{ opacity: isExpanded ? 0 : 1, x: isExpanded ? -20 : 0 }}
                   transition={{ duration: 0.3 }}
@@ -158,6 +158,17 @@ export const TechMatrixSection = () => {
                     className="font-black text-2xl text-white/30 tracking-[0.2em] uppercase transition-all duration-500 group-hover:text-cyan-400 group-hover:tracking-[0.25em]"
                     style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
                   >
+                    {pillar.title}
+                  </span>
+                </motion.div>
+
+                {/* Collapsed Horizontal Title (Mobile) */}
+                <motion.div
+                  animate={{ opacity: isExpanded ? 0 : 1 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex md:hidden absolute top-8 left-1/2 -translate-x-1/2 flex-col items-center justify-start pointer-events-none z-10 w-full px-4`}
+                >
+                  <span className="font-black text-lg text-white/40 tracking-[0.2em] uppercase text-center w-full">
                     {pillar.title}
                   </span>
                 </motion.div>

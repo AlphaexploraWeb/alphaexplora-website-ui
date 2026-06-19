@@ -22,7 +22,7 @@ export const ClientMarqueeSection = () => {
       <div className="absolute top-0 right-0 w-16 md:w-48 h-full bg-gradient-to-l from-[#010314] via-[#010314]/80 to-transparent z-10 pointer-events-none" />
 
       <div className="flex flex-col items-center mb-8 md:mb-12 relative z-20">
-        <span className="text-[10px] md:text-xs font-mono text-cyan-500/80 tracking-[0.3em] uppercase">Who We've Worked With</span>
+        <span className="text-[10px] md:text-xs font-mono text-cyan-500/80 tracking-[0.3em] uppercase">Provided value for our following partners</span>
       </div>
 
       <div className="flex w-[200%] md:w-[150%] lg:w-full min-w-max">

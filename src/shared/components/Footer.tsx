@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import alphaLogo from '../../assets/alpha-logo-white.png';
+import alphaLogo from '../../assets/alpha-logo-full.png';
 
 type BrandIconProps = {
   size?: number;
@@ -64,14 +64,11 @@ export const Footer = () => {
 
 {/* 1. BRAND */}
 <div className="flex-shrink-0 mr-4">
-  <span className="flex items-center text-[clamp(20px,4vw,28px)] font-light tracking-[0.2em] uppercase text-white group-hover:text-cyan-400 transition-colors drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
     <img 
       src={alphaLogo} 
       alt="A" 
-      className="h-[clamp(28px,4.5vw,36px)] object-contain inline-block mr-[10px] opacity-90 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all translate-y-[1px]" 
+                className="h-[clamp(45px,6vw,70px)] object-contain inline-block mr-[5px] opacity-90 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all translate-y-[1px]" 
     />
-    lphaexplora
-  </span>
 </div>
 
           <div className="hidden lg:block w-[1px] h-10 bg-white/10" />

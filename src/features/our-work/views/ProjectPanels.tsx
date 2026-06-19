@@ -12,7 +12,7 @@ import tmgnImg from '../../../assets/tmgn.jpg';
 
 // ── CONSOLIDATED DATA ──
 const allProjects = [
-  { id: "01", title: "ST. PETER", type: "Data Warehouse", status: "Completed", link: "#", color: "from-cyan-400 to-blue-600", desc: "Centralized data architecture and scalable warehouse solutions.", tags: ["Database", "Architecture"], image: stPeterImg },
+  { id: "01", title: "ST. PETER", type: "Data Management", status: "Completed", link: "#", color: "from-cyan-400 to-blue-600", desc: "Consultancy for IT landscape modernization.", tags: ["Database", "Architecture"], image: stPeterImg },
   { id: "02", title: "ESPASYO STUDY & OFFICE HUB", type: "Web Platform", status: "Completed", link: "https://espasyo.ph", color: "from-purple-400 to-pink-600", desc: "Digital platform for premium study and office spaces.", tags: ["SEO", "Website"], image: espasyoImg },
   { id: "03", title: "GLOBALBIM ENGINEERING SERVICES", type: "Digital Marketing", status: "Completed", link: "https://globalbim.ph", color: "from-orange-400 to-red-600", desc: "Corporate platform and targeted digital marketing campaigns for structural engineering.", tags: ["SEO","Digital Marketing", "Website"], image: globalbimImg },
   { id: "04", title: "ESTRUKTURA MANILA", type: "Web Portfolio", status: "Completed", link: "https://estruktura.ph", color: "from-emerald-400 to-teal-600", desc: "Modern interior digital portfolio.", tags: ["Website"], image: estrukturaImg },
@@ -167,6 +167,35 @@ export const ProjectPanels = () => {
                 </motion.button>
               );
             })}
+
+            {/* ── UNSELECTABLE TEASER ITEM AT THE END OF THE WHEEL ── */}
+            {(() => {
+              const i = allProjects.length;
+              const offset = i - activeIndex; 
+              const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+              const yOffset = offset * (isMobile ? 50 : 80);
+              const xOffset = -Math.pow(Math.abs(offset), 1.5) * (isMobile ? 5 : 15);
+              const rotation = offset * (isMobile ? 8 : 12);
+              const opacity = Math.max(0, 1 - Math.abs(offset) * 0.25);
+              const scale = 0.85;
+
+              return (
+                <motion.div
+                  key="teaser"
+                  animate={{ y: yOffset, x: xOffset, rotateZ: rotation, opacity: opacity * 0.6, scale }}
+                  transition={{ type: 'spring', stiffness: 40, damping: 25, mass: 1.5 }}
+                  style={{ pointerEvents: 'none', transformOrigin: "center left" }}
+                  className="absolute flex items-center gap-4"
+                >
+                  <div className="w-12 flex justify-end items-center shrink-0 relative h-full">
+                    <div className="w-1 h-1 rounded-full bg-white/20" />
+                  </div>
+                  <span className="font-mono tracking-[0.2em] uppercase whitespace-nowrap text-white/40 text-[clamp(9px,1vw,12px)] italic">
+                    Many more coming soon...
+                  </span>
+                </motion.div>
+              );
+            })()}
           </div>
         </div>
 
@@ -232,7 +261,7 @@ export const ProjectPanels = () => {
                   {activeProject.link && (
                     <a href={activeProject.link} target="_blank" rel="noreferrer" className="relative overflow-hidden inline-flex items-center gap-3 px-[clamp(1.5rem,3vw,2rem)] py-[clamp(0.875rem,1.5vw,1rem)] rounded-lg bg-[#010314] border border-cyan-500/30 hover:border-cyan-400 transition-all duration-500 hover:shadow-[0_0_30px_rgba(34,211,238,0.25)] translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-200 group/btn">
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:animate-[glare_1.5s_ease-in-out_infinite]" />
-                      <span className="font-mono text-[clamp(10px,1.25vw,12px)] font-bold tracking-[0.2em] text-white uppercase group-hover/btn:text-cyan-300 transition-colors relative z-10">View Project</span>
+                      <span className="font-mono text-[clamp(10px,1.25vw,12px)] font-bold tracking-[0.2em] text-white uppercase group-hover/btn:text-cyan-300 transition-colors relative z-10">Visit Project</span>
                       <ExternalLink size={16} className="text-white/80 group-hover/btn:text-cyan-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5 transition-all relative z-10" />
                     </a>
                   )}

@@ -161,7 +161,7 @@ export const AboutHero = () => {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-500" />
           </span>
           <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.3em] text-cyan-300">
-            Core Identity Matrix
+            Core Identity
           </span>
         </motion.div>
 
@@ -174,7 +174,7 @@ export const AboutHero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg md:text-xl font-mono uppercase tracking-[0.4em] text-cyan-400/80 mb-4"
           >
-            Because IT Is Right.
+            Because <span className="text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] font-bold">IT</span> Is Right.
           </motion.h2>
           
           <motion.h1
@@ -200,7 +200,7 @@ export const AboutHero = () => {
         >
           {/* Tech Vibe Statement */}
           <p className="text-sm md:text-base lg:text-lg text-blue-100/70 font-light text-center leading-relaxed">
-            Pioneering the intersection of <span className="text-white font-medium">Agentic AI</span> and high-performance digital ecosystems. 
+            We don't just rebuild—we integrate. We build upon what you already have, maximizing the value of your existing infrastructure through <span className="text-white font-medium">strategic, piece-meal solutioning.</span>
           </p>
 
           {/* Micro Dashboard Gauge (Speedometer/GBIM hint) */}

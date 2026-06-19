@@ -104,7 +104,7 @@ export const AboutWho = () => {
             Alphaexplora doesn’t just build tech,<strong className="font-medium text-cyan-300"> they build with purpose.</strong>
           </p>
           <p className="text-base md:text-lg text-blue-100/70 font-light leading-relaxed">
-            The firm operates on the unwavering conviction that every organization, no matter its scale, deserves the absolute power of modern, secure, and scalable technology.
+            The firm operates on the unwavering conviction that every organization, no matter its scale, deserves the absolute power of <strong className="text-cyan-300 font-medium">modern, secure, and scalable technology.</strong>
           </p>
 
           {/* Highlighted Quote Box */}

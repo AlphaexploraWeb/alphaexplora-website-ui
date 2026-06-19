@@ -55,7 +55,7 @@ export const CTASection = () => {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-cyan-100/50 text-xs md:text-sm max-w-2xl mx-auto mb-12 font-mono tracking-widest"
           >
-            {'>'} INITIALIZE SYSTEM PROTOCOLS TO BEGIN ENTERPRISE TRANSFORMATION.
+            {'>'} WE ARE READY TO ACCELERATE YOUR ENTERPRISE TRANSFORMATION.
           </motion.p>
           
           <motion.div
@@ -70,7 +70,7 @@ export const CTASection = () => {
               {/* Button Glare */}
               <div className="absolute inset-0 -translate-x-[150%] skew-x-[30deg] bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent group-hover:animate-[glare_1.5s_ease-in-out_infinite]" />
               
-              <span className="relative z-10 group-hover:text-white transition-colors">Get a Quote</span>
+              <span className="relative z-10 group-hover:text-white transition-colors">Connect with us</span>
               <Send size={16} className="relative z-10 group-hover:translate-x-1 group-hover:text-cyan-200 transition-all" />
             </button>
           </motion.div>

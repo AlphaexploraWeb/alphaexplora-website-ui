@@ -8,7 +8,7 @@ import {
 // ── DATA ──────────────────────────────────────────────────────────────────────
 export const services = [
   {
-    id: '01', title: 'Software Integration Solutions',
+    id: '01', title: 'Service Integration Solutions',
     description: 'We develop and integrate custom software solutions that perfectly match your business needs, from web applications to mobile platforms and cloud-based services. Our development team uses cutting-edge technologies and agile methodologies to create scalable, secure, and user-friendly applications. Whether you need a complete software overhaul, specific functionality enhancements, or seamless system integrations, we deliver solutions that improve productivity, streamline workflows, and enhance user experience.',
     features: ['System Integration', 'Web & Mobile Development', 'Software as a Service', 'Process Automation'],
     glowColor: 'rgba(56, 189, 248, 0.35)', borderColor: 'rgba(56, 189, 248, 0.5)', hexColor: '#38bdf8',
