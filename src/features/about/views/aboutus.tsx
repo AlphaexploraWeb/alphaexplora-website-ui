@@ -159,7 +159,7 @@ const A_Constellation = () => {
     // Kinukuha natin ang total height, tapos minultiply sa 0.75.
     // Ibig sabihin, pagdating mo sa 75% ng page (bago mag footer), buong-buo na yung "A".
     const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const maxScroll = Math.max(totalScrollHeight * 0.90, 1);
+    const maxScroll = Math.max(totalScrollHeight * 0.85, 1);
     
     // Add easing to the progress so the particles snap together nicely
     let progress = Math.min(Math.max(scrollY / maxScroll, 0), 1);

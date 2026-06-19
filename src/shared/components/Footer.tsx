@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
+import alphaLogo from '../../assets/alpha-logo-white.png';
 
 type BrandIconProps = {
   size?: number;
@@ -30,24 +31,26 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="relative w-full bg-[#02040a] border-t border-white/5 pt-20 pb-10 px-4 md:px-12 lg:px-24 overflow-hidden z-10">
+    <footer className="relative w-full bg-[#02040a] border-t border-white/5 pt-12 pb-8 px-4 md:px-12 lg:px-24 overflow-hidden z-10">
       {/* ── BACKGROUND GLOW ── */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-cyan-600/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 flex flex-col gap-8">
         
-        {/* ── TOP SECTION: LOGO & BACK TO TOP ── */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
-          <div className="flex flex-col">
-            <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-white uppercase drop-shadow-md">
-              Alpha<span className="text-cyan-400">explora</span>.
-            </h2>
+        {/* ── TOP ROW: QUOTE & RETURN TO TOP ── */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div className="max-w-md">
+            <p className="text-xs text-blue-100/60 font-light leading-relaxed italic">
+              "For every house is built by someone, but God is the builder of everything."
+            </p>
+            <span className="text-cyan-400/80 font-mono text-[9px] tracking-widest not-italic uppercase mt-2 block">
+              — Hebrews 3:4
+            </span>
           </div>
-
+          
           <button 
             onClick={scrollToTop}
-            className="group flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all duration-300"
+            className="group flex items-center gap-2 hover:text-cyan-400 transition-colors"
           >
             <span className="font-mono text-[10px] uppercase tracking-widest text-blue-200 group-hover:text-cyan-300 transition-colors">
               Return to Top
@@ -56,65 +59,68 @@ export const Footer = () => {
           </button>
         </div>
 
-        {/* ── MIDDLE SECTION: LINKS GRID ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16 border-b border-white/10 pb-16">
-          
-          {/* Brand Mission */}
-          <div className="lg:col-span-1">
-            <p className="text-sm text-blue-100/70 font-light leading-relaxed max-w-sm italic">
-              "For every house is built by someone, but God is the builder of everything."
-              <br />
-              <span className="text-cyan-400/80 font-mono text-[10px] tracking-widest not-italic uppercase mt-2 block">
-                — Hebrews 3:4
-              </span>
-            </p>
+        {/* ── MIDDLE ROW: HORIZONTAL DIRECTORY STRIP ── */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between py-10 border-y border-white/10 gap-6 lg:gap-4">
+
+{/* 1. BRAND */}
+<div className="flex-shrink-0 mr-4">
+  <span className="flex items-center text-[clamp(20px,4vw,28px)] font-light tracking-[0.2em] uppercase text-white group-hover:text-cyan-400 transition-colors drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+    <img 
+      src={alphaLogo} 
+      alt="A" 
+      className="h-[clamp(28px,4.5vw,36px)] object-contain inline-block mr-[10px] opacity-90 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all translate-y-[1px]" 
+    />
+    lphaexplora
+  </span>
+</div>
+
+          <div className="hidden lg:block w-[1px] h-10 bg-white/10" />
+
+          {/* 2. HEADQUARTERS */}
+          <div className="flex-1 max-w-[280px]">
+            <span className="text-[12px] text-blue-100/70 leading-relaxed block">
+              #6 T. Bugallon street, Marikina Heights, Marikina City, Philippines 1810
+            </span>
           </div>
 
-          {/* Navigation */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-mono text-[10px] text-white/40 tracking-[0.2em] uppercase mb-2">Navigation</h3>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Platform</a>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Core Matrix</a>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Case Studies</a>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Company</a>
+          <div className="hidden lg:block w-[1px] h-10 bg-white/10" />
+
+          {/* 3. PHONE */}
+          <div className="flex flex-col gap-1">
+            <span className="text-[12px] text-blue-100/70">MOB: +63 915 8101010</span>
           </div>
 
-          {/* Services */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-mono text-[10px] text-white/40 tracking-[0.2em] uppercase mb-2">Modules</h3>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Agentic AI Routing</a>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Edge Infrastructure</a>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Data Analytics</a>
-            <a href="#" className="text-sm text-blue-200/70 hover:text-cyan-400 transition-colors w-max">Security Systems</a>
+          <div className="hidden lg:block w-[1px] h-10 bg-white/10" />
+
+          {/* 4. EMAIL */}
+          <div className="flex flex-col">
+            <a href="mailto:inquire@alphaexplora.com" className="text-[12px] text-blue-100/70 hover:text-cyan-400 transition-colors">
+              inquire@alphaexplora.com
+            </a>
           </div>
 
-          
-          {/* Socials & Status */}
-          <div className="flex flex-col gap-6">
-            <h3 className="font-mono text-[10px] text-white/40 tracking-[0.2em] uppercase mb-1">Network Links</h3>
-            <div className="flex items-center gap-4">
-              <a href="https://www.facebook.com/profile.php?id=61581265528238" target="_blank" rel="noopener noreferrer" aria-label="Alphaexplora on Facebook" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-cyan-500/10 hover:border-cyan-500/50 hover:text-cyan-400 text-blue-200/50 transition-all duration-300">
-                <FacebookIcon size={18} />
-              </a>
-              <a href="https://ph.linkedin.com/company/alphaexplora-information-technology-services/" target="_blank" rel="noopener noreferrer" aria-label="Alphaexplora on LinkedIn" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-cyan-500/10 hover:border-cyan-500/50 hover:text-cyan-400 text-blue-200/50 transition-all duration-300">
-                <LinkedinIcon size={18} />
-              </a>
-              <a href="https://www.instagram.com/alphaexplora_it/" target="_blank" rel="noopener noreferrer" aria-label="Alphaexplora on Instagram" className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-cyan-500/10 hover:border-cyan-500/50 hover:text-cyan-400 text-blue-200/50 transition-all duration-300">
-                <InstagramIcon size={18} />
-              </a>
-            </div>
+          <div className="hidden lg:block w-[1px] h-10 bg-white/10" />
+
+          {/* 5. NETWORK LINKS */}
+          <div className="flex items-center gap-4">
+            <a href="https://www.facebook.com/profile.php?id=61581265528238" target="_blank" rel="noopener noreferrer" className="text-blue-200/50 hover:text-cyan-400 transition-colors">
+              <FacebookIcon size={18} />
+            </a>
+            <a href="https://ph.linkedin.com/company/alphaexplora-information-technology-services/" target="_blank" rel="noopener noreferrer" className="text-blue-200/50 hover:text-cyan-400 transition-colors">
+              <LinkedinIcon size={18} />
+            </a>
+            <a href="https://www.instagram.com/alphaexplora_it/" target="_blank" rel="noopener noreferrer" className="text-blue-200/50 hover:text-cyan-400 transition-colors">
+              <InstagramIcon size={18} />
+            </a>
           </div>
+
         </div>
 
-        {/* ── BOTTOM SECTION: COPYRIGHT & LEGAL ── */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        {/* ── BOTTOM ROW: COPYRIGHT ── */}
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 pt-2">
           <p className="font-mono text-[10px] text-white/30 tracking-widest uppercase">
             © {currentYear} Alphaexplora. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <a href="#" className="font-mono text-[10px] text-white/30 tracking-widest uppercase hover:text-cyan-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="font-mono text-[10px] text-white/30 tracking-widest uppercase hover:text-cyan-400 transition-colors">Terms of Service</a>
-          </div>
         </div>
 
       </div>

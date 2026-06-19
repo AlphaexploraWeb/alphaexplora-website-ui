@@ -103,43 +103,108 @@ export const ServicesSection = () => {
           </motion.h2>
         </div>
 
-        {/* Command Center Split Layout */}
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 min-h-[600px]">
+        {/* Command Center Layout */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 min-h-[600px] items-stretch">
           
-          {/* Left Side: Navigation List */}
+          {/* Left Side: Navigation List & Mobile Accordion */}
           <div className="w-full lg:w-1/3 flex flex-col gap-3 z-20">
             {services.map((service, idx) => {
               const isActive = activeIdx === idx;
               return (
-                <button
-                  key={service.id}
-                  onClick={() => setActiveIdx(idx)}
-                  className={`group relative flex items-center justify-between w-full flex-1 p-5 rounded-xl border text-left transition-all duration-300 overflow-hidden ${
-                    isActive 
-                      ? 'bg-blue-950/50 border-cyan-400/50 shadow-[0_0_20px_rgba(34,211,238,0.15)]' 
-                      : 'bg-[#050b1f]/60 border-white/5 hover:border-white/15 hover:bg-[#0d1533]/80'
-                  }`}
-                >
-                  {/* Hover Scanline Effect */}
-                  <div className="absolute inset-0 w-0 bg-gradient-to-r from-cyan-500/10 to-transparent group-hover:w-full transition-all duration-500 ease-out" />
-                  
-                  <div className="relative flex items-center gap-4">
-                    <span className={`font-mono text-xs tracking-widest ${isActive ? 'text-cyan-400' : 'text-white/40'}`}>
-                      {service.id}
-                    </span>
-                    <span className={`font-bold text-lg tracking-tight ${isActive ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
-                      {service.title}
-                    </span>
-                  </div>
-                  
-                  <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'text-cyan-400 translate-x-1' : 'text-white/20 group-hover:text-white/50 group-hover:translate-x-0 -translate-x-2'}`} />
-                </button>
+                // DINAGDAG ANG lg:flex-1 DITO PARA PUMANTAY SA RIGHT SIDE PANEL
+                <div key={service.id} className="flex flex-col lg:flex-1">
+                  {/* Button / Accordion Header */}
+                  <button
+                    onClick={() => setActiveIdx(idx)}
+                    className={`group relative flex items-center justify-between w-full h-full lg:flex-1 p-5 rounded-xl border text-left transition-all duration-300 overflow-hidden ${
+                      isActive 
+                        ? 'bg-blue-950/50 border-cyan-400/50 shadow-[0_0_20px_rgba(34,211,238,0.15)]' 
+                        : 'bg-[#050b1f]/60 border-white/5 hover:border-white/15 hover:bg-[#0d1533]/80'
+                    }`}
+                  >
+                    {/* Hover Scanline Effect */}
+                    <div className="absolute inset-0 w-0 bg-gradient-to-r from-cyan-500/10 to-transparent group-hover:w-full transition-all duration-500 ease-out" />
+                    
+                    <div className="relative flex items-center gap-4">
+                      <span className={`font-mono text-xs tracking-widest ${isActive ? 'text-cyan-400' : 'text-white/40'}`}>
+                        {service.id}
+                      </span>
+                      <span className={`font-bold text-lg tracking-tight ${isActive ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
+                        {service.title}
+                      </span>
+                    </div>
+                    
+                    {/* Rotate arrow down on mobile when active */}
+                    <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'text-cyan-400 rotate-90 lg:rotate-0 lg:translate-x-1' : 'text-white/20 group-hover:text-white/50 group-hover:translate-x-0 -translate-x-2'}`} />
+                  </button>
+
+                  {/* ── MOBILE ACCORDION BODY (Hidden on lg desktops) ── */}
+                  <AnimatePresence initial={false}>
+                    {isActive && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="lg:hidden overflow-hidden rounded-xl border border-white/10 bg-[#0d1533]/40 backdrop-blur-md relative mt-2"
+                      >
+                        <div
+                          className="absolute inset-0 pointer-events-none opacity-40"
+                          style={{ background: `radial-gradient(circle at 50% 0%, ${service.glowColor}, transparent 70%)` }}
+                        />
+                        
+                        <div className="p-6 relative z-10 flex flex-col">
+                          {/* Icon & Title */}
+                          <div className="flex items-center gap-4 mb-5">
+                            <div className="w-14 h-14 rounded-xl border border-white/10 bg-[#050b1f]/80 flex items-center justify-center shadow-lg shrink-0">
+                              <div className="scale-75">{service.icon}</div>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-white tracking-tight leading-tight mb-1">{service.title}</h3>
+                              <div className="font-mono text-[10px] text-cyan-400 tracking-[0.1em] uppercase">Module // {service.id}</div>
+                            </div>
+                          </div>
+
+                          {/* Description */}
+                          <p className="text-sm text-blue-50/70 font-light leading-relaxed mb-6">
+                            {service.description}
+                          </p>
+
+                          {/* Key Features Grid */}
+                          <div className="mb-6">
+                            <h4 className="text-xs font-mono text-white/50 tracking-widest uppercase mb-3">Key Features</h4>
+                            <div className="flex flex-col gap-2">
+                              {service.features.map((feature, fIdx) => (
+                                <div key={fIdx} className="flex items-center gap-3 bg-white/[0.03] border border-white/5 p-3 rounded-lg">
+                                  <CheckCircle2 className="w-4 h-4 text-cyan-400/80 shrink-0" />
+                                  <span className="text-xs text-white/90">{feature}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Action Button */}
+                          <button 
+                            onClick={handleInitializeModule}
+                            className="relative self-start group overflow-hidden rounded-lg bg-white/5 border border-white/10 px-5 py-2.5 transition-colors hover:bg-white/10 hover:border-cyan-400/50"
+                          >
+                            <span className="relative z-10 flex items-center gap-2 text-xs font-semibold text-white tracking-wide">
+                              Initialize Module
+                              <ChevronRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+                            </span>
+                            <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
           </div>
 
-          {/* Right Side: Active Display Area */}
-          <div className="w-full lg:w-2/3 relative rounded-2xl border border-white/10 bg-[#0d1533]/40 backdrop-blur-md overflow-hidden flex items-center min-h-[400px]">
+          {/* ── DESKTOP RIGHT SIDE: ACTIVE DISPLAY AREA (Hidden on Mobile) ── */}
+          <div className="hidden lg:flex w-full lg:w-2/3 relative rounded-2xl border border-white/10 bg-[#0d1533]/40 backdrop-blur-md overflow-hidden items-center min-h-[400px]">
             
             {/* Dynamic Ambient Background based on active service */}
             <AnimatePresence mode="wait">

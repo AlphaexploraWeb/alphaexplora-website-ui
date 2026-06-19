@@ -1,251 +1,255 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ExternalLink, Database, Globe, Activity, Terminal, ChevronRight, Cpu, Network } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
+import type { Variants } from 'framer-motion';
+import { ExternalLink, Activity, Hammer } from 'lucide-react';
 
-const completedProjects = [
-  { id: "01", title: "St. Peter", type: "Data Warehouse", link: "#", icon: <Database className="w-8 h-8 text-cyan-400" />, desc: "Centralized data architecture and scalable warehouse solutions.", span: "col-span-1 md:col-span-2 lg:col-span-2" },
-  { id: "02", title: "ESPASYO", type: "Web Platform", link: "https://espasyo.ph", icon: <Globe className="w-8 h-8 text-purple-400" />, desc: "Digital platform and booking ecosystem for premium study and office spaces.", span: "col-span-1 lg:col-span-1" },
-  { id: "03", title: "GLOBALBIM", type: "Digital Marketing", link: "https://globalbim.ph", icon: <Network className="w-8 h-8 text-blue-400" />, desc: "Corporate platform and targeted digital marketing campaigns for structural engineering.", span: "col-span-1 lg:col-span-1" },
-  { id: "04", title: "Estruktura", type: "Web Portfolio", link: "https://estruktura.ph", icon: <Globe className="w-8 h-8 text-emerald-400" />, desc: "Modern architectural and construction portfolio interface.", span: "col-span-1 md:col-span-2 lg:col-span-2" },
-  { id: "05", title: "TMGN", type: "Web Platform", link: "https://tmgn.ph", icon: <Globe className="w-8 h-8 text-rose-400" />, desc: "Community-driven platform and content management system.", span: "col-span-1 md:col-span-2 lg:col-span-3" }
+// ── IMPORT SCREENSHOTS ──
+import stPeterImg from '../../../assets/st-peter.jpg';
+import espasyoImg from '../../../assets/espasyo.jpg';
+import globalbimImg from '../../../assets/globalbim.jpg';
+import estrukturaImg from '../../../assets/estruktura.jpg';
+import tmgnImg from '../../../assets/tmgn.jpg';
+
+// ── CONSOLIDATED DATA ──
+const allProjects = [
+  { id: "01", title: "ST. PETER", type: "Data Warehouse", status: "Completed", link: "#", color: "from-cyan-400 to-blue-600", desc: "Centralized data architecture and scalable warehouse solutions.", tags: ["Database", "Architecture"], image: stPeterImg },
+  { id: "02", title: "ESPASYO STUDY & OFFICE HUB", type: "Web Platform", status: "Completed", link: "https://espasyo.ph", color: "from-purple-400 to-pink-600", desc: "Digital platform for premium study and office spaces.", tags: ["SEO", "Website"], image: espasyoImg },
+  { id: "03", title: "GLOBALBIM ENGINEERING SERVICES", type: "Digital Marketing", status: "Completed", link: "https://globalbim.ph", color: "from-orange-400 to-red-600", desc: "Corporate platform and targeted digital marketing campaigns for structural engineering.", tags: ["SEO","Digital Marketing", "Website"], image: globalbimImg },
+  { id: "04", title: "ESTRUKTURA MANILA", type: "Web Portfolio", status: "Completed", link: "https://estruktura.ph", color: "from-emerald-400 to-teal-600", desc: "Modern interior digital portfolio.", tags: ["Website"], image: estrukturaImg },
+  { id: "05", title: "THE MIGHTY GOD OF ALL NATIONS", type: "Web Platform", status: "Completed", link: "https://tmgn.ph", color: "from-blue-400 to-indigo-600", desc: "An informational digital hub featuring ministries, upcoming events, and real-time livestreaming of worship services.", tags: ["Website"], image: tmgnImg },
 ];
 
-const ongoingProjects = [
-  "Words Of life Christian Ministry",
-  "BORJAL-AMAHAN Tax and Accounting Services",
-  "KAIZEN Optima Solutions",
-  "Create Modular Cabinet Trading",
-  "Azvercons Philippines"
-];
-
-// ── 3D TILT CARD COMPONENT ──
-const TiltCard = ({ children, className }: { children: React.ReactNode, className?: string }) => {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 40 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 40 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className={`relative group ${className}`}
-    >
-      {/* 3D Inner Content Wrapper */}
-      <div style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }} className="w-full h-full relative">
-        {children}
-      </div>
-    </motion.div>
-  );
+// ── ANIMATION VARIANTS ──
+const containerVariants: Variants = {
+  hidden: { opacity: 0, filter: 'blur(30px)', scale: 0.9 },
+  visible: { 
+    opacity: 1, filter: 'blur(0px)', scale: 1,
+    transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.15, delayChildren: 0.1 }
+  },
+  exit: { 
+    opacity: 0, filter: 'blur(20px)', scale: 1.1,
+    transition: { duration: 0.8, ease: [0.7, 0, 0.84, 0] }
+  }
 };
 
-// ── LIVE PIPELINE ITEM ──
-const LivePipelineItem = ({ title, delay }: { title: string, delay: number }) => {
-  const statuses = ["SYNCING_DB", "COMPILING_UI", "OPTIMIZING", "DEPLOYING_TESTS", "ANALYZING_CORE"];
-  const [status, setStatus] = useState(statuses[0]);
-  const [progress, setProgress] = useState(0);
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
+};
 
-  useEffect(() => {
-    const statusInterval = setInterval(() => {
-      setStatus(statuses[Math.floor(Math.random() * statuses.length)]);
-    }, 2000 + Math.random() * 3000);
-    
-    const progressInterval = setInterval(() => {
-      setProgress(p => p >= 100 ? 0 : p + Math.floor(Math.random() * 15));
-    }, 500);
+const titleVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.04 } }
+};
 
-    return () => { clearInterval(statusInterval); clearInterval(progressInterval); };
-  }, []);
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay }}
-      className="relative flex flex-col p-4 rounded-xl bg-white/[0.02] border border-white/5 hover:border-orange-500/30 hover:bg-orange-500/[0.02] transition-colors group overflow-hidden"
-    >
-      <div className="absolute inset-0 w-full h-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.02),transparent)] -translate-x-full group-hover:animate-[glare_2s_infinite]" />
-      
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-        <div className="flex items-center gap-4">
-          <Activity className="w-4 h-4 text-orange-500/50 group-hover:text-orange-400 transition-colors" />
-          <span className="text-slate-300 text-sm md:text-base font-medium tracking-wide drop-shadow-md">{title}</span>
-        </div>
-        
-        <div className="flex flex-col md:items-end gap-1 min-w-[200px]">
-          <div className="flex items-center justify-between w-full">
-            <span className="text-[9px] text-orange-400/60 uppercase tracking-widest">[{status}]</span>
-            <span className="text-[9px] text-orange-400 uppercase tracking-widest">{Math.min(progress, 100)}%</span>
-          </div>
-          {/* Progress Bar */}
-          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-orange-500 to-yellow-400 transition-all duration-300 ease-out"
-              style={{ width: `${Math.min(progress, 100)}%` }}
-            />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
+const letterVariants: Variants = {
+  hidden: { opacity: 0, y: 50, rotateX: -90, filter: 'blur(10px)' },
+  visible: { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)', transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } }
 };
 
 export const ProjectPanels = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const { scrollYProgress } = useScroll({ 
+    target: containerRef, 
+    offset: ["start start", "end end"] 
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const index = Math.min(Math.round(latest * (allProjects.length - 1)), allProjects.length - 1);
+    if (index !== activeIndex) {
+      setActiveIndex(index);
+      window.dispatchEvent(new CustomEvent('sync-project-index', { detail: index }));
+    }
+  });
+
+  const handleCapsuleClick = (index: number) => {
+    if (!containerRef.current) return;
+    const startY = containerRef.current.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: startY + (index * window.innerHeight), behavior: 'smooth' });
+  };
+
+  const activeProject = allProjects[activeIndex];
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-32 flex flex-col gap-40 perspective-[2000px]">
+    <section ref={containerRef} className="relative w-full bg-transparent z-10" style={{ height: `${allProjects.length * 100}vh` }}>
       
-      {/* ── SECTION 1: HOLOGRAPHIC DATA CORE (COMPLETED) ── */}
-      <section className="flex flex-col gap-12 z-10 relative">
-        <div className="mb-8 flex flex-col items-center md:items-start">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/[0.05] shadow-[0_0_20px_rgba(34,211,238,0.1)]"
-          >
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-cyan-200 uppercase">Archive Authorized</span>
-          </motion.div>
-          <h2 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-cyan-100 to-cyan-900/50 uppercase tracking-tighter drop-shadow-2xl">
-            Data Core
-          </h2>
-        </div>
-
-        {/* BENTO GRID LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {completedProjects.map((project, idx) => (
-            <TiltCard key={project.id} className={`${project.span} h-full`}>
-              <motion.div
-                initial={{ opacity: 0, y: 50, rotateX: 20 }}
-                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: idx * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full bg-gradient-to-br from-[#060a17]/90 to-[#02040a]/90 backdrop-blur-2xl border border-white/10 hover:border-cyan-500/50 rounded-3xl p-8 flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.5)] group/card overflow-hidden"
-              >
-                {/* Holographic Overlay Effects */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(34,211,238,0.05)_1px,transparent_1px)] bg-[size:100%_4px] opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen" />
-                <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/20 blur-[80px] rounded-full pointer-events-none opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" />
-                
-                {/* Glitch Scanline */}
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-cyan-400 opacity-0 group-hover/card:opacity-50 group-hover/card:animate-[scanline_2s_ease-in-out_infinite] blur-sm pointer-events-none" />
-
-                <div className="relative z-10 flex justify-between items-start mb-12">
-                  <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/card:scale-110 group-hover/card:border-cyan-400/50 transition-all duration-500 shadow-inner">
-                    {project.icon}
-                  </div>
-                  <div className="flex flex-col items-end">
-                    <span className="font-mono text-[10px] text-cyan-400/60 tracking-widest uppercase">SYS_ID</span>
-                    <span className="font-mono text-2xl font-bold text-white/20 group-hover/card:text-cyan-400/80 transition-colors">.{project.id}</span>
-                  </div>
-                </div>
-                
-                <div className="relative z-10 flex flex-col mt-auto">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="px-3 py-1 rounded-full text-[9px] font-mono tracking-widest uppercase bg-white/5 text-slate-300 border border-white/10 group-hover/card:bg-cyan-500/20 group-hover/card:text-cyan-300 group-hover/card:border-cyan-500/30 transition-colors">
-                      {project.type}
-                    </span>
-                  </div>
-                  <h3 className="text-3xl font-black text-white mb-4 tracking-tight group-hover/card:drop-shadow-[0_0_15px_rgba(34,211,238,0.8)] transition-all">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-slate-400 leading-relaxed max-w-sm mb-8 group-hover/card:text-slate-200 transition-colors">
-                    {project.desc}
-                  </p>
-                  
-                  <a 
-                    href={project.link !== "#" ? project.link : undefined} 
-                    target="_blank" 
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-3 text-cyan-400 font-mono text-xs uppercase tracking-widest hover:text-white transition-colors w-fit group/link"
-                  >
-                    <span>Access Node</span>
-                    <ExternalLink className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
-                  </a>
-                </div>
-              </motion.div>
-            </TiltCard>
-          ))}
-        </div>
-      </section>
-
-      {/* ── SECTION 2: LIVE DEVELOPMENT PIPELINE (ONGOING) ── */}
-      <section className="flex flex-col gap-12 relative z-10">
-        <div className="mb-4 flex flex-col items-center md:items-start">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full border border-orange-400/30 bg-orange-400/[0.05] shadow-[0_0_20px_rgba(249,115,22,0.1)]"
-          >
-            <div className="w-2 h-2 rounded-full bg-orange-400 animate-pulse shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-orange-200 uppercase">Live Operations</span>
-          </motion.div>
-          <h2 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-orange-100 to-orange-900/50 uppercase tracking-tighter drop-shadow-2xl">
-            Pipeline
-          </h2>
-        </div>
-
-        {/* Live Dashboard HUD */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="w-full bg-gradient-to-b from-[#0a0705]/90 to-[#020101]/90 backdrop-blur-2xl border border-orange-500/20 rounded-[2rem] p-6 md:p-12 shadow-[0_0_80px_rgba(249,115,22,0.1)] relative overflow-hidden"
-        >
-          {/* Abstract Grid Background inside Terminal */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(249,115,22,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(249,115,22,0.03)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none" />
-
-          <div className="flex items-center justify-between mb-10 pb-6 border-b border-orange-500/20 relative z-10">
-            <div className="flex items-center gap-3">
-              <Terminal className="w-6 h-6 text-orange-400" />
-              <span className="text-orange-200/50 font-mono text-xs tracking-[0.2em] uppercase hidden sm:block">sys.pipeline.monitor</span>
-            </div>
-            <div className="flex gap-2">
-              <div className="w-2 h-6 bg-orange-500/30 animate-pulse" />
-              <div className="w-2 h-4 bg-orange-500/60 animate-[pulse_1s_infinite]" />
-              <div className="w-2 h-8 bg-orange-500 animate-[pulse_0.5s_infinite]" />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-4 relative z-10">
-            {ongoingProjects.map((proj, idx) => (
-              <LivePipelineItem key={idx} title={proj} delay={idx * 0.15} />
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
+      {/* ── CSS MAGNETIC SCROLL SNAPPING ── */}
       <style>{`
-        @keyframes scanline {
-          0% { top: 0%; opacity: 0; }
-          10% { opacity: 0.5; }
-          90% { opacity: 0.5; }
-          100% { top: 100%; opacity: 0; }
-        }
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+        .snap-point { scroll-snap-align: start; height: 100vh; width: 100%; pointer-events: none; }
       `}</style>
-    </div>
+
+      <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none flex flex-col">
+        {allProjects.map((_, i) => (
+          <div key={i} className="snap-point" />
+        ))}
+      </div>
+
+      {/* ── STICKY VIEWPORT ── */}
+      <div className="sticky top-0 w-full h-screen pt-[clamp(6rem,15vh,10rem)] pb-[clamp(2rem,6vh,4rem)] flex flex-col md:flex-row items-center overflow-hidden pointer-events-none z-10">
+        
+        {/* ── LEFT SIDE: RADIAL MENU WITH HUD ── */}
+        <div className="relative w-full h-[40vh] md:h-full md:w-[45%] flex items-center justify-center md:justify-start md:pl-[clamp(2rem,10vw,8rem)] shrink-0 z-20 pointer-events-auto">
+          
+          {/* ── NEW: ORBITAL BACKGROUND RINGS ── */}
+          <div className="absolute top-1/2 left-[5vw] md:left-[-15vw] -translate-y-1/2 w-[120vw] md:w-[60vw] h-[120vw] md:h-[60vw] rounded-full border-[1px] border-white/[0.04] pointer-events-none z-0" />
+          <div className="absolute top-1/2 left-[7vw] md:left-[-13vw] -translate-y-1/2 w-[116vw] md:w-[56vw] h-[116vw] md:h-[56vw] rounded-full border-[1px] border-white/[0.03] border-dashed pointer-events-none animate-[spin_120s_linear_infinite] z-0" />
+          <div className="absolute top-1/2 left-[9vw] md:left-[-11vw] -translate-y-1/2 w-[112vw] md:w-[52vw] h-[112vw] md:h-[52vw] rounded-full border-[1px] border-cyan-500/10 pointer-events-none z-0" />
+
+          {/* ── NEW: SYSTEM INDEX HUD ── */}
+          <div className="absolute top-24 md:top-32 left-6 md:left-12 flex flex-col gap-2 pointer-events-none z-0 opacity-80">
+            <span className="font-mono text-[8px] md:text-[9px] text-cyan-400/70 tracking-[0.4em] uppercase">System Index</span>
+            <div className="flex items-baseline gap-2">
+              <span className="font-mono text-3xl md:text-5xl text-white font-light leading-none">0{activeIndex + 1}</span>
+              <span className="font-mono text-sm md:text-lg text-white/30">/ 0{allProjects.length}</span>
+            </div>
+            <div className="flex flex-col gap-1.5 mt-2">
+              {allProjects.map((_, i) => (
+                <div key={i} className={`w-1 transition-all duration-500 rounded-full ${i === activeIndex ? 'h-6 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.5)]' : 'h-1.5 bg-white/20'}`} />
+              ))}
+            </div>
+          </div>
+
+          {/* ── NEW: TECHNICAL DECOR (Bottom Left) ── */}
+          <div className="absolute bottom-4 md:bottom-12 left-1/2 md:left-24 -translate-x-1/2 font-mono text-[10px] text-white/30 tracking-[0.3em] uppercase animate-[pulse_3s_ease-in-out_infinite] flex flex-col items-center gap-2">
+            <span>Scroll Down</span>
+            <div className="w-[1px] h-8 bg-gradient-to-b from-white/30 to-transparent" />
+          </div>
+
+          {/* ── THE RADIAL ITEMS ── */}
+          <div className="relative flex items-center justify-center h-full w-full z-10">
+            {allProjects.map((proj, i) => {
+              const offset = i - activeIndex; 
+              const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+              
+              const yOffset = offset * (isMobile ? 50 : 80);
+              const xOffset = -Math.pow(Math.abs(offset), 1.5) * (isMobile ? 5 : 15);
+              const rotation = offset * (isMobile ? 8 : 12);
+              const opacity = Math.max(0, 1 - Math.abs(offset) * 0.25);
+              const scale = offset === 0 ? 1 : 0.85;
+
+              return (
+                <motion.button
+                  key={proj.id}
+                  onClick={() => handleCapsuleClick(i)}
+                  animate={{ y: yOffset, x: xOffset, rotateZ: rotation, opacity, scale }}
+                  transition={{ type: 'spring', stiffness: 40, damping: 25, mass: 1.5 }}
+                  style={{ pointerEvents: Math.abs(offset) > 3 ? 'none' : 'auto', transformOrigin: "center left" }}
+                  className="absolute flex items-center gap-4 group"
+                >
+                  <div className="w-12 flex justify-end items-center shrink-0 relative h-full">
+                    {offset === 0 ? (
+                      <>
+                        <motion.div layoutId="activeDot" className={`w-3 h-3 rounded-full ${proj.status === "Completed" ? 'bg-cyan-400' : 'bg-orange-400'} shadow-[0_0_15px_rgba(255,255,255,0.8)] z-10 relative`} transition={{ type: "spring", stiffness: 100, damping: 20 }} />
+                        {/* Glowing connecting line */}
+                        <div className={`absolute right-1.5 top-1/2 -translate-y-1/2 w-16 h-[1px] bg-gradient-to-r from-transparent ${proj.status === "Completed" ? 'to-cyan-400/60' : 'to-orange-400/60'} pointer-events-none`} />
+                        {/* Decorative Brackets for active item */}
+                        <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 text-cyan-400/50 font-mono text-[10px] pointer-events-none">]</div>
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-cyan-400/50 font-mono text-[10px] pointer-events-none">[</div>
+                      </>
+                    ) : (
+                      // Faint dot for inactive items
+                      <div className="w-1.5 h-1.5 rounded-full bg-white/20 transition-all duration-300 group-hover:bg-white/40" />
+                    )}
+                  </div>
+                  
+                  <span className={`font-medium tracking-[0.25em] uppercase whitespace-nowrap transition-all duration-700 ease-out ${
+                    proj.title.length > 20 ? 'text-[clamp(10px,1.2vw,14px)]' : 
+                    proj.title.length > 12 ? 'text-[clamp(11px,1.4vw,16px)]' : 
+                    'text-[clamp(12px,1.5vw,20px)]'
+                  } ${
+                    offset === 0 ? 'text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105' : 'text-slate-500 hover:text-slate-300'
+                  }`}>
+                    {proj.title}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── RIGHT SIDE: MAIN CONTENT VIEW ── */}
+        <div className="relative w-full h-[60vh] md:h-full md:w-[55%] flex flex-col justify-center px-[clamp(1.5rem,5vw,4rem)] pb-8 md:pb-0 z-10 pointer-events-auto">
+          
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#010314]/90 to-[#010314] z-[-1] pointer-events-none" />
+
+          <AnimatePresence mode="wait">
+            <motion.div key={activeProject.id} variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="w-full max-w-2xl flex flex-col perspective-1000">
+              
+              <div className="flex flex-col relative pointer-events-auto">
+                <div className={`absolute -inset-10 bg-gradient-to-r ${activeProject.color} opacity-5 blur-3xl pointer-events-none`} />
+                <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-[clamp(0.5rem,1vw,0.75rem)] mb-[clamp(0.75rem,1.5vw,1rem)] relative z-10">
+                  <span className="font-mono text-[10px] md:text-xs text-white/40 tracking-widest uppercase">{activeProject.type}</span>
+                  <span className="text-white/20">•</span>
+                  <div className={`flex items-center gap-1.5 text-[9px] md:text-[10px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-sm border ${
+                    activeProject.status === "Completed" ? 'text-cyan-400 bg-cyan-950/40 border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.1)]' : 'text-orange-400 bg-orange-950/40 border-orange-500/30 shadow-[0_0_15px_rgba(249,115,22,0.1)]'
+                  }`}>
+                    {activeProject.status === "Completed" ? <Activity size={10} className="animate-pulse" /> : <Hammer size={10} className="animate-[spin_3s_linear_infinite]" />}
+                    {activeProject.status}
+                  </div>
+                </motion.div>
+
+                <motion.h2 variants={titleVariants} className={`font-semibold uppercase tracking-[0.25em] text-white leading-[1.1] mb-[clamp(1rem,2vw,1.5rem)] drop-shadow-[0_5px_15px_rgba(0,0,0,1)] relative z-10 flex flex-wrap ${
+                    activeProject.title.length > 20 ? 'text-[clamp(0.75rem,1.5vw,1.5rem)]' : activeProject.title.length > 12 ? 'text-[clamp(1rem,2vw,2rem)]' : 'text-[clamp(1.2rem,3vw,3rem)]'
+                }`}>
+                  {activeProject.title.split(' ').map((word, wIdx) => (
+                    <span key={wIdx} className="inline-flex mr-[0.25em] pb-2 -mb-2">
+                      {word.split('').map((char, cIdx) => (
+                        <motion.span key={cIdx} variants={letterVariants} className="inline-block origin-bottom">{char}</motion.span>
+                      ))}
+                    </span>
+                  ))}
+                </motion.h2>
+              </div>
+
+              {/* Solid 100% Image Card */}
+              <motion.div variants={itemVariants} className="w-full aspect-video md:aspect-[16/9] rounded-xl md:rounded-2xl border border-white/10 bg-[#050814] overflow-hidden relative shadow-[0_20px_50px_rgba(0,0,0,0.8)] group flex items-center justify-center transition-all duration-700 hover:border-white/20 hover:shadow-[0_20px_60px_rgba(34,211,238,0.15)] mt-0 pointer-events-auto">
+                
+                {activeProject.image ? (
+                  <img 
+                    src={activeProject.image} 
+                    alt={activeProject.title} 
+                    className="absolute inset-0 w-full h-full object-cover object-top opacity-100 transition-transform duration-700 group-hover:scale-105 z-0" 
+                  />
+                ) : (
+                  <span className="font-mono text-white/30 text-[clamp(10px,1.5vw,14px)] tracking-[0.2em] relative z-10 animate-pulse transition-opacity duration-300 group-hover:opacity-0">
+                    [ ASSET_PENDING ]
+                  </span>
+                )}
+                
+                {/* Hover Details Overlay */}
+                <div className="absolute inset-0 bg-[#010314]/85 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 flex flex-col items-center justify-center p-6 md:p-12 text-center pointer-events-none group-hover:pointer-events-auto">
+                  <p className="text-[clamp(0.875rem,1.5vw,1rem)] text-blue-100/90 font-light leading-relaxed mb-6 max-w-xl translate-y-6 group-hover:translate-y-0 transition-all duration-500 delay-100 opacity-0 group-hover:opacity-100">
+                    {activeProject.desc}
+                  </p>
+                  <div className="flex flex-wrap justify-center items-center gap-[clamp(0.5rem,1vw,0.75rem)] mb-8 translate-y-6 group-hover:translate-y-0 transition-all duration-500 delay-150 opacity-0 group-hover:opacity-100">
+                    {activeProject.tags.map((tag, idx) => (
+                      <span key={idx} className="px-3 py-1.5 rounded-full bg-white/[0.1] border border-white/20 text-[10px] md:text-xs font-mono tracking-widest text-white/90 uppercase">{tag}</span>
+                    ))}
+                  </div>
+                  {activeProject.link && (
+                    <a href={activeProject.link} target="_blank" rel="noreferrer" className="relative overflow-hidden inline-flex items-center gap-3 px-[clamp(1.5rem,3vw,2rem)] py-[clamp(0.875rem,1.5vw,1rem)] rounded-lg bg-[#010314] border border-cyan-500/30 hover:border-cyan-400 transition-all duration-500 hover:shadow-[0_0_30px_rgba(34,211,238,0.25)] translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 delay-200 group/btn">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:animate-[glare_1.5s_ease-in-out_infinite]" />
+                      <span className="font-mono text-[clamp(10px,1.25vw,12px)] font-bold tracking-[0.2em] text-white uppercase group-hover/btn:text-cyan-300 transition-colors relative z-10">View Project</span>
+                      <ExternalLink size={16} className="text-white/80 group-hover/btn:text-cyan-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-0.5 transition-all relative z-10" />
+                    </a>
+                  )}
+                </div>
+
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Hover Instruction Label */}
+          <div className="w-full max-w-2xl mt-2 flex justify-center pointer-events-none hidden md:flex">
+            <span className="font-mono text-[10px] text-cyan-400/80 tracking-[0.2em] uppercase px-4 py-2 border border-cyan-500/30 rounded-full bg-cyan-500/10 shadow-[0_0_15px_rgba(34,211,238,0.1)] animate-pulse">
+              Hover card for details
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };

@@ -64,18 +64,6 @@ export const AboutWho = () => {
       {/* ── CONTENT CONTAINER ── */}
       <div className="w-full max-w-4xl relative z-10 flex flex-col items-center text-center gap-8">
 
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 backdrop-blur-md mb-4 shadow-[0_0_15px_rgba(34,211,238,0.1)]"
-        >
-          <Terminal size={14} className="text-cyan-400" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300">
-            sys.core // the_manifesto
-          </span>
-        </motion.div>
 
         {/* Headlines */}
         <div className="flex flex-col items-center">
@@ -113,7 +101,7 @@ export const AboutWho = () => {
           className="flex flex-col items-center space-y-6 max-w-3xl"
         >
           <p className="text-xl md:text-2xl text-white font-light leading-relaxed">
-            Alphaexplora doesn’t just build tech —<strong className="font-medium text-cyan-300"> they build with purpose.</strong>
+            Alphaexplora doesn’t just build tech,<strong className="font-medium text-cyan-300"> they build with purpose.</strong>
           </p>
           <p className="text-base md:text-lg text-blue-100/70 font-light leading-relaxed">
             The firm operates on the unwavering conviction that every organization, no matter its scale, deserves the absolute power of modern, secure, and scalable technology.
