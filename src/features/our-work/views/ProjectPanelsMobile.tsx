@@ -10,7 +10,7 @@ import estrukturaImg from '../../../assets/estruktura.jpg';
 import tmgnImg from '../../../assets/tmgn.jpg';
 
 const allProjects = [
-  { id: "01", title: "ST. PETER", type: "Data Management", status: "Completed", link: "#", color: "from-cyan-400 to-blue-600", desc: "Consultancy for IT landscape modernization.", tags: ["Database", "Architecture"], image: stPeterImg },
+  { id: "01", title: "ST. PETER", type: "Data Management Optimization", status: "Completed", link: "#", color: "from-cyan-400 to-blue-600", desc: "Consultancy for IT landscape modernization.", tags: ["Database", "Architecture"], image: stPeterImg },
   { id: "02", title: "ESPASYO STUDY & OFFICE HUB", type: "Web Platform", status: "Completed", link: "https://espasyo.ph", color: "from-purple-400 to-pink-600", desc: "Digital platform for premium study and office spaces.", tags: ["SEO", "Website"], image: espasyoImg },
   { id: "03", title: "GLOBALBIM ENGINEERING SERVICES", type: "Digital Marketing", status: "Completed", link: "https://globalbim.ph", color: "from-orange-400 to-red-600", desc: "Corporate platform and targeted digital marketing campaigns for structural engineering.", tags: ["SEO","Digital Marketing", "Website"], image: globalbimImg },
   { id: "04", title: "ESTRUKTURA MANILA", type: "Web Portfolio", status: "Completed", link: "https://estruktura.ph", color: "from-emerald-400 to-teal-600", desc: "Modern interior digital portfolio.", tags: ["Website"], image: estrukturaImg },
@@ -78,20 +78,18 @@ const ProjectCard = ({ project, index }: { project: typeof allProjects[0], index
             ))}
           </div>
 
-          <a 
-            href={project.link !== '#' ? project.link : undefined}
-            target="_blank" rel="noreferrer"
-            className={`mt-4 w-full py-3 rounded-xl flex items-center justify-center gap-2 border transition-all ${
-              project.link !== '#' 
-                ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 active:scale-95' 
-                : 'border-white/10 bg-white/5 text-white/30 cursor-not-allowed'
-            }`}
-          >
-            <span className="text-xs font-mono font-bold tracking-widest uppercase">
-              {project.link !== '#' ? 'Visit Project' : 'Internal Node'}
-            </span>
-            {project.link !== '#' && <ExternalLink size={14} />}
-          </a>
+          {project.link !== '#' && (
+            <a 
+              href={project.link}
+              target="_blank" rel="noreferrer"
+              className="mt-4 w-full py-3 rounded-xl flex items-center justify-center gap-2 border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 active:scale-95 transition-all"
+            >
+              <span className="text-xs font-mono font-bold tracking-widest uppercase">
+                Visit Project
+              </span>
+              <ExternalLink size={14} />
+            </a>
+          )}
         </div>
       </div>
     </motion.div>

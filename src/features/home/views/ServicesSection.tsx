@@ -89,7 +89,7 @@ export const ServicesSection = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
             </span>
-            <span className="text-xs text-cyan-100 font-mono tracking-[0.2em] uppercase font-semibold">System Capabilities</span>
+            <span className="text-xs text-cyan-100 font-mono tracking-[0.2em] uppercase font-semibold">Our Capabilities</span>
           </motion.div>
           
           <motion.h2 

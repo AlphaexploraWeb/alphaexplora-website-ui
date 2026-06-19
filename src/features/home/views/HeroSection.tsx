@@ -29,10 +29,11 @@ export const HeroSection = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
+  const isDesktop = windowSize.width >= 1024;
   const smoothX = useSpring(mouseX, { damping: 40, stiffness: 100, mass: 0.5 });
   const smoothY = useSpring(mouseY, { damping: 40, stiffness: 100, mass: 0.5 });
-  const textX = useTransform(smoothX, [0, windowSize.width], [-15, 15]);
-  const textY = useTransform(smoothY, [0, windowSize.height], [-15, 15]);
+  const textX = useTransform(smoothX, [0, windowSize.width || 1000], isDesktop ? [-15, 15] : [0, 0]);
+  const textY = useTransform(smoothY, [0, windowSize.height || 1000], isDesktop ? [-15, 15] : [0, 0]);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
