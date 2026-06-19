@@ -33,7 +33,7 @@ export const DeploymentCTASection = () => {
   }, []);
   
   useEffect(() => {
-    const text = "> system ready.\n> awaiting project specifications...";
+    const text = "> Our team is ready.\n> awaiting project specifications...";
     let i = 0;
     const timer = setInterval(() => {
       setConsoleText(text.slice(0, i));
@@ -118,7 +118,7 @@ export const DeploymentCTASection = () => {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 w-full max-w-[1400px] my-3 md:my-5 rounded-[clamp(1rem,2vw,1.5rem)] border border-white/10 bg-[#010314]/40 backdrop-blur-2xl overflow-hidden shadow-2xl flex flex-col lg:grid lg:grid-cols-12 pointer-events-auto min-h-[600px]"
+        className="relative z-10 w-full max-w-[1400px] my-3 md:my-5 rounded-[clamp(1rem,2vw,1.5rem)] border border-white/10 bg-[#0f172a]/60 backdrop-blur-2xl overflow-hidden shadow-2xl flex flex-col lg:grid lg:grid-cols-12 pointer-events-auto min-h-[600px]"
       >
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
 
@@ -160,6 +160,7 @@ export const DeploymentCTASection = () => {
                 <span className="font-mono text-[clamp(8px,1vw,10px)] text-white/50 tracking-widest uppercase">Phone</span>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-[clamp(0.75rem,1.25vw,0.875rem)] font-mono text-cyan-100">+63 915 8101010</span>
+                  <span className="text-[clamp(0.75rem,1.25vw,0.875rem)] font-mono text-cyan-100">+63 2 70060042</span>
                 </div>
               </div>
             </div>
@@ -299,7 +300,7 @@ export const DeploymentCTASection = () => {
                       className={`relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-[clamp(1.5rem,3vw,2rem)] font-mono text-[clamp(10px,1.25vw,14px)] focus:outline-none appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${selectedService ? 'text-white' : 'text-blue-100/30'}`}
                     >
                       <option value="" disabled className="bg-[#010314] text-blue-100/50">SELECT SERVICE TYPE</option>
-                      <option value="Software Integration Solutions" className="bg-[#010314] text-white">Software Integration Solutions</option>
+                      <option value="Service Integration Solutions" className="bg-[#010314] text-white">Service Integration Solutions</option>
                       <option value="AI Enablement" className="bg-[#010314] text-white">AI Enablement</option>
                       <option value="I.T. Consultancy" className="bg-[#010314] text-white">I.T. Consultancy</option>
                       <option value="Data Analytics" className="bg-[#010314] text-white">Data Analytics</option>

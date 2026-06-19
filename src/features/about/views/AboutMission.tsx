@@ -134,9 +134,9 @@ export const AboutMission = () => {
                   >
                     <TrendingUp className="absolute -right-[10%] top-1/2 -translate-y-1/2 w-[clamp(14rem,30vw,24rem)] h-[clamp(14rem,30vw,24rem)] text-cyan-400/[0.07] pointer-events-none z-0" strokeWidth={1} />
                     <div className="relative z-10">
-                      <h3 className="text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white mb-[clamp(0.75rem,2vw,1rem)] leading-tight max-w-[85%]">Democratizing Premium Tech</h3>
+                      <h3 className="text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white mb-[clamp(0.75rem,2vw,1rem)] leading-tight max-w-[85%]">We Make IT Accessible For All</h3>
                       <p className="text-blue-100/70 leading-relaxed mb-[clamp(1rem,2vw,1.5rem)] max-w-xl text-[clamp(0.95rem,1.8vw,1.1rem)]">
-                        Alphaexplora identified a critical gap: forward-thinking SMEs and startups are frequently excluded from modern, fast-performing, and visually cinematic solutions due to prohibitive costs.
+                        Alphaexplora identified a critical gap: forward-thinking SMEs and startups are frequently excluded from modern solutions due to prohibitive costs. We maximize the value of your existing legacy systems through strategic, piece-meal solutioning.
                       </p>
                       <p className="text-blue-100/70 leading-relaxed max-w-xl text-[clamp(0.95rem,1.8vw,1.1rem)]">
                         The firm operates on a singular truth—<strong className="text-white">high-fidelity technology is not a luxury</strong>, but an accessible necessity required to accelerate and sustain business growth.
@@ -164,8 +164,8 @@ export const AboutMission = () => {
                             <span className="font-mono text-[clamp(0.625rem,1.5vw,0.75rem)] text-red-400">01</span>
                           </div>
                           <div>
-                            <h4 className="text-white font-bold text-[clamp(1rem,2vw,1.125rem)]">Legacy System Traps</h4>
-                            <p className="text-[clamp(0.75rem,1.5vw,0.875rem)] text-blue-100/60 mt-[clamp(0.125rem,0.5vw,0.25rem)] leading-snug">Systematic elimination of slow, outdated logic.</p>
+                            <h4 className="text-white font-bold text-[clamp(1rem,2vw,1.125rem)]">System Optimization</h4>
+                            <p className="text-[clamp(0.75rem,1.5vw,0.875rem)] text-blue-100/60 mt-[clamp(0.125rem,0.5vw,0.25rem)] leading-snug">Systematic optimization of existing logic.</p>
                           </div>
                         </div>
                         <div className="flex gap-[clamp(0.75rem,2vw,1rem)]">
@@ -210,15 +210,19 @@ export const AboutMission = () => {
                         </div>
                       </div>
                       <h3 className="text-[clamp(1.5rem,3vw,2.25rem)] font-bold text-white mb-[clamp(0.75rem,2vw,1rem)] leading-tight max-w-[85%]">The Digital Employee</h3>
-                      <p className="text-[clamp(0.75rem,1.5vw,0.9rem)] text-blue-100/70 leading-relaxed mb-[clamp(1.5rem,3vw,2rem)] max-w-xl">
-                        Moving beyond basic chatbots. Alphaexplora's Agentic AI executes actions, extracts complex guidelines, and autonomously troubleshoots. System development time is accelerated by 40% compared to traditional processes, and processing time is optimized by at least 50% through the automation and integration of highly fragmented systems.
-                      </p>
+                      <div className="text-[clamp(0.75rem,1.5vw,0.9rem)] text-blue-100/70 leading-relaxed mb-[clamp(1.5rem,3vw,2rem)] max-w-xl space-y-2">
+                        <p>Moving beyond basic chatbots. Alphaexplora's Agentic AI executes actions, extracts complex guidelines, and autonomously troubleshoots.</p>
+                        <ul className="list-disc pl-4 space-y-1">
+                          <li><strong className="text-white">40% reduction</strong> in system development time.</li>
+                          <li><strong className="text-white">At least 50% optimization</strong> in processing time through automation.</li>
+                        </ul>
+                      </div>
                       
                       <div className="space-y-[clamp(0.75rem,2vw,1.25rem)] bg-[#010314]/80 backdrop-blur-sm border border-white/5 p-[clamp(1rem,3vw,1.5rem)] rounded-xl">
                         <div>
                           <div className="flex justify-between text-[clamp(10px,1vw,12px)] font-mono text-cyan-300 mb-[clamp(0.25rem,1vw,0.5rem)] uppercase tracking-widest">
                             <span>Labor Reduction</span>
-                            <span className="font-bold">85%</span>
+                            <span className="font-bold">~85%</span>
                           </div>
                           <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                             <motion.div initial={{ width: 0 }} animate={{ width: '85%' }} transition={{ duration: 1 }} className="h-full bg-cyan-400" />
@@ -227,7 +231,7 @@ export const AboutMission = () => {
                         <div>
                           <div className="flex justify-between text-[clamp(10px,1vw,12px)] font-mono text-blue-300 mb-[clamp(0.25rem,1vw,0.5rem)] uppercase tracking-widest">
                             <span>Automation ROI</span>
-                            <span className="font-bold text-emerald-400">MAXIMIZED</span>
+                            <span className="font-bold text-emerald-400">PROVEN</span>
                           </div>
                           <div className="flex gap-1 h-[clamp(6px,1vw,8px)]">
                             {[...Array(12)].map((_, i) => (
@@ -256,7 +260,7 @@ export const AboutMission = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-[clamp(1rem,3vw,1.5rem)]">
                         <div className="border-l border-cyan-500/50 pl-[clamp(0.75rem,2vw,1rem)] bg-[#010314]/30 p-2 rounded-r-lg backdrop-blur-sm">
                           <h4 className="text-white font-bold text-[clamp(0.875rem,2vw,1.125rem)] mb-[clamp(0.125rem,0.5vw,0.25rem)]">High-Fidelity Excellence</h4>
-                          <p className="text-[clamp(0.7rem,1.5vw,0.85rem)] text-blue-100/60 leading-relaxed">Delivering premium, cinematic user experiences.</p>
+                          <p className="text-[clamp(0.7rem,1.5vw,0.85rem)] text-blue-100/60 leading-relaxed">Delivering premium, high-performance user experiences.</p>
                         </div>
                         <div className="border-l border-emerald-500/50 pl-[clamp(0.75rem,2vw,1rem)] bg-[#010314]/30 p-2 rounded-r-lg backdrop-blur-sm">
                           <h4 className="text-white font-bold text-[clamp(0.875rem,2vw,1.125rem)] mb-[clamp(0.125rem,0.5vw,0.25rem)]">Security-First</h4>

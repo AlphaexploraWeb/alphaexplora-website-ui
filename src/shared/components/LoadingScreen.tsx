@@ -65,7 +65,7 @@ export const LoadingScreen = () => {
               <span>{loadingProgress}%</span>
               <span className="opacity-50">|</span>
               <span className="animate-pulse">
-                {loadingProgress < 100 ? 'INITIALIZING SHADERS...' : 'SYSTEM READY'}
+                {loadingProgress < 100 ? 'LOADING...' : 'SYSTEM READY'}
               </span>
             </div>
           </motion.div>

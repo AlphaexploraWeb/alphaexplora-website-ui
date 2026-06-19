@@ -5,7 +5,7 @@ import { BrainCircuit, Code2, Database, Megaphone, Network, ShieldCheck, Chevron
 const services = [
   { 
     id: "01", 
-    title: "Software Integration Solutions", 
+    title: "Service Integration Solutions", 
     description: "We develop and integrate custom software solutions that perfectly match your business needs, from web applications to mobile platforms and cloud-based services.", 
     features: ["System Integration", "Web & Mobile Development", "Software as a Service", "Process Automation"],
     glowColor: "rgba(56, 189, 248, 0.35)",
@@ -89,7 +89,7 @@ export const ServicesSection = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
             </span>
-            <span className="text-xs text-cyan-100 font-mono tracking-[0.2em] uppercase font-semibold">System Modules</span>
+            <span className="text-xs text-cyan-100 font-mono tracking-[0.2em] uppercase font-semibold">System Capabilities</span>
           </motion.div>
           
           <motion.h2 
@@ -189,7 +189,7 @@ export const ServicesSection = () => {
                             className="relative self-start group overflow-hidden rounded-lg bg-white/5 border border-white/10 px-5 py-2.5 transition-colors hover:bg-white/10 hover:border-cyan-400/50"
                           >
                             <span className="relative z-10 flex items-center gap-2 text-xs font-semibold text-white tracking-wide">
-                              Initialize Module
+                              Inquire
                               <ChevronRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                             </span>
                             <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
@@ -290,7 +290,7 @@ export const ServicesSection = () => {
                     className="relative self-start group overflow-hidden rounded-lg bg-white/5 border border-white/10 px-6 py-3 transition-colors hover:bg-white/10 hover:border-cyan-400/50"
                   >
                     <span className="relative z-10 flex items-center gap-2 text-sm font-semibold text-white tracking-wide">
-                      Initialize Module
+                      Inquire
                       <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                     </span>
                     <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
