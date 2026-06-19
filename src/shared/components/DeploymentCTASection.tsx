@@ -1,12 +1,26 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Mail, MapPin, Phone, Send, Terminal } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Terminal, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 
 export const DeploymentCTASection = () => {
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [consoleText, setConsoleText] = useState('');
-  const [selectedService, setSelectedService] = useState('');
   
+  // Form State
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [selectedService, setSelectedService] = useState('');
+  const [company, setCompany] = useState('');
+  const [details, setDetails] = useState('');
+
+  // Submission State
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [referenceNumber, setReferenceNumber] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   useEffect(() => {
     const handleServiceSelection = (e: Event) => {
       const customEvent = e as CustomEvent;
@@ -29,6 +43,64 @@ export const DeploymentCTASection = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firstName || !lastName || !email) {
+      setErrorMessage("Please fill in your First Name, Last Name, and Email.");
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/send-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          serviceType: selectedService,
+          company,
+          details
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send inquiry');
+      }
+
+      setReferenceNumber(data.referenceNumber);
+      setSubmitStatus('success');
+
+    } catch (error: any) {
+      console.error(error);
+      setErrorMessage(error.message || "Something went wrong. Please try again later.");
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPhone('');
+    setSelectedService('');
+    setCompany('');
+    setDetails('');
+    setSubmitStatus('idle');
+    setReferenceNumber('');
+  };
+
   return (
     <section id="deployment-cta" className="relative w-full bg-transparent flex flex-col justify-center items-center overflow-hidden py-4 px-[clamp(12px,2vw,1.5rem)] md:py-6">
       
@@ -46,7 +118,7 @@ export const DeploymentCTASection = () => {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 w-full max-w-[1400px] my-3 md:my-5 rounded-[clamp(1rem,2vw,1.5rem)] border border-white/10 bg-[#010314]/40 backdrop-blur-2xl overflow-hidden shadow-2xl flex flex-col lg:grid lg:grid-cols-12 pointer-events-auto"
+        className="relative z-10 w-full max-w-[1400px] my-3 md:my-5 rounded-[clamp(1rem,2vw,1.5rem)] border border-white/10 bg-[#010314]/40 backdrop-blur-2xl overflow-hidden shadow-2xl flex flex-col lg:grid lg:grid-cols-12 pointer-events-auto min-h-[600px]"
       >
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
 
@@ -108,8 +180,8 @@ export const DeploymentCTASection = () => {
           </div>
         </div>
 
-        {/* ── RIGHT COLUMN: INTERACTIVE FORM ── */}
-        <div className="lg:col-span-7 xl:col-span-8 relative bg-white/[0.02] p-[clamp(1rem,3vw,2.5rem)] flex flex-col border-l border-white/5">
+        {/* ── RIGHT COLUMN: INTERACTIVE FORM / STATUS ── */}
+        <div className="lg:col-span-7 xl:col-span-8 relative bg-white/[0.02] p-[clamp(1rem,3vw,2.5rem)] flex flex-col border-l border-white/5 overflow-hidden">
           <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100%_4px] opacity-30 z-0" />
           
           <div className="relative z-10 h-full flex flex-col">
@@ -127,90 +199,150 @@ export const DeploymentCTASection = () => {
 
             <div className="mb-[clamp(0.5rem,1.5vw,1rem)] min-h-[2rem] font-mono text-[clamp(9px,1vw,11px)] text-cyan-400/70 whitespace-pre-line pointer-events-none leading-relaxed">
               {consoleText}
-              <span className="animate-pulse">_</span>
+              {submitStatus === 'idle' && <span className="animate-pulse">_</span>}
             </div>
 
-            <form className="flex flex-col gap-[clamp(0.5rem,1.25vw,0.875rem)] mt-auto relative z-20" onSubmit={(e) => e.preventDefault()}>
-              
-              {/* 2-Column Grid for shorter inputs */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-[clamp(0.5rem,1.25vw,0.875rem)]">
-                {/* First Name */}
-                <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'firstName' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
-                  <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'firstName' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
-                  <input type="text" placeholder="FIRST NAME" onFocus={() => setFocusedField('firstName')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30" />
-                  {focusedField === 'firstName' && <motion.div layoutId="target" className="absolute right-2 text-cyan-400 font-mono text-[clamp(10px,1.25vw,12px)] animate-pulse pointer-events-none hidden sm:block">[ ]</motion.div>}
-                </div>
-
-                {/* Last Name */}
-                <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'lastName' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
-                  <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'lastName' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
-                  <input type="text" placeholder="LAST NAME" onFocus={() => setFocusedField('lastName')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30" />
-                  {focusedField === 'lastName' && <motion.div layoutId="target" className="absolute right-2 text-cyan-400 font-mono text-[clamp(10px,1.25vw,12px)] animate-pulse pointer-events-none hidden sm:block">[ ]</motion.div>}
-                </div>
-
-                {/* Email */}
-                <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'email' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
-                  <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'email' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
-                  <input type="email" placeholder="EMAIL ADDRESS" onFocus={() => setFocusedField('email')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30" />
-                  {focusedField === 'email' && <motion.div layoutId="target" className="absolute right-2 text-cyan-400 font-mono text-[clamp(10px,1.25vw,12px)] animate-pulse pointer-events-none hidden sm:block">[ ]</motion.div>}
-                </div>
-
-                {/* Contact Number */}
-                <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'phone' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
-                  <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'phone' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
-                  <input type="text" placeholder="CONTACT NUMBER" onFocus={() => setFocusedField('phone')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30" />
-                  {focusedField === 'phone' && <motion.div layoutId="target" className="absolute right-2 text-cyan-400 font-mono text-[clamp(10px,1.25vw,12px)] animate-pulse pointer-events-none hidden sm:block">[ ]</motion.div>}
-                </div>
-              </div>
-
-              {/* Full Width Fields */}
-              <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'serviceType' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
-                <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'serviceType' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
-                <select 
-                  value={selectedService}
-                  onChange={(e) => setSelectedService(e.target.value)}
-                  onFocus={() => setFocusedField('serviceType')} 
-                  onBlur={() => setFocusedField(null)} 
-                  className={`relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-[clamp(1.5rem,3vw,2rem)] font-mono text-[clamp(10px,1.25vw,14px)] focus:outline-none appearance-none cursor-pointer ${selectedService ? 'text-white' : 'text-blue-100/30'}`}
+            <AnimatePresence mode="wait">
+              {submitStatus === 'success' ? (
+                <motion.div 
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="flex flex-col items-center justify-center h-full my-auto text-center z-20 space-y-6"
                 >
-                  <option value="" disabled className="bg-[#010314] text-blue-100/50">SELECT SERVICE TYPE</option>
-                  <option value="Software Integration Solutions" className="bg-[#010314] text-white">Software Integration Solutions</option>
-                  <option value="AI Enablement" className="bg-[#010314] text-white">AI Enablement</option>
-                  <option value="I.T. Consultancy" className="bg-[#010314] text-white">I.T. Consultancy</option>
-                  <option value="Data Analytics" className="bg-[#010314] text-white">Data Analytics</option>
-                  <option value="Managed Services" className="bg-[#010314] text-white">Managed Services</option>
-                  <option value="Digital Marketing" className="bg-[#010314] text-white">Digital Marketing</option>
-                  <option value="Others / General Consultation" className="bg-[#010314] text-white">Others / General Consultation</option>
-                </select>
-                <div className="absolute right-[clamp(0.5rem,1.5vw,1rem)] top-1/2 -translate-y-1/2 pointer-events-none text-white/30 text-[clamp(8px,1vw,10px)] font-mono">▼</div>
-                {focusedField === 'serviceType' && <motion.div layoutId="target" className="absolute right-[clamp(2rem,4vw,2.5rem)] text-cyan-400 font-mono text-[clamp(10px,1.25vw,12px)] animate-pulse pointer-events-none hidden sm:block">[ ]</motion.div>}
-              </div>
+                  <motion.div 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.1 }}
+                  >
+                    <CheckCircle2 className="w-20 h-20 text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.5)] mx-auto" />
+                  </motion.div>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white tracking-wide">Inquiry Sent Successfully</h3>
+                    <p className="text-blue-100/70 max-w-md mx-auto text-sm md:text-base">
+                      Thank you for reaching out. We have sent a confirmation email to you. Our team will review your specifications and get back to you shortly.
+                    </p>
+                  </div>
+                  <div className="bg-cyan-950/30 border border-cyan-500/30 rounded-lg py-4 px-8 mt-4 backdrop-blur-sm">
+                    <p className="text-cyan-500/80 text-xs font-mono uppercase tracking-widest mb-1">Reference Number</p>
+                    <p className="text-cyan-300 font-mono text-lg md:text-xl font-bold tracking-wider">{referenceNumber}</p>
+                  </div>
+                  <button 
+                    onClick={resetForm}
+                    className="mt-8 text-sm font-mono text-cyan-500 hover:text-cyan-300 transition-colors underline underline-offset-4"
+                  >
+                    Send another inquiry
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form 
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="flex flex-col gap-[clamp(0.5rem,1.25vw,0.875rem)] mt-auto relative z-20 h-full" 
+                  onSubmit={handleSubmit}
+                >
+                  
+                  {/* Error Message Animation */}
+                  <AnimatePresence>
+                    {submitStatus === 'error' && (
+                      <motion.div 
+                        initial={{ opacity: 0, height: 0, y: -10 }}
+                        animate={{ opacity: 1, height: 'auto', y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -10 }}
+                        className="bg-red-500/10 border border-red-500/30 rounded px-4 py-3 flex items-start gap-3"
+                      >
+                        <XCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                        <p className="text-red-200 text-sm">{errorMessage}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
-              <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'company' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
-                <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'company' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
-                <input type="text" placeholder="COMPANY NAME" onFocus={() => setFocusedField('company')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30" />
-                {focusedField === 'company' && <motion.div layoutId="target" className="absolute right-2 text-cyan-400 font-mono text-[clamp(10px,1.25vw,12px)] animate-pulse pointer-events-none hidden sm:block">[ ]</motion.div>}
-              </div>
+                  {/* 2-Column Grid for shorter inputs */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[clamp(0.5rem,1.25vw,0.875rem)]">
+                    {/* First Name */}
+                    <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'firstName' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
+                      <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'firstName' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
+                      <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} disabled={isSubmitting} placeholder="FIRST NAME *" onFocus={() => setFocusedField('firstName')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30 disabled:opacity-50" required />
+                    </div>
 
-              <div className={`relative flex items-start border-b transition-colors duration-300 mt-[clamp(0.25rem,1vw,0.5rem)] ${focusedField === 'details' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
-                <span className={`absolute left-0 top-[clamp(0.6rem,1.5vw,0.75rem)] font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'details' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
-                <textarea placeholder="INQUIRY DETAILS" rows={2} onFocus={() => setFocusedField('details')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30 resize-none" />
-                {focusedField === 'details' && <motion.div layoutId="target" className="absolute right-2 top-[clamp(0.6rem,1.5vw,0.75rem)] text-cyan-400 font-mono text-[clamp(10px,1.25vw,12px)] animate-pulse pointer-events-none hidden sm:block">[ ]</motion.div>}
-              </div>
+                    {/* Last Name */}
+                    <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'lastName' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
+                      <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'lastName' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
+                      <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} disabled={isSubmitting} placeholder="LAST NAME *" onFocus={() => setFocusedField('lastName')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30 disabled:opacity-50" required />
+                    </div>
 
-              {/* Submit Button */}
-              <button className="mt-[clamp(0.25rem,1vw,0.5rem)] relative group/btn overflow-hidden rounded-md border border-cyan-500/30 bg-cyan-950/30 px-[clamp(1.25rem,2.5vw,1.75rem)] py-[clamp(0.6rem,1.5vw,0.875rem)] flex items-center justify-between transition-all hover:bg-cyan-900/40 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] z-20">
-                <div className="flex items-center gap-[clamp(0.5rem,1.5vw,1rem)] pointer-events-none">
-                  <span className="font-mono text-[clamp(10px,1.5vw,14px)] font-bold uppercase tracking-[0.15em] text-cyan-400 group-hover/btn:text-white transition-colors">
-                    Start Your Transformation
-                  </span>
-                </div>
-                <Send className="w-[clamp(14px,1.5vw,16px)] h-[clamp(14px,1.5vw,16px)] text-cyan-500 group-hover/btn:text-cyan-300 transition-colors group-hover/btn:translate-x-1 pointer-events-none shrink-0" />
-                
-                <div className="absolute inset-0 -translate-x-[150%] skew-x-[30deg] bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent group-hover/btn:animate-[glare_1.5s_ease-in-out_infinite] pointer-events-none" />
-              </button>
+                    {/* Email */}
+                    <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'email' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
+                      <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'email' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
+                      <input type="email" value={email} onChange={e => setEmail(e.target.value)} disabled={isSubmitting} placeholder="EMAIL ADDRESS *" onFocus={() => setFocusedField('email')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30 disabled:opacity-50" required />
+                    </div>
 
-            </form>
+                    {/* Contact Number */}
+                    <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'phone' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
+                      <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'phone' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
+                      <input type="text" value={phone} onChange={e => setPhone(e.target.value)} disabled={isSubmitting} placeholder="CONTACT NUMBER" onFocus={() => setFocusedField('phone')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30 disabled:opacity-50" />
+                    </div>
+                  </div>
+
+                  {/* Full Width Fields */}
+                  <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'serviceType' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
+                    <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'serviceType' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
+                    <select 
+                      value={selectedService}
+                      onChange={(e) => setSelectedService(e.target.value)}
+                      disabled={isSubmitting}
+                      onFocus={() => setFocusedField('serviceType')} 
+                      onBlur={() => setFocusedField(null)} 
+                      className={`relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-[clamp(1.5rem,3vw,2rem)] font-mono text-[clamp(10px,1.25vw,14px)] focus:outline-none appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${selectedService ? 'text-white' : 'text-blue-100/30'}`}
+                    >
+                      <option value="" disabled className="bg-[#010314] text-blue-100/50">SELECT SERVICE TYPE</option>
+                      <option value="Software Integration Solutions" className="bg-[#010314] text-white">Software Integration Solutions</option>
+                      <option value="AI Enablement" className="bg-[#010314] text-white">AI Enablement</option>
+                      <option value="I.T. Consultancy" className="bg-[#010314] text-white">I.T. Consultancy</option>
+                      <option value="Data Analytics" className="bg-[#010314] text-white">Data Analytics</option>
+                      <option value="Managed Services" className="bg-[#010314] text-white">Managed Services</option>
+                      <option value="Digital Marketing" className="bg-[#010314] text-white">Digital Marketing</option>
+                      <option value="Others / General Consultation" className="bg-[#010314] text-white">Others / General Consultation</option>
+                    </select>
+                    <div className="absolute right-[clamp(0.5rem,1.5vw,1rem)] top-1/2 -translate-y-1/2 pointer-events-none text-white/30 text-[clamp(8px,1vw,10px)] font-mono">▼</div>
+                  </div>
+
+                  <div className={`relative flex items-center border-b transition-colors duration-300 ${focusedField === 'company' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
+                    <span className={`absolute left-0 font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'company' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
+                    <input type="text" value={company} onChange={e => setCompany(e.target.value)} disabled={isSubmitting} placeholder="COMPANY NAME" onFocus={() => setFocusedField('company')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30 disabled:opacity-50" />
+                  </div>
+
+                  <div className={`relative flex items-start border-b transition-colors duration-300 mt-[clamp(0.25rem,1vw,0.5rem)] ${focusedField === 'details' ? 'border-cyan-400 bg-cyan-400/5' : 'border-white/10 hover:border-white/30'}`}>
+                    <span className={`absolute left-0 top-[clamp(0.6rem,1.5vw,0.75rem)] font-mono text-[clamp(12px,1.5vw,14px)] pointer-events-none transition-colors ${focusedField === 'details' ? 'text-cyan-400' : 'text-blue-500/50'}`}>{'>'}</span>
+                    <textarea value={details} onChange={e => setDetails(e.target.value)} disabled={isSubmitting} placeholder="INQUIRY DETAILS" rows={2} onFocus={() => setFocusedField('details')} onBlur={() => setFocusedField(null)} className="relative z-10 w-full bg-transparent py-[clamp(0.6rem,1.5vw,0.75rem)] pl-[clamp(1.25rem,2.5vw,1.5rem)] pr-4 font-mono text-[clamp(11px,1.25vw,14px)] text-white focus:outline-none placeholder:text-blue-100/30 resize-none disabled:opacity-50" />
+                  </div>
+
+                  {/* Submit Button */}
+                  <button 
+                    disabled={isSubmitting}
+                    className="mt-[clamp(0.25rem,1vw,0.5rem)] relative group/btn overflow-hidden rounded-md border border-cyan-500/30 bg-cyan-950/30 px-[clamp(1.25rem,2.5vw,1.75rem)] py-[clamp(0.6rem,1.5vw,0.875rem)] flex items-center justify-between transition-all hover:bg-cyan-900/40 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] disabled:opacity-50 disabled:cursor-not-allowed z-20"
+                  >
+                    <div className="flex items-center gap-[clamp(0.5rem,1.5vw,1rem)] pointer-events-none">
+                      <span className="font-mono text-[clamp(10px,1.5vw,14px)] font-bold uppercase tracking-[0.15em] text-cyan-400 group-hover/btn:text-white transition-colors">
+                        {isSubmitting ? 'Transmitting Data...' : 'Start Your Transformation'}
+                      </span>
+                    </div>
+                    {isSubmitting ? (
+                      <Loader2 className="w-[clamp(14px,1.5vw,16px)] h-[clamp(14px,1.5vw,16px)] text-cyan-500 animate-spin shrink-0" />
+                    ) : (
+                      <Send className="w-[clamp(14px,1.5vw,16px)] h-[clamp(14px,1.5vw,16px)] text-cyan-500 group-hover/btn:text-cyan-300 transition-colors group-hover/btn:translate-x-1 pointer-events-none shrink-0" />
+                    )}
+                    
+                    {!isSubmitting && <div className="absolute inset-0 -translate-x-[150%] skew-x-[30deg] bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent group-hover/btn:animate-[glare_1.5s_ease-in-out_infinite] pointer-events-none" />}
+                  </button>
+
+                </motion.form>
+              )}
+            </AnimatePresence>
+
           </div>
         </div>
 
